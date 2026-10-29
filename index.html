@@ -2,251 +2,244 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400&family=Hind+Siliguri:wght@400;600&family=Tiro+Bangla&display=swap">
 <style>
-/* Layout: sticky header + hash-routed sections; a 24-hour "sky band" anchors the routine; cards only where an item is a distinct object */
+/* Layout: phone-first app shell — top app bar, one scrolling screen, fixed bottom tab bar; on wide screens the shell stays a centered phone-width column */
 :root{
-  --bg:#f3f5f1; --surface:#ffffff; --sunk:#e7ece6; --fg:#16231f; --muted:#56655f; --line:#d3dbd4;
-  --accent:#0f5c4d; --accent-soft:#d9ebe5; --gold:#9a6a14; --gold-soft:#f4e8cf;
-  --lapis:#2a4f8a; --lapis-soft:#dfe7f4;
-  --avoid:#a3322a; --avoid-soft:#f6dfdc; --improve:#9a6a14; --improve-soft:#f4e8cf; --good:#1d6b45; --good-soft:#dcefe3;
-  --night:#14233d; --dawn:#5d6f9a; --day:#e8c873; --dusk:#c9805a;
+  --bg:#f3f5f1; --surface:#ffffff; --sunk:#e8ede7; --fg:#16231f; --muted:#56655f; --line:#d6ddd7;
+  --accent:#0f5c4d; --on-accent:#ffffff; --accent-soft:#dcece6; --gold:#9a6a14; --gold-soft:#f4e8cf;
+  --lapis:#2a4f8a; --lapis-soft:#e0e8f4;
+  --avoid:#a3322a; --avoid-soft:#f6dfdc; --improve:#8a5d0e; --improve-soft:#f4e8cf; --good:#1d6b45; --good-soft:#dcefe3;
+  --night:#14233d; --dawn:#5d6f9a; --day:#e3c26a; --dusk:#c9805a; --outer:#e4e9e3;
   --display:"Tiro Bangla","Noto Serif Bengali",serif;
   --body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
   --arabic:"Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
-  --r:10px;
+  --r:14px; --tabh:64px; --barh:54px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0d1513; --surface:#15201d; --sunk:#1b2925; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
-  --accent:#5fc2a8; --accent-soft:#16352e; --gold:#ddb45f; --gold-soft:#3a2e14;
+  --bg:#0d1513; --surface:#16211e; --sunk:#1c2a26; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
+  --accent:#5fc2a8; --on-accent:#08231d; --accent-soft:#173630; --gold:#ddb45f; --gold-soft:#3a2e14;
   --lapis:#8fb0ea; --lapis-soft:#1c2a44;
   --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
-  --night:#0a1428; --dawn:#3c4c78; --day:#b8994a; --dusk:#9a5e40; color-scheme:dark}}
+  --night:#0a1428; --dawn:#3c4c78; --day:#a88a3e; --dusk:#9a5e40; --outer:#080e0c; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0d1513; --surface:#15201d; --sunk:#1b2925; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
-  --accent:#5fc2a8; --accent-soft:#16352e; --gold:#ddb45f; --gold-soft:#3a2e14;
+  --bg:#0d1513; --surface:#16211e; --sunk:#1c2a26; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
+  --accent:#5fc2a8; --on-accent:#08231d; --accent-soft:#173630; --gold:#ddb45f; --gold-soft:#3a2e14;
   --lapis:#8fb0ea; --lapis-soft:#1c2a44;
   --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
-  --night:#0a1428; --dawn:#3c4c78; --day:#b8994a; --dusk:#9a5e40; color-scheme:dark}
+  --night:#0a1428; --dawn:#3c4c78; --day:#a88a3e; --dusk:#9a5e40; --outer:#080e0c; color-scheme:dark}
 
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.75;margin:0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--outer)}
+body{background:var(--outer);color:var(--fg);font-family:var(--body);font-size:16.5px;line-height:1.7;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.shell{max-width:560px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
 h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.35;text-wrap:balance;margin:0}
-h1{font-size:clamp(2rem,5vw,3.2rem)}
-h2{font-size:clamp(1.6rem,3.4vw,2.2rem)}
-h3{font-size:1.25rem}
+h1{font-size:1.75rem} h2{font-size:1.35rem} h3{font-size:1.12rem}
 p{margin:0}
 a{color:var(--accent)}
-button{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
 .saw{font-family:var(--arabic);font-weight:400}
-.ar{font-family:var(--arabic);direction:rtl;font-size:1.55rem;line-height:2;color:var(--fg)}
-.ref{font-size:.82rem;color:var(--muted);letter-spacing:.01em}
+.ar{font-family:var(--arabic);direction:rtl;font-size:1.5rem;line-height:2.05}
+.ref{display:block;font-size:.8rem;color:var(--muted)}
 .ref::before{content:"সূত্র: "}
-.eyebrow{font-size:.85rem;font-weight:600;letter-spacing:.06em;color:var(--gold)}
-.lede{color:var(--muted);max-width:65ch;font-size:1.05rem}
+.muted{color:var(--muted)}
+.eyebrow{font-size:.8rem;font-weight:600;letter-spacing:.05em;color:var(--gold)}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
-/* header */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
-.hbar{display:flex;align-items:center;gap:16px;padding-block:10px}
-.brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;color:var(--fg);white-space:nowrap;display:flex;align-items:center;gap:8px}
-.brand svg{flex:none}
-nav{overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
-nav::-webkit-scrollbar{display:none}
-nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
-nav a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);white-space:nowrap;font-size:.95rem}
-nav a:hover{color:var(--fg);background:var(--sunk)}
-nav a[aria-current="page"]{background:var(--accent);color:var(--surface)}
-.theme-btn{border:1px solid var(--line);background:transparent;border-radius:999px;width:36px;height:36px;cursor:pointer;flex:none;display:grid;place-items:center}
+/* app bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;height:var(--barh);background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.bar h1{font-size:1.15rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:42px;height:42px;border:0;background:transparent;border-radius:50%;display:grid;place-items:center;cursor:pointer;flex:none;color:var(--fg)}
+.icon-btn:active{background:var(--sunk)}
+.logo{width:28px;height:28px;flex:none}
 
-main{padding-block:32px 64px}
-section.view{display:grid;gap:36px}
-.head{display:grid;gap:10px}
+/* tabs */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs ul{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);list-style:none;padding:0 max(0px,env(safe-area-inset-right,0px)) 0 max(0px,env(safe-area-inset-left,0px));margin-block:0}
+.tabs a{height:var(--tabh);display:grid;justify-items:center;align-content:center;gap:2px;text-decoration:none;color:var(--muted);font-size:.74rem;line-height:1.2}
+.tabs a svg{width:24px;height:24px}
+.tabs a .ic{padding:3px 16px;border-radius:999px;display:grid;place-items:center}
+.tabs a[aria-current="page"]{color:var(--accent);font-weight:600}
+.tabs a[aria-current="page"] .ic{background:var(--accent-soft)}
 
-/* home */
-.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;padding-block:12px}
-.hero .ar{font-size:2rem;color:var(--accent)}
-.hero-copy{display:grid;gap:14px;min-width:0}
-.now{background:var(--night);color:#eef1f7;border-radius:16px;padding:22px;display:grid;gap:10px;position:relative;overflow:hidden}
-.now .k{font-size:.85rem;letter-spacing:.06em;color:#c6cde0}
-.now h3{color:#fff;font-size:1.45rem}
-.now p{color:#d9deea}
-.now a{color:#f1d58e}
-.now .stars{position:absolute;inset:0;pointer-events:none;opacity:.5}
-.grid{display:grid;gap:16px}
-.g3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-.g2{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
-.tile{display:grid;gap:6px;padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--fg);transition:border-color .2s,transform .2s}
-.tile:hover{border-color:var(--accent);transform:translateY(-2px)}
-.tile .n{font-family:var(--display);font-size:1.2rem}
-.tile p{color:var(--muted);font-size:.95rem}
-.notice{border-left:3px solid var(--gold);background:var(--gold-soft);padding:14px 16px;border-radius:0 var(--r) var(--r) 0;font-size:.95rem}
+main{padding-block:16px calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 28px)}
+.view{display:grid;gap:18px}
+.sec{display:grid;gap:10px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sec-h a{font-size:.9rem;text-decoration:none}
+.lede{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 
-/* islam */
-.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
-.pillar{padding:18px;border-right:1px solid var(--line);display:grid;gap:6px;align-content:start}
-.pillar:last-child{border-right:0}
-.pillar .num{font-family:var(--display);font-size:2rem;color:var(--gold);line-height:1}
-.pillar p{font-size:.93rem;color:var(--muted)}
-.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.triad > div{padding:18px;background:var(--accent-soft);border-radius:var(--r);display:grid;gap:6px;align-content:start}
-.quotes{display:grid;gap:14px}
-.quote{display:grid;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+/* today */
+.hero{border-radius:20px;padding:20px;color:#f2f4f8;display:grid;gap:8px;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--sky1),var(--sky2))}
+.hero.night{--sky1:#0f1b33;--sky2:#24365e} .hero.dawn{--sky1:#2b3a66;--sky2:#9a6e77} .hero.day{--sky1:#1f6a8a;--sky2:#5e9db4} .hero.dusk{--sky1:#3a2f55;--sky2:#c57a55}
+.hero .k{font-size:.82rem;color:#d7dceb}
+.hero h2{color:#fff;font-size:1.4rem}
+.hero p{color:#e4e8f1}
+.hero .go{display:inline-flex;align-items:center;gap:6px;margin-top:4px;color:#ffe6a6;text-decoration:none;font-weight:600}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55}
+.hero > *{position:relative}
+.next{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px;padding-top:12px;border-top:1px solid rgba(255,255,255,.22)}
+.next b{font-size:1.15rem;color:#fff;font-variant-numeric:tabular-nums}
+.ptimes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:0}
+.pt span{font-size:.82rem;color:var(--muted)}
+.pt b{font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums}
+.pt.cur{background:var(--accent);border-color:var(--accent)}
+.pt.cur span,.pt.cur b{color:var(--on-accent)}
+.loc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sel{flex:1 1 150px;appearance:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 32px 6px 14px;font-size:.9rem;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 17px) 55%,calc(100% - 12px) 55%;background-size:5px 5px;background-repeat:no-repeat;max-width:100%}
+.btn{border:0;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer;min-height:44px}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.progress{height:10px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.progress span{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+.mini{display:grid;gap:8px;text-decoration:none;color:var(--fg)}
+.mini .row{display:flex;justify-content:space-between;align-items:baseline}
+.hadith .txt{font-family:var(--display);font-size:1.1rem;line-height:1.75}
+.install{display:grid;gap:10px;background:var(--gold-soft);border-radius:var(--r);padding:16px}
+.install b{color:var(--gold)}
+.status{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.dot.on{background:var(--good)}
 
-/* seerah */
-.era-switch{display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--surface);padding:6px 14px;border-radius:999px;cursor:pointer;font-size:.95rem}
+/* chips */
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.chips::-webkit-scrollbar{display:none}
+.chips.wrap{flex-wrap:wrap;overflow:visible;margin-inline:0;padding-inline:0}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);padding:7px 15px;border-radius:999px;cursor:pointer;font-size:.92rem;white-space:nowrap;min-height:40px;text-decoration:none;color:var(--fg);display:inline-flex;align-items:center}
 .chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.timeline{position:relative;display:grid;gap:0;padding-left:28px}
-.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
-.ev{position:relative;display:grid;grid-template-columns:120px 1fr;gap:18px;padding-block:14px}
-.ev::before{content:"";position:absolute;left:-25px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
-.ev.madinah::before{border-color:var(--lapis)}
-.ev.key::before{background:var(--gold);border-color:var(--gold)}
-.ev .yr{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.92rem;line-height:1.5;padding-top:4px}
-.ev .yr b{display:block;color:var(--fg);font-size:1.05rem}
-.ev .body{display:grid;gap:4px;min-width:0}
-.lesson{font-size:.93rem;color:var(--accent)}
-.lesson::before{content:"শিক্ষা: ";font-weight:600}
 
 /* routine */
-.sky{display:grid;gap:8px}
-.band{position:relative;height:74px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,var(--night) 0%,var(--night) 14%,var(--dawn) 20%,var(--day) 32%,var(--day) 62%,var(--dusk) 73%,var(--night) 80%,var(--night) 100%)}
-.seg{position:absolute;top:0;bottom:0;border:0;border-right:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,0);cursor:pointer;padding:0;color:#fff;font-size:.78rem;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;text-shadow:0 1px 3px rgba(0,0,0,.6);overflow:hidden;white-space:nowrap}
-.seg:hover{background:rgba(255,255,255,.14)}
-.seg[aria-pressed="true"]{background:rgba(255,255,255,.26);box-shadow:inset 0 -4px 0 #fff}
-.nowline{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
-.nowline::after{content:"এখন";position:absolute;top:4px;left:4px;font-size:.7rem;color:#fff;background:rgba(0,0,0,.45);padding:0 5px;border-radius:4px}
-.ticks{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.rgrid{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
-.rlist{display:grid;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
-.rlist button{display:grid;grid-template-columns:96px 1fr;gap:10px;text-align:left;padding:10px 12px;border:0;background:transparent;border-radius:8px;cursor:pointer}
-.rlist button:hover{background:var(--sunk)}
-.rlist button[aria-pressed="true"]{background:var(--accent-soft)}
-.rlist .t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem;padding-top:2px}
-.rdetail{display:grid;gap:20px;min-width:0}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
-.steps li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding-block:12px;border-bottom:1px solid var(--line);counter-increment:s}
-.steps li::before{content:counter(s,bengali);font-family:var(--display);width:30px;height:30px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font-size:.95rem}
-.steps li > div{display:grid;gap:2px;min-width:0}
-.dua{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:8px}
+.band{position:relative;height:40px;border-radius:10px;overflow:hidden}
+.band i{position:absolute;top:0;bottom:0}
+.nowline{position:absolute;top:-2px;bottom:-2px;width:3px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);border-radius:2px}
+.ticks{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:4px}
+.acc{display:grid;gap:8px}
+.acc details{scroll-margin-top:calc(var(--barh) + env(safe-area-inset-top,0px) + 12px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.acc details.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.acc summary{list-style:none;display:grid;grid-template-columns:10px 1fr auto;gap:12px;align-items:center;padding:14px 16px;cursor:pointer;min-height:56px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .sw{width:10px;height:38px;border-radius:5px;background:var(--c)}
+.acc summary .tt{display:grid;gap:0;min-width:0}
+.acc summary .tt small{color:var(--muted);font-size:.82rem;font-variant-numeric:tabular-nums}
+.acc summary .chev{transition:transform .2s;color:var(--muted)}
+.acc details[open] .chev{transform:rotate(180deg)}
+.badge{font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--accent);color:var(--on-accent);margin-left:6px;vertical-align:2px}
+.acc .inner{padding:0 16px 16px;display:grid;gap:14px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:30px 1fr;gap:10px;padding-block:10px;border-bottom:1px solid var(--line);counter-increment:s}
+.steps li:last-child{border-bottom:0}
+.steps li::before{content:counter(s,bengali);width:28px;height:28px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font-size:.85rem;font-weight:600}
+.steps li > div{min-width:0}
+.dua{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:6px}
 .dua .tr{font-style:italic;color:var(--muted)}
-.dua .lbl{font-size:.82rem;font-weight:600;letter-spacing:.05em;color:var(--gold)}
-.today{background:var(--accent-soft);border-radius:var(--r);padding:16px 18px;display:grid;gap:6px}
+.dua .lbl{font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--gold)}
+.today{background:var(--accent-soft);border-radius:12px;padding:12px 14px;display:grid;gap:4px}
 .today b{color:var(--accent)}
-.weekly{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.weekly > div{border-top:2px solid var(--lapis);padding-top:10px;display:grid;gap:4px}
+.note{border-left:3px solid var(--gold);background:var(--gold-soft);padding:12px 14px;border-radius:0 12px 12px 0;font-size:.9rem}
 
-/* do/dont */
-.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.search{flex:1 1 240px;min-width:0;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);font:inherit}
-.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.legend > div{padding:14px;border-radius:var(--r);display:grid;gap:2px}
-.lg-avoid{background:var(--avoid-soft)} .lg-improve{background:var(--improve-soft)} .lg-good{background:var(--good-soft)}
-.legend b{font-size:1.05rem}
-.lg-avoid b{color:var(--avoid)} .lg-improve b{color:var(--improve)} .lg-good b{color:var(--good)}
-.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.pc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:10px;align-content:start;border-top:4px solid var(--c)}
+/* learn list */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.list a{display:grid;grid-template-columns:44px 1fr 18px;gap:14px;align-items:center;padding:14px 16px;text-decoration:none;color:var(--fg);border-bottom:1px solid var(--line);min-height:64px}
+.list a:last-child{border-bottom:0}
+.list a:active{background:var(--sunk)}
+.list .li-ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-size:1.2rem}
+.list .li-t{display:grid;min-width:0}
+.list .li-t small{color:var(--muted);font-size:.85rem;line-height:1.45}
+
+/* islam */
+.pillars{display:grid;gap:8px}
+.pillar{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+.pillar .num{font-family:var(--display);font-size:1.6rem;color:var(--gold);line-height:1.2;text-align:center}
+.triad{display:grid;gap:8px}
+.triad > div{padding:14px;background:var(--accent-soft);border-radius:12px}
+.quote{display:grid;gap:4px;padding-block:12px;border-bottom:1px solid var(--line)}
+.quote:last-child{border-bottom:0}
+
+/* seerah */
+.timeline{position:relative;padding-left:24px;display:grid}
+.timeline::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.ev{position:relative;padding-block:12px;display:grid;gap:4px}
+.ev::before{content:"";position:absolute;left:-23px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.ev.madinah::before{border-color:var(--lapis)}
+.ev.key::before{background:var(--gold);border-color:var(--gold)}
+.ev .yr{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ev .yr b{color:var(--fg)}
+.lesson{font-size:.92rem;color:var(--accent)}
+.lesson::before{content:"শিক্ষা: ";font-weight:600}
+
+/* family, cases, war */
+.fam-sec ul{margin:0;padding-left:1.1em;display:grid;gap:10px}
+.case{display:grid;gap:10px}
+.case .k{font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--gold);display:block}
+.case .pr{background:var(--accent-soft);border-radius:10px;padding:10px 12px}
+.rules{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.rules li{padding:12px 14px;border-left:3px solid var(--lapis);background:var(--lapis-soft);border-radius:0 12px 12px 0;display:grid;gap:2px}
+.battle{display:grid;gap:4px;padding-block:12px;border-bottom:1px solid var(--line)}
+.battle:last-child{border-bottom:0}
+.battle .meta{display:flex;flex-wrap:wrap;gap:6px}
+
+/* practice */
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.legend > div{padding:10px;border-radius:12px;font-size:.8rem;line-height:1.4;display:grid;gap:2px}
+.legend b{font-size:.92rem}
+.lg-avoid{background:var(--avoid-soft)} .lg-avoid b{color:var(--avoid)}
+.lg-improve{background:var(--improve-soft)} .lg-improve b{color:var(--improve)}
+.lg-good{background:var(--good-soft)} .lg-good b{color:var(--good)}
+.search{width:100%;padding:11px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);min-height:46px}
+.pc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:8px;border-top:4px solid var(--c)}
 .pc.avoid{--c:var(--avoid)} .pc.improve{--c:var(--improve)} .pc.good{--c:var(--good)}
-.pc .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
-.pill{font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.pc .top{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:.76rem;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--sunk);color:var(--muted)}
 .pill.c{background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
-.pc dl{margin:0;display:grid;gap:8px}
-.pc dt{font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
-.pc dd{margin:0;font-size:.96rem}
-.count{color:var(--muted);font-size:.9rem}
-
-/* situations */
-.sit-chips{display:flex;flex-wrap:wrap;gap:8px}
-.sit-out{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.sit-out > div{min-width:0}
-
-/* family / problems / war */
-.fam{display:grid;gap:28px}
-.fam-row{display:grid;grid-template-columns:220px 1fr;gap:24px;padding-bottom:28px;border-bottom:1px solid var(--line)}
-.fam-row h3{color:var(--accent)}
-.fam-row ul{margin:0;padding-left:1.1em;display:grid;gap:10px}
-.case{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
-.case > div{padding:16px;display:grid;gap:6px;align-content:start;border-right:1px solid var(--line)}
-.case > div:last-child{border-right:0;background:var(--accent-soft)}
-.case .k{font-size:.8rem;font-weight:600;letter-spacing:.05em;color:var(--gold)}
-.cases{display:grid;gap:22px}
-.cases h3{margin-bottom:8px}
-.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:720px;font-size:.95rem}
-th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;font-size:.85rem;color:var(--muted);background:var(--sunk)}
-td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
-.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;list-style:none;padding:0;margin:0}
-.rules li{padding:14px 16px;border-left:3px solid var(--lapis);background:var(--lapis-soft);border-radius:0 var(--r) var(--r) 0;display:grid;gap:4px}
+.pc dl{margin:0;display:grid;gap:6px}
+.pc dt{font-size:.78rem;font-weight:600;color:var(--muted)}
+.pc dd{margin:0;font-size:.95rem}
 
 /* advice */
-.adv{columns:3 300px;column-gap:16px}
-.adv article{break-inside:avoid;margin-bottom:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:8px}
-.adv .txt{font-family:var(--display);font-size:1.12rem;line-height:1.7}
-.adv .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.copy{border:1px solid var(--line);background:transparent;border-radius:999px;padding:2px 12px;font-size:.82rem;cursor:pointer;color:var(--muted)}
+.adv{display:grid;gap:10px}
+.adv article{display:grid;gap:8px}
+.adv .txt{font-family:var(--display);font-size:1.06rem;line-height:1.75}
+.adv .row{display:flex;justify-content:space-between;align-items:end;gap:8px}
+.copy{border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 14px;font-size:.82rem;cursor:pointer;color:var(--muted);flex:none;min-height:36px}
 
 /* tracker */
-.trk{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
-.ring-box{display:grid;gap:16px;justify-items:center;padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
-.ring{position:relative;width:170px;height:170px}
+.ring-card{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.ring{position:relative;width:120px;height:120px}
 .ring svg{transform:rotate(-90deg)}
-.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:2.1rem;line-height:1.1}
-.ring .v small{display:block;font-family:var(--body);font-size:.8rem;color:var(--muted)}
-.week{display:flex;gap:6px;align-items:flex-end;height:70px}
-.week div{width:24px;display:grid;gap:4px;justify-items:center;font-size:.7rem;color:var(--muted)}
-.week span{display:block;width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:3px}
-.tgroup{display:grid;gap:4px}
-.tgroup h3{font-size:1.05rem;color:var(--muted);margin-top:8px}
-.titem{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;align-items:start}
-.titem:hover{background:var(--sunk)}
-.titem input{width:20px;height:20px;margin-top:4px;accent-color:var(--accent)}
-.titem.done .lbl{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
-.titem .ref{display:block}
-.reset{border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 14px;cursor:pointer;font-size:.88rem;color:var(--muted)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:1.6rem;line-height:1.1}
+.ring .v small{display:block;font-family:var(--body);font-size:.72rem;color:var(--muted)}
+.week{display:flex;gap:6px;align-items:flex-end;height:64px}
+.week div{flex:1;display:grid;gap:3px;justify-items:center;font-size:.68rem;color:var(--muted)}
+.week span{display:block;width:100%;max-width:22px;background:var(--accent);border-radius:4px 4px 0 0;min-height:3px}
+.tgroup{display:grid;gap:2px}
+.tgroup h3{font-size:1rem;color:var(--muted);padding:4px 2px}
+.titem{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;align-items:start;background:var(--surface);border:1px solid var(--line)}
+.titem input{width:22px;height:22px;margin-top:3px;accent-color:var(--accent)}
+.titem.done{background:var(--accent-soft);border-color:transparent}
+.titem.done .lbl{color:var(--muted);text-decoration:line-through}
 
-footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.9rem}
-
-@media (max-width:860px){
-  .hero,.rgrid,.trk,.sit-out{grid-template-columns:1fr}
-  .rlist,.ring-box{position:static}
-  .rlist{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-  .pillars{grid-template-columns:1fr 1fr}
-  .pillar{border-bottom:1px solid var(--line)}
-  .triad,.legend,.case{grid-template-columns:1fr}
-  .case > div{border-right:0;border-bottom:1px solid var(--line)}
-  .fam-row{grid-template-columns:1fr;gap:10px}
-  .ev{grid-template-columns:1fr;gap:2px}
-  .seg{font-size:0}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.foot{font-size:.82rem;color:var(--muted);display:grid;gap:4px;padding-top:8px}
+@media (min-width:600px){ .shell{box-shadow:0 0 0 1px var(--line)} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<header>
-  <div class="wrap hbar">
-    <a class="brand" href="#home" aria-label="সুন্নাহর পথে — প্রথম পাতা">
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M17 3a10 10 0 1 0 6 17A8 8 0 1 1 17 3z" fill="var(--accent)"/><path d="M20 6l.9 2.1 2.1.9-2.1.9L20 12l-.9-2.1-2.1-.9 2.1-.9z" fill="var(--gold)"/></svg>
-      সুন্নাহর পথে
-    </a>
-    <nav aria-label="প্রধান মেনু"><ul id="nav"></ul></nav>
-    <button class="theme-btn" id="themeBtn" aria-label="আলো/অন্ধকার থিম বদলান">
-      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+<div class="shell">
+  <header class="bar pad">
+    <button class="icon-btn" id="backBtn" aria-label="ফিরে যান" hidden>
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-  </div>
-</header>
-
-<main class="wrap" id="app"></main>
-
-<footer>
-  <div class="wrap" style="display:grid;gap:6px">
-    <p>এই সাইটের তথ্য কুরআন, সহীহ বুখারী, সহীহ মুসলিম, সুনান গ্রন্থসমূহ এবং সীরাত ইবনে হিশাম থেকে সংকলিত। হাদিস নম্বর প্রচলিত আন্তর্জাতিক নম্বরায়ন (sunnah.com) অনুযায়ী দেওয়া।</p>
-    <p>ফিকহি বা ব্যক্তিগত মাসআলায় একজন যোগ্য আলেমের পরামর্শ নিন।</p>
-  </div>
-</footer>
-
+    <svg class="logo" id="logo" viewBox="0 0 26 26" aria-hidden="true"><path d="M17 3a10 10 0 1 0 6 17A8 8 0 1 1 17 3z" fill="var(--accent)"/><path d="M20 6l.9 2.1 2.1.9-2.1.9L20 12l-.9-2.1-2.1-.9 2.1-.9z" fill="var(--gold)"/></svg>
+    <h1 id="barTitle">সুন্নাহর পথে</h1>
+    <button class="icon-btn" id="themeBtn" aria-label="আলো/অন্ধকার থিম বদলান">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+    </button>
+  </header>
+  <main class="pad" id="app"></main>
+</div>
+<nav class="tabs" aria-label="প্রধান মেনু"><ul id="tabs"></ul></nav>
 <script>
 const bnD = "০১২৩৪৫৬৭৮৯";
 const bn = s => String(s).replace(/\d/g, d => bnD[d]);
@@ -258,23 +251,6 @@ const store = {
 };
 
 /* ---------------- DATA ---------------- */
-const VIEWS = [
-  ["home","প্রথম পাতা"],["islam","ইসলাম পরিচিতি"],["seerah","জীবনী"],["routine","দৈনিক রুটিন"],
-  ["family","পরিবার ও আত্মীয়"],["problems","সমস্যা সমাধান"],["war","যুদ্ধনীতি"],["advice","উপদেশ"],
-  ["practice","করণীয় ও বর্জনীয়"],["guide","পরিস্থিতি গাইড"],["tracker","আমার সুন্নাহ ট্র্যাকার"]
-];
-const DESC = {
-  islam:"ঈমান, ইসলামের পাঁচ স্তম্ভ ও ইহসান — এক নজরে।",
-  seerah:"জন্ম থেকে বিদায় পর্যন্ত ৬৩ বছরের সময়রেখা ও শিক্ষা।",
-  routine:"তাহাজ্জুদ থেকে ঘুম পর্যন্ত নবীজি ﷺ কখন কী করতেন, কী দোয়া পড়তেন।",
-  family:"স্ত্রী, সন্তান, বাবা-মা, আত্মীয়, প্রতিবেশী ও কর্মচারীর সাথে আচরণ।",
-  problems:"বিবাদ, চুক্তি, ভুল ও শত্রুতা — কীভাবে মীমাংসা করতেন।",
-  war:"যুদ্ধের নিয়ম, পরামর্শ, বন্দীর প্রতি আচরণ ও প্রধান অভিযানসমূহ।",
-  advice:"বিষয়ভিত্তিক সহীহ হাদিসের উপদেশমালা।",
-  practice:"আমাদের বর্তমান অভ্যাস: কোনটা বর্জনীয়, কোনটা সংশোধন দরকার, কোনটা উত্তম।",
-  guide:"রাগ, দুশ্চিন্তা, সিদ্ধান্ত, ঝগড়া — পরিস্থিতি বাছুন, সুন্নাহর নির্দেশনা দেখুন।",
-  tracker:"প্রতিদিনের সুন্নাহগুলো টিক দিন, নিজের অগ্রগতি দেখুন।"
-};
 
 const ROUTINE = [
   {id:"tahajjud", s:3.5, e:4.75, short:"তাহাজ্জুদ", title:"শেষ রাত: জাগরণ ও তাহাজ্জুদ", time:"রাতের শেষ তৃতীয়াংশ",
@@ -321,7 +297,7 @@ const ROUTINE = [
      ["মসজিদে সাহাবীদের শিক্ষা দিতেন, প্রশ্নের উত্তর দিতেন।","বুখারী 59"],
      ["অসুস্থদের দেখতে যেতেন, জানাযায় শরীক হতেন।","বুখারী 1240, মুসলিম 2162"],
      ["বাজারে যেতেন এবং ব্যবসায়ীদের সততা তদারকি করতেন; শস্যের নিচে ভেজা অংশ লুকানো দেখে বললেন, “যে প্রতারণা করে সে আমার দলভুক্ত নয়।”","মুসলিম 102"],
-     ["ঘরে থাকলে পরিবারের কাজে সাহায্য করতেন: কাপড় সেলাই, জুতা মেরামত, ছাগলের দুধ দোহন।","বুখারী 676, আহমাদ 24903"],
+     ["ঘরে থাকলে পরিবারের কাজে সাহায্য করতেন: কাপড় সেলাই, জুতা মেরামত, ছাগলের দুধ দোহন।","বুখারী 676; মুসনাদে আহমাদ"],
      ["ঘর থেকে বের হওয়ার দোয়া পড়তেন।","আবু দাউদ 5095"]
    ],
    dua:{ar:"بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", tr:"বিসমিল্লাহি তাওয়াক্কালতু ‘আলাল্লাহ, ওয়া লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ", mean:"আল্লাহর নামে (বের হলাম), আল্লাহর উপর ভরসা করলাম। আল্লাহ ছাড়া কোনো শক্তি ও সামর্থ্য নেই।", ref:"আবু দাউদ 5095, তিরমিযী 3426", lbl:"ঘর থেকে বের হওয়ার দোয়া"},
@@ -333,7 +309,7 @@ const ROUTINE = [
      ["সাদামাটা খাবার খেতেন; কখনো খাবারের দোষ ধরতেন না। পছন্দ হলে খেতেন, না হলে রেখে দিতেন।","বুখারী 5409"],
      ["“বিসমিল্লাহ” বলে ডান হাতে নিজের সামনে থেকে খেতেন।","বুখারী 5376"],
      ["পেটের এক-তৃতীয়াংশ খাবার, এক-তৃতীয়াংশ পানি, এক-তৃতীয়াংশ খালি রাখতে বলেছেন।","তিরমিযী 2380"],
-     ["দুপুরে অল্প সময় বিশ্রাম নিতেন (কায়লুলা)।","বুখারী 939, 6281"],
+     ["দুপুরে অল্প সময় বিশ্রাম নিতেন (কায়লুলা)।","বুখারী 939"],
      ["যোহরের আগে চার রাকাত ও পরে দুই রাকাত সুন্নাত নিয়মিত পড়তেন।","বুখারী 1182, মুসলিম 730"]
    ],
    dua:{ar:"الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَٰذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", tr:"আলহামদু লিল্লাহিল্লাযী আত‘আমানী হাযা ওয়া রাযাকানীহি মিন গাইরি হাওলিম মিন্নী ওয়া লা কুওয়াহ", mean:"সমস্ত প্রশংসা আল্লাহর, যিনি আমার কোনো শক্তি ও সামর্থ্য ছাড়াই আমাকে এটি খাওয়ালেন ও রিজিক দিলেন।", ref:"আবু দাউদ 4023, তিরমিযী 3458", lbl:"খাওয়ার পরের দোয়া"},
@@ -399,12 +375,12 @@ const SEERAH = [
   {era:"makkah", y:"৫৭৬ খ্রি.", a:"৬ বছর", t:"মা আমিনার ইন্তেকাল", d:"মদিনা থেকে ফেরার পথে আবওয়া নামক স্থানে মা মারা যান। দাদা আবদুল মুত্তালিব দায়িত্ব নেন, দুই বছর পর তিনিও মারা গেলে চাচা আবু তালিব লালনপালন করেন।", l:"এতিমের প্রতি দয়া। তিনি বলেছেন, এতিমের অভিভাবক জান্নাতে আমার এত কাছে থাকবে (দুই আঙুলের মতো)।", r:"বুখারী 5304, সীরাত ইবনে হিশাম"},
   {era:"makkah", y:"প্রায় ৫৯০ খ্রি.", a:"প্রায় ২০ বছর", t:"হিলফুল ফুযুল", d:"মজলুমের অধিকার আদায়ে মক্কার নেতাদের সাথে অঙ্গীকারে অংশ নেন। নবুয়তের পরেও বলেছেন, এমন চুক্তিতে ডাকলে আজও সাড়া দেব।", l:"ন্যায়ের পক্ষে জোট বাঁধা ধর্মের অংশ, জাতি-ধর্ম নির্বিশেষে।", r:"সীরাত ইবনে হিশাম, বায়হাকী"},
   {era:"makkah", y:"৫৯৫ খ্রি.", a:"২৫ বছর", key:1, t:"খাদিজা (রা.)-র সাথে বিবাহ", d:"খাদিজার ব্যবসা নিয়ে সিরিয়া যান; তাঁর সততায় মুগ্ধ হয়ে খাদিজা বিয়ের প্রস্তাব দেন। ‘আল-আমিন’ (বিশ্বস্ত) নামে পরিচিত ছিলেন।", l:"সততা ও আমানতদারিই সবচেয়ে বড় পুঁজি।", r:"সীরাত ইবনে হিশাম"},
-  {era:"makkah", y:"৬০৫ খ্রি.", a:"৩৫ বছর", t:"হাজরে আসওয়াদ স্থাপন বিরোধ মীমাংসা", d:"কাবা পুনর্নির্মাণের সময় গোত্রগুলো যুদ্ধের দ্বারপ্রান্তে। তিনি চাদর বিছিয়ে পাথর রাখলেন, প্রতি গোত্রের নেতাকে চাদর ধরতে দিলেন, তারপর নিজ হাতে স্থাপন করলেন।", l:"সবাইকে মর্যাদা দিয়ে সমাধান করা যায়; কাউকে বাদ দিয়ে নয়।", r:"সীরাত ইবনে হিশাম, আহমাদ 15504"},
+  {era:"makkah", y:"৬০৫ খ্রি.", a:"৩৫ বছর", t:"হাজরে আসওয়াদ স্থাপন বিরোধ মীমাংসা", d:"কাবা পুনর্নির্মাণের সময় গোত্রগুলো যুদ্ধের দ্বারপ্রান্তে। তিনি চাদর বিছিয়ে পাথর রাখলেন, প্রতি গোত্রের নেতাকে চাদর ধরতে দিলেন, তারপর নিজ হাতে স্থাপন করলেন।", l:"সবাইকে মর্যাদা দিয়ে সমাধান করা যায়; কাউকে বাদ দিয়ে নয়।", r:"সীরাত ইবনে হিশাম"},
   {era:"makkah", y:"৬১০ খ্রি.", a:"৪০ বছর", key:1, t:"হেরা গুহায় প্রথম ওহি", d:"জিবরাঈল (আ.) এসে বললেন, “ইকরা” (পড়ুন)। ভীত অবস্থায় ঘরে ফিরলে খাদিজা (রা.) সান্ত্বনা দিলেন: “আল্লাহ আপনাকে কখনো লাঞ্ছিত করবেন না; আপনি আত্মীয়তা রক্ষা করেন, দুর্বলের বোঝা বহন করেন, অতিথির সেবা করেন।”", l:"ইসলামের প্রথম শব্দ ‘পড়ো’। আর ভালো চরিত্রই নবুয়তের আগে তাঁর পরিচয় ছিল।", r:"বুখারী 3, সূরা আলাক ১–৫"},
   {era:"makkah", y:"৬১৩ খ্রি.", a:"৪৩ বছর", t:"প্রকাশ্য দাওয়াত", d:"সাফা পাহাড়ে উঠে কুরাইশদের ডাকলেন। আত্মীয়-স্বজন থেকে শুরু করলেন। তারপর শুরু হয় তীব্র বিরোধিতা ও নির্যাতন; বিলাল, সুমাইয়া, আম্মার (রা.) প্রমুখের উপর অত্যাচার চলে।", l:"সত্য বলার শুরু নিকটজনদের কাছ থেকে, প্রজ্ঞা ও উত্তম ভাষায়।", r:"বুখারী 4770, সূরা শুআরা ২১৪"},
   {era:"makkah", y:"৬১৫ খ্রি.", a:"৪৫ বছর", t:"আবিসিনিয়ায় হিজরত", d:"নির্যাতিত মুসলিমদের ন্যায়পরায়ণ খ্রিস্টান রাজা নাজ্জাশীর দেশে পাঠালেন। জাফর (রা.)-এর বক্তব্য শুনে নাজ্জাশী তাঁদের আশ্রয় দেন।", l:"নিপীড়ন থেকে বাঁচতে নিরাপদ স্থানে যাওয়া এবং ন্যায়পরায়ণ অমুসলিমের সহযোগিতা নেওয়া বৈধ।", r:"আহমাদ 1740"},
   {era:"makkah", y:"৬১৬–৬১৯ খ্রি.", a:"", t:"শি‘বে আবু তালিবে বয়কট", d:"কুরাইশরা বনু হাশিমকে তিন বছর সামাজিক ও অর্থনৈতিকভাবে অবরুদ্ধ করে। ক্ষুধায় গাছের পাতা খেয়ে দিন কাটাতে হয়।", l:"ধৈর্য ও পারিবারিক ঐক্য দিয়ে কঠিন সময় পার করা যায়।", r:"সীরাত ইবনে হিশাম"},
-  {era:"makkah", y:"৬১৯ খ্রি.", a:"৪৯ বছর", key:1, t:"শোকের বছর ও তায়েফ সফর", d:"অল্প ব্যবধানে খাদিজা (রা.) ও চাচা আবু তালিব ইন্তেকাল করেন। তায়েফে দাওয়াত দিতে গেলে তাঁকে পাথর মেরে রক্তাক্ত করা হয়। পাহাড়ের ফেরেশতা শাস্তি দিতে চাইলে তিনি বললেন, “না, আশা করি তাদের বংশধরদের মধ্যে আল্লাহর ইবাদতকারী জন্মাবে।”", l:"প্রতিশোধ নয়, ক্ষমা ও ভবিষ্যতের আশা।", r:"বুখারী 3231"},
+  {era:"makkah", y:"৬১৯ খ্রি.", a:"প্রায় ৫০ বছর", key:1, t:"শোকের বছর ও তায়েফ সফর", d:"অল্প ব্যবধানে খাদিজা (রা.) ও চাচা আবু তালিব ইন্তেকাল করেন। তায়েফে দাওয়াত দিতে গেলে তাঁকে পাথর মেরে রক্তাক্ত করা হয়। পাহাড়ের ফেরেশতা শাস্তি দিতে চাইলে তিনি বললেন, “না, আশা করি তাদের বংশধরদের মধ্যে আল্লাহর ইবাদতকারী জন্মাবে।”", l:"প্রতিশোধ নয়, ক্ষমা ও ভবিষ্যতের আশা।", r:"বুখারী 3231"},
   {era:"makkah", y:"প্রায় ৬২০–৬২১ খ্রি.", a:"", t:"ইসরা ও মিরাজ", d:"এক রাতে মসজিদুল হারাম থেকে মসজিদুল আকসা, সেখান থেকে ঊর্ধ্বাকাশে গমন। পাঁচ ওয়াক্ত নামাজ ফরজ হয়।", l:"নামাজ আল্লাহর পক্ষ থেকে সরাসরি উপহার; কঠিন সময়ের পরই আসে সম্মান।", r:"বুখারী 349, সূরা ইসরা ১"},
   {era:"makkah", y:"৬২১–৬২২ খ্রি.", a:"", t:"আকাবার শপথ", d:"মদিনার আওস ও খাযরাজ গোত্রের লোকেরা ইসলাম গ্রহণ করে তাঁকে আশ্রয় ও সহযোগিতার অঙ্গীকার করে।", l:"পরিবর্তনের জন্য প্রস্তুত মানুষ খোঁজা ও তাঁদের সাথে স্পষ্ট চুক্তি করা।", r:"বুখারী 3892"},
   {era:"madinah", y:"৬২২ খ্রি.", a:"১ হিজরি", key:1, t:"মদিনায় হিজরত", d:"আবু বকর (রা.)-কে সাথে নিয়ে গোপনে মক্কা ত্যাগ, তিন দিন সাওর গুহায় অবস্থান। মদিনায় পৌঁছে মসজিদে নববী নির্মাণ, মুহাজির ও আনসারদের মধ্যে ভ্রাতৃত্ব (মুআখাত) এবং মদিনা সনদ প্রণয়ন।", l:"তাওয়াক্কুল মানে পরিকল্পনা ছেড়ে দেওয়া নয়; পূর্ণ প্রস্তুতি নিয়ে আল্লাহর উপর ভরসা।", r:"বুখারী 3905, সূরা তাওবা ৪০"},
@@ -455,7 +431,7 @@ const FAMILY = [
 ];
 
 const CASES = [
-  {t:"কাবায় হাজরে আসওয়াদ স্থাপন", s:"চার-পাঁচটি গোত্র পাথর স্থাপনের সম্মান নিয়ে রক্তপাতের শপথ নিচ্ছিল।", a:"একটি চাদরে পাথর রেখে প্রতিটি গোত্রের প্রতিনিধিকে চাদরের প্রান্ত ধরতে দিলেন। সবাই মিলে তুললেন, তিনি নিজ হাতে বসালেন।", p:"সমাধান এমনভাবে খুঁজুন যাতে প্রত্যেক পক্ষ সম্মানিত বোধ করে।", r:"সীরাত ইবনে হিশাম, আহমাদ 15504"},
+  {t:"কাবায় হাজরে আসওয়াদ স্থাপন", s:"চার-পাঁচটি গোত্র পাথর স্থাপনের সম্মান নিয়ে রক্তপাতের শপথ নিচ্ছিল।", a:"একটি চাদরে পাথর রেখে প্রতিটি গোত্রের প্রতিনিধিকে চাদরের প্রান্ত ধরতে দিলেন। সবাই মিলে তুললেন, তিনি নিজ হাতে বসালেন।", p:"সমাধান এমনভাবে খুঁজুন যাতে প্রত্যেক পক্ষ সম্মানিত বোধ করে।", r:"সীরাত ইবনে হিশাম"},
   {t:"মসজিদে বেদুইনের প্রস্রাব", s:"এক বেদুইন মসজিদে প্রস্রাব করতে শুরু করলে সাহাবীরা তেড়ে গেলেন।", a:"বললেন, তাকে থামিয়ো না, শেষ করতে দাও। পরে এক বালতি পানি ঢেলে দিতে বললেন এবং লোকটিকে নরমভাবে মসজিদের আদব বুঝিয়ে দিলেন।", p:"“তোমাদের পাঠানো হয়েছে সহজ করার জন্য, কঠিন করার জন্য নয়।” অজ্ঞ মানুষের ভুলের জবাব কোমলতা দিয়ে।", r:"বুখারী 220, মুসলিম 285"},
   {t:"এক যুবক ব্যভিচারের অনুমতি চাইল", s:"এক যুবক এসে সরাসরি জিনার অনুমতি চাইল। লোকেরা তাকে ধমকাতে লাগল।", a:"তাকে কাছে ডেকে জিজ্ঞেস করলেন: তুমি কি তোমার মা, বোন, মেয়ের জন্য এটা পছন্দ করবে? সে বলল, না। তিনি বললেন, মানুষও পছন্দ করে না। তারপর বুকে হাত রেখে তার জন্য দোয়া করলেন।", p:"প্রশ্ন করে, যুক্তি দিয়ে ও দোয়া দিয়ে মানুষের মন পরিবর্তন। লজ্জা দেওয়া নয়।", r:"আহমাদ 22211"},
   {t:"হুদায়বিয়ার অসম চুক্তি", s:"শর্তগুলো আপাতদৃষ্টিতে মুসলিমদের জন্য অপমানজনক মনে হচ্ছিল; উমর (রা.)সহ অনেকে মনঃক্ষুণ্ন।", a:"চুক্তিতে ‘রাসূলুল্লাহ’ শব্দ মুছে দিতেও রাজি হলেন। সাহাবীরা কুরবানি করতে দ্বিধা করলে উম্মে সালামা (রা.)-র পরামর্শে নিজে আগে কুরবানি করলেন; সবাই অনুসরণ করল।", p:"শান্তির জন্য ছাড় দেওয়া; স্ত্রীর পরামর্শ গ্রহণ; কথা নয়, নিজে করে দেখানো।", r:"বুখারী 2731, 2732"},
@@ -540,7 +516,7 @@ const PRACTICE = [
   {c:"good",a:"স্বাস্থ্য",t:"ব্যায়াম, খেলাধুলা ও সুস্থ থাকা",now:"হাঁটা, দৌড়, সাঁতার, শরীরচর্চা।",sun:"শক্তিশালী মুমিন আল্লাহর কাছে প্রিয়। নবীজি ﷺ দৌড় প্রতিযোগিতা করেছেন, তীরন্দাজি ও ঘোড়দৌড়ে উৎসাহ দিয়েছেন।",r:"মুসলিম 2664, আবু দাউদ 2578, বুখারী 2899"},
   {c:"good",a:"সমাজ",t:"স্বেচ্ছাসেবা, রক্তদান ও মানুষের সাহায্য",now:"বন্যা-দুর্যোগে ত্রাণ, রক্তদান, রাস্তা পরিষ্কার।",sun:"যে কোনো মুমিনের দুনিয়ার একটি কষ্ট দূর করে, আল্লাহ কিয়ামতে তার একটি কষ্ট দূর করবেন। রাস্তা থেকে কষ্টদায়ক বস্তু সরানো ঈমানের শাখা।",r:"মুসলিম 2699, মুসলিম 35"},
   {c:"good",a:"পরিবেশ",t:"গাছ লাগানো ও পরিবেশ রক্ষা",now:"বাড়ির ছাদে বা রাস্তার পাশে গাছ লাগানো।",sun:"কিয়ামত শুরু হতে দেখলেও হাতে চারা থাকলে তা লাগিয়ে দাও। গাছ থেকে যে খায়, তা রোপণকারীর সদকা।",r:"আহমাদ 12902, বুখারী 2320"},
-  {c:"good",a:"পরিবার",t:"ঘরের কাজে স্বামীর অংশগ্রহণ",now:"রান্না, বাচ্চার দেখাশোনা, কাপড় গোছানোয় সাহায্য।",sun:"নবীজি ﷺ ঘরে পরিবারের কাজে ব্যস্ত থাকতেন, নিজের কাপড় সেলাই ও জুতা মেরামত করতেন।",r:"বুখারী 676, আহমাদ 24903"},
+  {c:"good",a:"পরিবার",t:"ঘরের কাজে স্বামীর অংশগ্রহণ",now:"রান্না, বাচ্চার দেখাশোনা, কাপড় গোছানোয় সাহায্য।",sun:"নবীজি ﷺ ঘরে পরিবারের কাজে ব্যস্ত থাকতেন, নিজের কাপড় সেলাই ও জুতা মেরামত করতেন।",r:"বুখারী 676; মুসনাদে আহমাদ"},
   {c:"good",a:"সমাজ",t:"হাসিমুখে কথা বলা ও কৌতুক (সত্যের সীমায়)",now:"বন্ধুদের সাথে হালকা রসিকতা।",sun:"নবীজি ﷺ রসিকতা করতেন, কিন্তু সত্য ছাড়া বলতেন না। তাঁর হাসি বেশিরভাগ মুচকি হাসি।",r:"তিরমিযী 1990, বুখারী 6092"}
 ];
 const AREAS = ["সব", ...new Set(PRACTICE.map(p=>p.a))];
@@ -574,160 +550,324 @@ const TRACK = [
 ];
 const TRACK_ALL = TRACK.flatMap(g=>g[1]);
 
-/* ---------------- RENDER ---------------- */
-const refHTML = r => `<span class="ref">${esc(bn(r))}</span>`;
-const duaHTML = (d, lbl) => d ? `<div class="dua">${lbl||d.lbl?`<span class="lbl">${esc(lbl||d.lbl)}</span>`:""}<p class="ar" lang="ar">${d.ar}</p><p class="tr">${esc(d.tr)}</p><p>${esc(d.mean)}</p>${refHTML(d.ref)}</div>` : "";
-const head = (eb, title, lede) => `<div class="head"><span class="eyebrow">${eb}</span><h1>${title}</h1>${lede?`<p class="lede">${lede}</p>`:""}</div>`;
+/* ---------------- PRAYER TIMES (offline calculation) ---------------- */
+const CITIES = [
+  ["dhaka","ঢাকা",23.8103,90.4125],["ctg","চট্টগ্রাম",22.3569,91.7832],["sylhet","সিলেট",24.8949,91.8687],
+  ["rajshahi","রাজশাহী",24.3745,88.6042],["khulna","খুলনা",22.8456,89.5403],["barishal","বরিশাল",22.7010,90.3535],
+  ["rangpur","রংপুর",25.7439,89.2752],["mymensingh","ময়মনসিংহ",24.7471,90.4203]
+];
+function getLoc(){
+  const l = store.get("loc", null);
+  if(l && typeof l.lat==="number") return l;
+  const c = CITIES[0]; return {id:c[0], name:c[1], lat:c[2], lng:c[3], tz:6};
+}
+const getAsr = () => store.get("asr", 2); // 2 = হানাফি, 1 = অন্যান্য মাযহাব
 
-function hourNow(){ const d=new Date(); return d.getHours()+d.getMinutes()/60 }
-function blockAt(h){ const hh = h < 3.5 ? h+24 : h; return ROUTINE.find(b=>hh>=b.s && hh<b.e) || ROUTINE[ROUTINE.length-1] }
-const fmtH = h => { h = h%24; const H=Math.floor(h), M=Math.round((h-H)*60); return bn(`${H}:${String(M).padStart(2,"0")}`) };
+function prayerTimes(date, lat, lng, tz, asrF){
+  const d2r=Math.PI/180, r2d=180/Math.PI;
+  const sin=x=>Math.sin(x*d2r), cos=x=>Math.cos(x*d2r), tan=x=>Math.tan(x*d2r);
+  const asin=x=>Math.asin(x)*r2d, acos=x=>Math.acos(Math.max(-1,Math.min(1,x)))*r2d, atan2=(y,x)=>Math.atan2(y,x)*r2d;
+  const fix=(a,b)=>{a=a-b*Math.floor(a/b);return a<0?a+b:a};
+  let y=date.getFullYear(), m=date.getMonth()+1; const dd=date.getDate();
+  if(m<=2){y--;m+=12}
+  const A=Math.floor(y/100), B=2-A+Math.floor(A/4);
+  const jd=Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+dd+B-1524.5-lng/(15*24);
+  const sun=j=>{const D=j-2451545, g=fix(357.529+0.98560028*D,360), q=fix(280.459+0.98564736*D,360),
+    L=fix(q+1.915*sin(g)+0.020*sin(2*g),360), e=23.439-0.00000036*D, RA=fix(atan2(cos(e)*sin(L),cos(L))/15,24);
+    return {decl:asin(sin(e)*sin(L)), eqt:q/15-RA}};
+  const mid=t=>fix(12-sun(jd+t).eqt,24);
+  const ang=(a,t,ccw)=>{const s=sun(jd+t), v=acos((-sin(a)-sin(s.decl)*sin(lat))/(cos(s.decl)*cos(lat)))/15; return mid(t)+(ccw?-v:v)};
+  const asr=(f,t)=>{const s=sun(jd+t); return ang(-Math.atan(1/(f+tan(Math.abs(lat-s.decl))))*r2d,t)};
+  let T={fajr:5,sunrise:6,dhuhr:12,asr:13,maghrib:18,isha:18};
+  for(let i=0;i<2;i++){
+    const p={}; for(const k in T) p[k]=T[k]/24;
+    T={fajr:ang(18,p.fajr,1), sunrise:ang(0.833,p.sunrise,1), dhuhr:mid(p.dhuhr), asr:asr(asrF,p.asr), maghrib:ang(0.833,p.maghrib), isha:ang(18,p.isha)};
+  }
+  const adj=tz-lng/15;
+  for(const k in T) T[k]+=adj;
+  T.dhuhr+=2/60; T.maghrib+=3/60; // সতর্কতামূলক কয়েক মিনিট
+  return T;
+}
+let PT = null, PT_TOMORROW = null;
+function computeTimes(){
+  const l=getLoc(), now=new Date(), tm=new Date(now); tm.setDate(tm.getDate()+1);
+  PT = prayerTimes(now,l.lat,l.lng,l.tz,getAsr());
+  PT_TOMORROW = prayerTimes(tm,l.lat,l.lng,l.tz,getAsr());
+}
+function hourNow(){
+  const l=getLoc(), d=new Date();
+  const utc=d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600;
+  return ((utc+l.tz)%24+24)%24;
+}
+function fmt(h){
+  h=((h%24)+24)%24; let H=Math.floor(h), M=Math.round((h-H)*60); if(M===60){H=(H+1)%24;M=0}
+  const H12=H%12===0?12:H%12; return bn(`${H12}:${String(M).padStart(2,"0")}`);
+}
+function dayPart(h){ return h<4?"রাত":h<6?"ভোর":h<12?"সকাল":h<15?"দুপুর":h<17.5?"বিকেল":h<19?"সন্ধ্যা":"রাত" }
+function dur(h){ const m=Math.round(h*60), H=Math.floor(m/60), M=m%60; return (H?bn(H)+" ঘণ্টা ":"")+bn(M)+" মিনিট" }
+
+const BLOCK_COLOR = {tahajjud:"var(--night)",fajr:"var(--dawn)",ishraq:"var(--dawn)",duha:"var(--day)",dhuhr:"var(--day)",asr:"var(--dusk)",maghrib:"var(--dusk)",isha:"var(--night)",sleep:"var(--night)"};
+function blockTimes(){
+  const P=PT, night=(P.fajr+24)-P.maghrib, tah=P.fajr-night/3, f2=P.fajr+Math.min(.5,(P.sunrise-P.fajr)/2);
+  return {tahajjud:[tah,P.fajr], fajr:[P.fajr,f2], ishraq:[f2,P.sunrise+1/3], duha:[P.sunrise+1/3,P.dhuhr-.75],
+    dhuhr:[P.dhuhr-.75,P.asr], asr:[P.asr,P.maghrib], maghrib:[P.maghrib,P.isha], isha:[P.isha,P.isha+1.5], sleep:[P.isha+1.5,tah+24]};
+}
+function blockAt(h){
+  const bt=blockTimes();
+  return ROUTINE.find(b=>{const [s,e]=bt[b.id]; return (h>=s&&h<e)||(h+24>=s&&h+24<e)}) || ROUTINE[ROUTINE.length-1];
+}
+const PRAYERS = [["fajr","ফজর"],["sunrise","সূর্যোদয়"],["dhuhr","যোহর"],["asr","আসর"],["maghrib","মাগরিব"],["isha","ইশা"]];
+function nextPrayer(h){
+  for(const [k,n] of PRAYERS){ if(k!=="sunrise" && PT[k]>h) return {k,n,t:PT[k],left:PT[k]-h} }
+  return {k:"fajr",n:"ফজর",t:PT_TOMORROW.fajr,left:PT_TOMORROW.fajr+24-h};
+}
+function currentPrayer(h){
+  let cur=null; for(const [k] of PRAYERS){ if(k!=="sunrise" && PT[k]<=h) cur=k }
+  if(h>=PT.sunrise && h<PT.dhuhr) cur="sunrise";
+  return cur || "isha";
+}
+
+/* ---------------- ROUTES ---------------- */
+const ICONS = {
+  today:'<path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  routine:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  guide:'<path d="M12 3l2.6 5.6L20 9.5l-4 4 1 5.7-5-2.7-5 2.7 1-5.7-4-4 5.4-.9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+  learn:'<path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5v13c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z M12 6v13.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+  tracker:'<rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.2l2.4 2.4 4.8-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'
+};
+const TABS = [["today","আজ"],["routine","রুটিন"],["guide","গাইড"],["learn","শিখুন"],["tracker","ট্র্যাকার"]];
+const LEARN = [
+  ["islam","ইসলাম পরিচিতি","ঈমান, ইসলামের পাঁচ স্তম্ভ ও ইহসান","ই"],
+  ["seerah","জীবনী","জন্ম থেকে বিদায় পর্যন্ত সময়রেখা ও শিক্ষা","জী"],
+  ["family","পরিবার ও আত্মীয়","স্ত্রী, সন্তান, বাবা-মা, আত্মীয় ও প্রতিবেশীর সাথে আচরণ","প"],
+  ["problems","সমস্যা সমাধান","বিবাদ, চুক্তি ও ভুলের মীমাংসা","স"],
+  ["war","যুদ্ধনীতি","যুদ্ধের নিয়ম ও প্রধান অভিযানসমূহ","যু"],
+  ["advice","উপদেশমালা","বিষয়ভিত্তিক সহীহ হাদিস","উ"],
+  ["practice","করণীয় ও বর্জনীয়","আমাদের অভ্যাস: কোনটা ঠিক, কোনটা নয়","ক"]
+];
+const SUB = Object.fromEntries(LEARN.map(l=>[l[0],l[1]]));
+
+const refHTML = r => `<span class="ref">${esc(bn(r))}</span>`;
+const duaHTML = (d, lbl) => d ? `<div class="dua">${(lbl||d.lbl)?`<span class="lbl">${esc(lbl||d.lbl)}</span>`:""}<p class="ar" lang="ar">${d.ar}</p><p class="tr">${esc(d.tr)}</p><p>${esc(d.mean)}</p>${refHTML(d.ref)}</div>` : "";
+const chev = '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const arrow = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const todayKey = (d=new Date()) => "sunnah-"+d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+function trackCount(d){ const s=store.get(todayKey(d),{}); return TRACK_ALL.filter(([id])=>s[id]).length }
+
+function locControls(){
+  const l=getLoc();
+  return `<div class="loc">
+    <select class="sel" id="citySel" aria-label="এলাকা বাছুন">
+      ${CITIES.map(c=>`<option value="${c[0]}"${l.id===c[0]?" selected":""}>${c[1]}</option>`).join("")}
+      ${l.id==="gps"?`<option value="gps" selected>আমার অবস্থান</option>`:""}
+      <option value="__gps">আমার অবস্থান (GPS) ব্যবহার করুন</option>
+    </select>
+    <select class="sel" id="asrSel" aria-label="আসরের হিসাব">
+      <option value="2"${getAsr()===2?" selected":""}>আসর: হানাফি</option>
+      <option value="1"${getAsr()===1?" selected":""}>আসর: শাফেয়ি/অন্যান্য</option>
+    </select>
+  </div><p class="muted" id="locMsg" style="font-size:.8rem">সময় এই ফোনেই হিসাব করা হয়, ইন্টারনেট লাগে না। স্থানীয় মসজিদের সময়ের সাথে মিলিয়ে নিন।</p>`;
+}
+
+function dateLine(){
+  const d=new Date();
+  let g="", h="";
+  try{ g=new Intl.DateTimeFormat("bn-BD",{weekday:"long",day:"numeric",month:"long"}).format(d) }catch(e){}
+  try{ h=new Intl.DateTimeFormat("bn-BD-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d).replace(/\s*যুগ$/,"") }catch(e){}
+  return [g,h].filter(Boolean).join(" · ");
+}
+
+let deferredInstall = null;
+window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredInstall=e; if(currentView()==="today") render() });
+const isStandalone = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
 
 const R = {};
-R.home = () => {
-  const b = blockAt(hourNow());
+R.today = () => {
+  const h=hourNow(), b=blockAt(h), np=nextPrayer(h), cur=currentPrayer(h);
+  const sky = h<PT.fajr-0.2||h>=PT.isha ? "night" : h<PT.sunrise+0.5 ? "dawn" : h<PT.asr ? "day" : h<PT.isha ? "dusk" : "night";
+  const done=trackCount(new Date()), tot=TRACK_ALL.length;
+  const idx=Math.floor(Date.now()/864e5)%ADVICE.length, ad=ADVICE[idx];
+  const offline = 'serviceWorker' in navigator && navigator.serviceWorker.controller;
+  const install = isStandalone() ? "" : `<div class="install">
+      <b>হোম স্ক্রিনে যোগ করুন</b>
+      <p>একবার যোগ করলে অ্যাপের মতো খুলবে এবং ইন্টারনেট ছাড়াও চলবে।</p>
+      ${deferredInstall ? `<button class="btn" id="installBtn">অ্যাপ ইনস্টল করুন</button>`
+        : isIOS() ? `<p class="muted" style="font-size:.9rem">iPhone: Safari-তে নিচের Share বোতাম → “Add to Home Screen” চাপুন।</p>`
+        : `<p class="muted" style="font-size:.9rem">Android: Chrome-এর উপরের ⋮ মেনু → “Add to Home screen” বা “Install app” চাপুন।</p>`}
+    </div>`;
   return `<section class="view">
-    <div class="hero">
-      <div class="hero-copy">
-        <span class="eyebrow">রাসূলুল্লাহ ﷺ-এর জীবন থেকে আমাদের প্রতিদিন</span>
-        <h1>নবীজি ﷺ-এর দিনযাপন, আমার দিনযাপন</h1>
-        <p class="ar" lang="ar">لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ</p>
-        <p class="lede">“নিশ্চয়ই তোমাদের জন্য আল্লাহর রাসূলের মধ্যে রয়েছে উত্তম আদর্শ।” (সূরা আহযাব ২১) এখানে তাঁর জীবনী, দৈনিক রুটিন, পারিবারিক আচরণ, সমস্যা সমাধানের পদ্ধতি ও উপদেশ পড়ুন, তারপর নিজের দিনের সাথে মিলিয়ে নিন।</p>
-      </div>
-      <div class="now" aria-live="polite">
-        <canvas class="stars" id="stars"></canvas>
-        <span class="k">এখন ${fmtH(hourNow())} — এই সময়ে নবীজি ﷺ</span>
-        <h3>${esc(b.title)}</h3>
-        <p>${esc(b.steps[0][0])}</p>
-        <a href="#routine" data-block="${b.id}">এই সময়ের পুরো রুটিন দেখুন →</a>
-      </div>
+    <div class="hero ${sky}">
+      <canvas id="stars"></canvas>
+      <span class="k">${esc(dateLine())}</span>
+      <span class="k">এখন ${dayPart(h)} ${fmt(h)} — এই সময়ে নবীজি ﷺ</span>
+      <h2>${esc(b.title)}</h2>
+      <p>${esc(b.steps[0][0])}</p>
+      <a class="go" href="#routine" data-open="${b.id}">এই সময়ের পুরো রুটিন ${arrow}</a>
+      <div class="next"><span>পরবর্তী: ${np.n} ${fmt(np.t)}</span><b>${dur(np.left)} বাকি</b></div>
     </div>
-    <div class="grid g3">
-      ${VIEWS.slice(1).map(([id,n])=>`<a class="tile" href="#${id}"><span class="n">${n}</span><p>${DESC[id]}</p></a>`).join("")}
+    <div class="sec">
+      <div class="sec-h"><h2>আজকের নামাজের সময়</h2><span class="muted" style="font-size:.85rem">${esc(getLoc().name)}</span></div>
+      <div class="ptimes">${PRAYERS.map(([k,n])=>`<div class="pt${k===cur?" cur":""}"><span>${n}</span><b>${fmt(PT[k])}</b></div>`).join("")}</div>
+      ${locControls()}
     </div>
-    <p class="notice">সময়গুলো নামাজের ওয়াক্তভিত্তিক। ঘড়ির সময় বাংলাদেশের গড় হিসেবে আনুমানিক দেখানো হয়েছে; আপনার এলাকার নামাজের সময়সূচি অনুসরণ করুন।</p>
+    <a class="card mini" href="#tracker">
+      <div class="row"><h3>আজকের সুন্নাহ</h3><span class="muted">${bn(done)}/${bn(tot)}</span></div>
+      <div class="progress"><span style="width:${done/tot*100}%"></span></div>
+      <span class="muted" style="font-size:.88rem">${done===0?"আজ এখনো কিছু টিক দেওয়া হয়নি। শুরু করুন →":done===tot?"মাশাআল্লাহ! আজকের সব সুন্নাহ পূর্ণ।":"চালিয়ে যান →"}</span>
+    </a>
+    <div class="sec">
+      <div class="sec-h"><h2>এখন কী করব?</h2><a href="#guide">সব দেখুন</a></div>
+      <div class="chips">${SITUATIONS.map((s,i)=>`<a class="chip" href="#guide" data-sit="${i}">${s.k}</a>`).join("")}</div>
+    </div>
+    <div class="card hadith sec">
+      <span class="eyebrow">আজকের হাদিস · ${ad[0]}</span>
+      <p class="txt">“${esc(ad[1])}”</p>
+      ${refHTML(ad[2])}
+    </div>
+    ${install}
+    <div class="status"><span class="dot${offline?" on":""}"></span>${offline?"অফলাইনে চালানোর জন্য প্রস্তুত":"অনলাইন সংস্করণ"}</div>
+    <div class="foot">
+      <p>তথ্য কুরআন, সহীহ বুখারী, সহীহ মুসলিম, সুনান গ্রন্থসমূহ ও সীরাত ইবনে হিশাম থেকে সংকলিত। হাদিস নম্বর sunnah.com-এর নম্বরায়ন অনুযায়ী।</p>
+      <p>ফিকহি বা ব্যক্তিগত মাসআলায় যোগ্য আলেমের পরামর্শ নিন।</p>
+    </div>
   </section>`;
 };
 
+let openBlock = null;
+R.routine = () => {
+  const h=hourNow(), cur=blockAt(h), bt=blockTimes(), open=openBlock||cur.id;
+  const segs=[]; ROUTINE.forEach(b=>{ let [s,e]=bt[b.id]; s=((s%24)+24)%24; e=s+(bt[b.id][1]-bt[b.id][0]);
+    if(e>24){ segs.push([b,s,24],[b,0,e-24]) } else segs.push([b,s,e]) });
+  return `<section class="view">
+    <div class="sec">
+      <p class="lede">আজকের নামাজের সময় অনুযায়ী সাজানো (${esc(getLoc().name)})। যে অংশ চলছে সেটি খোলা আছে; অন্য অংশে চাপ দিয়ে খুলুন।</p>
+      <div><div class="band" aria-hidden="true">${segs.map(([b,s,e])=>`<i style="left:${s/24*100}%;width:${(e-s)/24*100}%;background:${BLOCK_COLOR[b.id]}"></i>`).join("")}<div class="nowline" style="left:${h/24*100}%"></div></div>
+      <div class="ticks"><span>রাত ১২</span><span>ভোর ৬</span><span>দুপুর ১২</span><span>সন্ধ্যা ৬</span><span>রাত ১২</span></div></div>
+    </div>
+    <div class="acc">
+      ${ROUTINE.map(b=>`<details id="blk-${b.id}" class="${b.id===cur.id?"now":""}" style="--c:${BLOCK_COLOR[b.id]}"${b.id===open?" open":""}>
+        <summary><span class="sw"></span><span class="tt"><span>${esc(b.title)}${b.id===cur.id?'<span class="badge">এখন</span>':""}</span><small>${fmt(bt[b.id][0])} – ${fmt(bt[b.id][1])} · ${esc(b.time)}</small></span>${chev}</summary>
+        <div class="inner">
+          <p>${esc(b.intro)}</p>${refHTML(b.introRef)}
+          <ol class="steps">${b.steps.map(s=>`<li><div><p>${esc(s[0])}</p>${refHTML(s[1])}</div></li>`).join("")}</ol>
+          ${duaHTML(b.dua)}
+          <div class="today"><b>আজ আমি যা করতে পারি</b><p>${esc(b.today)}</p></div>
+        </div></details>`).join("")}
+    </div>
+    <div class="sec"><h2>সাপ্তাহিক ও মাসিক অভ্যাস</h2>
+      ${WEEKLY.map(w=>`<div class="card"><h3>${w[0]}</h3><p>${bn(w[1])}</p>${refHTML(w[2])}</div>`).join("")}</div>
+    <p class="note">সময়গুলো সূর্যের অবস্থান থেকে হিসাব করা। হাদিসে কাজগুলো নামাজের ওয়াক্ত দিয়ে বলা হয়েছে; ঘড়ির সময় আনুমানিক।</p>
+  </section>`;
+};
+
+let sitSel = 0;
+R.guide = () => {
+  const s=SITUATIONS[sitSel];
+  return `<section class="view">
+    <p class="lede">আপনি এখন কোন অবস্থায় আছেন? বেছে নিন, নবীজি ﷺ এমন সময়ে কী করতেন বা করতে বলেছেন দেখুন।</p>
+    <div class="chips wrap" role="group" aria-label="পরিস্থিতি">${SITUATIONS.map((x,i)=>`<button class="chip" data-sit="${i}" aria-pressed="${i===sitSel}">${x.k}</button>`).join("")}</div>
+    <div class="card sec" id="sitOut">
+      <h2>${s.k}</h2>
+      <ol class="steps">${s.steps.map(st=>`<li><div><p>${esc(st[0])}</p>${refHTML(st[1])}</div></li>`).join("")}</ol>
+      ${s.dua ? duaHTML(s.dua,"এই সময়ের দোয়া") : ""}
+    </div>
+    <div class="today"><b>মনে রাখুন</b><p>“আল্লাহর কাছে সবচেয়ে প্রিয় আমল সেটি, যা নিয়মিত করা হয়, যদিও তা অল্প হয়।”</p>${refHTML("বুখারী 6464")}</div>
+  </section>`;
+};
+
+R.learn = () => `<section class="view">
+  <div class="sec"><span class="eyebrow">লাকাদ কানা লাকুম ফী রাসূলিল্লাহি উসওয়াতুন হাসানাহ</span>
+  <p class="ar" lang="ar">لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ</p>
+  <p class="lede">“নিশ্চয়ই তোমাদের জন্য আল্লাহর রাসূলের মধ্যে রয়েছে উত্তম আদর্শ।” (সূরা আহযাব ২১)</p></div>
+  <nav class="list" aria-label="বিষয়সমূহ">${LEARN.map(l=>`<a href="#${l[0]}"><span class="li-ic">${l[3]}</span><span class="li-t"><span>${l[1]}</span><small>${l[2]}</small></span>${arrow}</a>`).join("")}</nav>
+</section>`;
+
 R.islam = () => `<section class="view">
-  ${head("ভিত্তি","ইসলাম কী?","ইসলাম অর্থ আল্লাহর কাছে আত্মসমর্পণ ও শান্তি। জিবরাঈল (আ.) মানুষের রূপে এসে নবীজি ﷺ-কে ইসলাম, ঈমান ও ইহসান সম্পর্কে প্রশ্ন করেছিলেন; সেই উত্তরই দ্বীনের সারসংক্ষেপ। (মুসলিম ৮)")}
+  <p class="lede">ইসলাম অর্থ আল্লাহর কাছে আত্মসমর্পণ ও শান্তি। জিবরাঈল (আ.) মানুষের রূপে এসে নবীজি ﷺ-কে ইসলাম, ঈমান ও ইহসান সম্পর্কে প্রশ্ন করেছিলেন; সেই উত্তরই দ্বীনের সারসংক্ষেপ। (মুসলিম ৮)</p>
   <div class="triad">
     <div><h3>ইসলাম</h3><p>বাহ্যিক আমল: পাঁচটি স্তম্ভ মেনে চলা।</p></div>
     <div><h3>ঈমান</h3><p>অন্তরের বিশ্বাস: আল্লাহ, ফেরেশতা, কিতাব, রাসূল, আখিরাত ও তাকদিরে বিশ্বাস।</p></div>
     <div><h3>ইহসান</h3><p>এমনভাবে ইবাদত করা যেন তুমি আল্লাহকে দেখছ; যদি না দেখো, তিনি তো তোমাকে দেখছেন।</p></div>
   </div>
-  <div class="head"><h2>ইসলামের পাঁচ স্তম্ভ</h2>${refHTML("বুখারী 8, মুসলিম 16")}</div>
-  <div class="pillars">
-    ${[["কালিমা","আল্লাহ ছাড়া কোনো ইলাহ নেই এবং মুহাম্মাদ ﷺ আল্লাহর রাসূল, এই সাক্ষ্য দেওয়া।"],["নামাজ","দিনে পাঁচ ওয়াক্ত: ফজর, যোহর, আসর, মাগরিব, ইশা।"],["যাকাত","নিসাব পরিমাণ সম্পদ এক বছর থাকলে ২.৫% গরিবের হক।"],["রোজা","রমজান মাসে সুবহে সাদিক থেকে সূর্যাস্ত পর্যন্ত।"],["হজ","সামর্থ্যবানদের জন্য জীবনে একবার।"]].map((p,i)=>`<div class="pillar"><span class="num">${bn(i+1)}</span><h3>${p[0]}</h3><p>${bn(p[1])}</p></div>`).join("")}
-  </div>
-  <div class="head"><h2>কুরআনে ইসলামের মূল বার্তা</h2></div>
-  <div class="quotes">
+  <div class="sec"><h2>ইসলামের পাঁচ স্তম্ভ</h2>${refHTML("বুখারী 8, মুসলিম 16")}
+  <div class="card pillars">
+    ${[["কালিমা","আল্লাহ ছাড়া কোনো ইলাহ নেই এবং মুহাম্মাদ ﷺ আল্লাহর রাসূল, এই সাক্ষ্য দেওয়া।"],["নামাজ","দিনে পাঁচ ওয়াক্ত: ফজর, যোহর, আসর, মাগরিব, ইশা।"],["যাকাত","নিসাব পরিমাণ সম্পদ এক বছর থাকলে ২.৫% গরিবের হক।"],["রোজা","রমজান মাসে সুবহে সাদিক থেকে সূর্যাস্ত পর্যন্ত।"],["হজ","সামর্থ্যবানদের জন্য জীবনে একবার।"]].map((p,i)=>`<div class="pillar"><span class="num">${bn(i+1)}</span><div><h3>${p[0]}</h3><p class="muted">${bn(p[1])}</p></div></div>`).join("")}
+  </div></div>
+  <div class="sec"><h2>কুরআনে ইসলামের মূল বার্তা</h2>
+  <div class="card" style="padding-block:4px">
     ${[["وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ","আমি আপনাকে বিশ্বজগতের জন্য রহমত হিসেবেই পাঠিয়েছি।","সূরা আম্বিয়া ১০৭"],
        ["لَا إِكْرَاهَ فِي الدِّينِ","দ্বীনের ব্যাপারে কোনো জবরদস্তি নেই।","সূরা বাকারা ২৫৬"],
        ["إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ","তোমাদের মধ্যে আল্লাহর কাছে সবচেয়ে সম্মানিত সে, যে সবচেয়ে বেশি তাকওয়াবান।","সূরা হুজুরাত ১৩"],
        ["وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ","নিশ্চয়ই আপনি মহান চরিত্রের উপর প্রতিষ্ঠিত।","সূরা কলম ৪"]]
       .map(q=>`<div class="quote"><p class="ar" lang="ar">${q[0]}</p><p>${q[1]}</p>${refHTML(q[2])}</div>`).join("")}
-  </div>
-  <p class="notice">আয়েশা (রা.)-কে নবীজির চরিত্র সম্পর্কে জিজ্ঞেস করা হলে তিনি বলেছিলেন: “তাঁর চরিত্র ছিল কুরআন।” (মুসলিম ৭৪৬) তাই এই সাইটের বাকি অংশ মূলত কুরআনের জীবন্ত রূপ দেখার চেষ্টা।</p>
+  </div></div>
+  <p class="note">আয়েশা (রা.)-কে নবীজির চরিত্র সম্পর্কে জিজ্ঞেস করা হলে তিনি বলেছিলেন: “তাঁর চরিত্র ছিল কুরআন।” (মুসলিম ৭৪৬)</p>
 </section>`;
 
 let seerahEra = "all";
 R.seerah = () => `<section class="view">
-  ${head("সীরাত","জীবনী: ৫৭০ থেকে ৬৩২ খ্রিস্টাব্দ","৬৩ বছরের জীবন: ৪০ বছর নবুয়তের আগে, ১৩ বছর মক্কায় দাওয়াত, ১০ বছর মদিনায় রাষ্ট্র ও সমাজ গঠন। সোনালি বিন্দু গুরুত্বপূর্ণ মোড়।")}
-  <div class="era-switch" role="group" aria-label="যুগ বাছুন">
+  <p class="lede">৬৩ বছরের জীবন: ৪০ বছর নবুয়তের আগে, ১৩ বছর মক্কায় দাওয়াত, ১০ বছর মদিনায় সমাজ ও রাষ্ট্র গঠন। সোনালি বিন্দু গুরুত্বপূর্ণ মোড়।</p>
+  <div class="chips" role="group" aria-label="যুগ বাছুন">
     ${[["all","সব"],["makkah","মক্কা জীবন"],["madinah","মদিনা জীবন"]].map(([k,n])=>`<button class="chip" data-era="${k}" aria-pressed="${seerahEra===k}">${n}</button>`).join("")}
   </div>
   <div class="timeline">
     ${SEERAH.filter(e=>seerahEra==="all"||e.era===seerahEra).map(e=>`<div class="ev ${e.era}${e.key?" key":""}">
-      <div class="yr"><b>${e.y}</b>${e.a}</div>
-      <div class="body"><h3>${e.t}</h3><p>${e.d}</p><p class="lesson">${e.l}</p>${refHTML(e.r)}</div></div>`).join("")}
+      <span class="yr"><b>${e.y}</b>${e.a?" · "+e.a:""}</span><h3>${e.t}</h3><p>${e.d}</p><p class="lesson">${e.l}</p>${refHTML(e.r)}</div>`).join("")}
   </div>
 </section>`;
 
-let routineSel = null;
-R.routine = () => {
-  const cur = blockAt(hourNow());
-  const sel = ROUTINE.find(b=>b.id===routineSel) || cur;
-  const segs = ROUTINE.flatMap(b => b.e>24 ? [[b,b.s,24],[b,0,b.e-24]] : [[b,b.s,b.e]]);
-  const nowPct = hourNow()/24*100;
-  return `<section class="view">
-    ${head("২৪ ঘণ্টা","নবীজি ﷺ-এর দৈনিক রুটিন","আকাশের রঙের বারে যেকোনো অংশে চাপুন, অথবা তালিকা থেকে বাছুন। প্রতিটি সময়ে তিনি কী করতেন, কী দোয়া পড়তেন এবং আজ আপনি কীভাবে তা শুরু করতে পারেন।")}
-    <div class="sky">
-      <div class="band" role="group" aria-label="দিনের সময়রেখা">
-        ${segs.map(([b,s,e])=>`<button class="seg" style="left:${s/24*100}%;width:${(e-s)/24*100}%" data-block="${b.id}" aria-pressed="${b.id===sel.id}" title="${esc(b.title)}">${b.short}</button>`).join("")}
-        <div class="nowline" style="left:${nowPct}%"></div>
-      </div>
-      <div class="ticks"><span>রাত ১২</span><span>৩</span><span>ভোর ৬</span><span>৯</span><span>দুপুর ১২</span><span>৩</span><span>সন্ধ্যা ৬</span><span>৯</span><span>রাত ১২</span></div>
-    </div>
-    <div class="rgrid">
-      <div class="rlist" role="group" aria-label="রুটিনের অংশ">
-        ${ROUTINE.map(b=>`<button data-block="${b.id}" aria-pressed="${b.id===sel.id}"><span class="t">${fmtH(b.s)}–${fmtH(b.e)}</span><span>${b.short}${b.id===cur.id?" · এখন":""}</span></button>`).join("")}
-      </div>
-      <div class="rdetail">
-        <div class="head"><span class="eyebrow">${esc(sel.time)} · আনুমানিক ${fmtH(sel.s)}–${fmtH(sel.e)}</span><h2>${esc(sel.title)}</h2><p class="lede">${esc(sel.intro)}</p>${refHTML(sel.introRef)}</div>
-        <ol class="steps">${sel.steps.map(s=>`<li><div><p>${esc(s[0])}</p>${refHTML(s[1])}</div></li>`).join("")}</ol>
-        ${duaHTML(sel.dua)}
-        <div class="today"><b>আজ আমি যা করতে পারি</b><p>${esc(sel.today)}</p></div>
-      </div>
-    </div>
-    <div class="head"><h2>সাপ্তাহিক ও মাসিক অভ্যাস</h2></div>
-    <div class="weekly">${WEEKLY.map(w=>`<div><h3>${w[0]}</h3><p>${bn(w[1])}</p>${refHTML(w[2])}</div>`).join("")}</div>
-  </section>`;
-};
-
 R.family = () => `<section class="view">
-  ${head("আচরণ","পরিবার ও আত্মীয়দের সাথে আচরণ","নবীজি ﷺ ছিলেন রাষ্ট্রনায়ক, সেনাপতি ও বিচারক; তবু ঘরে তিনি ছিলেন কোমল স্বামী, স্নেহশীল বাবা ও নানা, এবং সবচেয়ে বিশ্বস্ত আত্মীয়।")}
-  <div class="fam">${FAMILY.map(f=>`<div class="fam-row"><h3>${f.who}</h3><ul>${f.pts.map(p=>`<li><p>${esc(p[0])}</p>${refHTML(p[1])}</li>`).join("")}</ul></div>`).join("")}</div>
+  <p class="lede">নবীজি ﷺ ছিলেন রাষ্ট্রনায়ক, সেনাপতি ও বিচারক; তবু ঘরে তিনি ছিলেন কোমল স্বামী, স্নেহশীল বাবা ও নানা, এবং সবচেয়ে বিশ্বস্ত আত্মীয়।</p>
+  ${FAMILY.map(f=>`<div class="card sec fam-sec"><h2>${f.who}</h2><ul>${f.pts.map(p=>`<li><p>${esc(p[0])}</p>${refHTML(p[1])}</li>`).join("")}</ul></div>`).join("")}
 </section>`;
 
 R.problems = () => `<section class="view">
-  ${head("প্রজ্ঞা","তিনি কীভাবে সমস্যা সমাধান করতেন","প্রতিটি ঘটনা তিন ধাপে: পরিস্থিতি কী ছিল, তিনি কী করলেন, আর আমাদের জন্য নীতি কী।")}
-  <div class="cases">${CASES.map(c=>`<div><h3>${c.t}</h3><div class="case">
+  <p class="lede">প্রতিটি ঘটনা তিন ধাপে: পরিস্থিতি, তাঁর পদক্ষেপ, আর আমাদের জন্য নীতি।</p>
+  ${CASES.map(c=>`<div class="card case"><h2>${c.t}</h2>
     <div><span class="k">পরিস্থিতি</span><p>${c.s}</p></div>
     <div><span class="k">তাঁর পদক্ষেপ</span><p>${c.a}</p></div>
-    <div><span class="k">আমাদের নীতি</span><p>${c.p}</p>${refHTML(c.r)}</div></div></div>`).join("")}</div>
+    <div class="pr"><span class="k">আমাদের নীতি</span><p>${c.p}</p></div>${refHTML(c.r)}</div>`).join("")}
 </section>`;
 
 R.war = () => `<section class="view">
-  ${head("নীতি ও ইতিহাস","যুদ্ধকালীন আচরণ ও নীতি","মদিনা জীবনের ১০ বছরে বেশিরভাগ সংঘাত ছিল আত্মরক্ষামূলক। যুদ্ধেও তিনি এমন নিয়ম বেঁধে দিয়েছিলেন, যা নিরীহ মানুষ, চুক্তি ও মানবিক মর্যাদা রক্ষা করে।")}
+  <p class="lede">মদিনা জীবনের ১০ বছরে বেশিরভাগ সংঘাত ছিল আত্মরক্ষামূলক। যুদ্ধেও তিনি এমন নিয়ম বেঁধে দিয়েছিলেন, যা নিরীহ মানুষ, চুক্তি ও মানবিক মর্যাদা রক্ষা করে।</p>
   <ul class="rules">${WAR_RULES.map(w=>`<li><h3>${w[0]}</h3><p>${w[1]}</p>${refHTML(w[2])}</li>`).join("")}</ul>
-  <div class="head"><h2>প্রধান অভিযানসমূহ</h2><p class="lede">সংখ্যাগুলো সীরাত গ্রন্থের প্রচলিত আনুমানিক হিসাব।</p></div>
-  <div class="tbl"><table><thead><tr><th>অভিযান</th><th>সময়</th><th>মুসলিম বাহিনী</th><th>প্রতিপক্ষ</th><th>ফলাফল</th><th>শিক্ষা</th></tr></thead>
-  <tbody>${BATTLES.map(b=>`<tr><td><b>${b[0]}</b></td><td class="num">${b[1]}</td><td class="num">${b[2]}</td><td>${b[3]}</td><td>${b[4]}</td><td>${b[5]}</td></tr>`).join("")}</tbody></table></div>
-  <p class="notice">যুদ্ধের এই নীতিগুলো রাষ্ট্রীয় কর্তৃপক্ষের অধীনে প্রযোজ্য। ব্যক্তিগতভাবে বা কোনো গোষ্ঠীর নামে সহিংসতা ইসলাম অনুমোদন করে না। “যে ব্যক্তি চুক্তিবদ্ধ অমুসলিমকে হত্যা করে, সে জান্নাতের ঘ্রাণও পাবে না।” (বুখারী ৩১৬৬)</p>
+  <div class="sec"><h2>প্রধান অভিযানসমূহ</h2><p class="muted" style="font-size:.88rem">সংখ্যাগুলো সীরাত গ্রন্থের প্রচলিত আনুমানিক হিসাব।</p>
+  <div class="card" style="padding-block:4px">${BATTLES.map(b=>`<div class="battle"><h3>${b[0]}</h3>
+    <div class="meta"><span class="pill">${b[1]}</span><span class="pill">মুসলিম: ${b[2]}</span><span class="pill">প্রতিপক্ষ: ${b[3]}</span><span class="pill">${b[4]}</span></div>
+    <p>${b[5]}</p></div>`).join("")}</div></div>
+  <p class="note">যুদ্ধের এই নীতিগুলো রাষ্ট্রীয় কর্তৃপক্ষের অধীনে প্রযোজ্য। ব্যক্তিগতভাবে বা কোনো গোষ্ঠীর নামে সহিংসতা ইসলাম অনুমোদন করে না। “যে ব্যক্তি চুক্তিবদ্ধ অমুসলিমকে হত্যা করে, সে জান্নাতের ঘ্রাণও পাবে না।” (বুখারী ৩১৬৬)</p>
 </section>`;
 
 let advTheme = "সব";
 R.advice = () => {
-  const themes = ["সব", ...new Set(ADVICE.map(a=>a[0]))];
-  const list = ADVICE.filter(a=>advTheme==="সব"||a[0]===advTheme);
+  const themes=["সব",...new Set(ADVICE.map(a=>a[0]))];
+  const list=ADVICE.filter(a=>advTheme==="সব"||a[0]===advTheme);
   return `<section class="view">
-    ${head("হাদিস","নবীজি ﷺ-এর উপদেশমালা","বিষয় বেছে নিন। পছন্দের হাদিস কপি করে পরিবার বা বন্ধুদের পাঠান।")}
-    <div class="filters" role="group" aria-label="বিষয়">${themes.map(t=>`<button class="chip" data-adv="${t}" aria-pressed="${t===advTheme}">${t}</button>`).join("")}</div>
-    <div class="adv">${list.map((a,i)=>`<article><span class="pill">${a[0]}</span><p class="txt">“${esc(a[1])}”</p><div class="row">${refHTML(a[2])}<button class="copy" data-copy="${esc(a[1]+" — "+bn(a[2]))}">কপি</button></div></article>`).join("")}</div>
+    <div class="chips" role="group" aria-label="বিষয়">${themes.map(t=>`<button class="chip" data-adv="${t}" aria-pressed="${t===advTheme}">${t}</button>`).join("")}</div>
+    <div class="adv">${list.map(a=>`<article class="card"><span><span class="pill">${a[0]}</span></span><p class="txt">“${esc(a[1])}”</p><div class="row">${refHTML(a[2])}<button class="copy" data-copy="${esc(a[1]+" — "+bn(a[2]))}">কপি</button></div></article>`).join("")}</div>
   </section>`;
 };
 
-let pCat = "all", pArea = "সব", pQ = "";
+let pCat="all", pArea="সব", pQ="";
 R.practice = () => `<section class="view">
-  ${head("আত্মসমীক্ষা","আমাদের অভ্যাস: কোনটা ঠিক, কোনটা নয়","আজ সমাজে আমরা যা করছি, তার সাথে কুরআন-সুন্নাহর তুলনা। প্রতিটি কার্ডে আছে আমরা কী করি, আর ইসলাম কী বলে।")}
+  <p class="lede">আজ আমরা যা করছি, তার সাথে কুরআন-সুন্নাহর তুলনা।</p>
   <div class="legend">
-    <div class="lg-avoid"><b>বর্জনীয়</b><span>ইসলামের পরিপন্থী; ছেড়ে দিতে হবে।</span></div>
-    <div class="lg-improve"><b>সংশোধন দরকার</b><span>করছি, কিন্তু সুন্নাহ অনুযায়ী পরিবর্তন প্রয়োজন।</span></div>
-    <div class="lg-good"><b>উত্তম</b><span>ইসলামের সাথে সামঞ্জস্যপূর্ণ; চালিয়ে যান।</span></div>
+    <div class="lg-avoid"><b>বর্জনীয়</b><span>ইসলামের পরিপন্থী</span></div>
+    <div class="lg-improve"><b>সংশোধন</b><span>করছি, তবে পরিবর্তন দরকার</span></div>
+    <div class="lg-good"><b>উত্তম</b><span>সামঞ্জস্যপূর্ণ</span></div>
   </div>
-  <div class="filters">
-    ${[["all","সব"],["avoid","বর্জনীয়"],["improve","সংশোধন"],["good","উত্তম"]].map(([k,n])=>`<button class="chip" data-pcat="${k}" aria-pressed="${pCat===k}">${n}</button>`).join("")}
-    <input class="search" id="pq" type="search" placeholder="খুঁজুন: সুদ, বিয়ে, নামাজ…" value="${esc(pQ)}" aria-label="অভ্যাস খুঁজুন">
-  </div>
-  <div class="filters" role="group" aria-label="ক্ষেত্র">${AREAS.map(a=>`<button class="chip" data-parea="${a}" aria-pressed="${pArea===a}">${a}</button>`).join("")}</div>
-  <p class="count" id="pcount"></p>
-  <div class="pcards" id="pcards"></div>
+  <input class="search" id="pq" type="search" placeholder="খুঁজুন: সুদ, বিয়ে, নামাজ…" value="${esc(pQ)}" aria-label="অভ্যাস খুঁজুন">
+  <div class="chips" role="group" aria-label="ধরন">${[["all","সব"],["avoid","বর্জনীয়"],["improve","সংশোধন"],["good","উত্তম"]].map(([k,n])=>`<button class="chip" data-pcat="${k}" aria-pressed="${pCat===k}">${n}</button>`).join("")}</div>
+  <div class="chips" role="group" aria-label="ক্ষেত্র">${AREAS.map(a=>`<button class="chip" data-parea="${a}" aria-pressed="${pArea===a}">${a}</button>`).join("")}</div>
+  <p class="muted" id="pcount" style="font-size:.88rem"></p>
+  <div class="adv" id="pcards"></div>
 </section>`;
 function renderPractice(){
-  const q = pQ.trim();
-  const list = PRACTICE.filter(p=>(pCat==="all"||p.c===pCat)&&(pArea==="সব"||p.a===pArea)&&(!q||(p.t+p.now+p.sun).includes(q)));
-  $("#pcount").textContent = `${bn(list.length)}টি বিষয় দেখানো হচ্ছে`;
+  const q=pQ.trim();
+  const list=PRACTICE.filter(p=>(pCat==="all"||p.c===pCat)&&(pArea==="সব"||p.a===pArea)&&(!q||(p.t+p.now+p.sun).includes(q)));
+  $("#pcount").textContent=`${bn(list.length)}টি বিষয়`;
   $("#pcards").innerHTML = list.length ? list.map(p=>`<article class="pc ${p.c}">
     <div class="top"><span class="pill c">${CATS[p.c]}</span><span class="pill">${p.a}</span></div>
     <h3>${esc(p.t)}</h3>
@@ -735,88 +875,90 @@ function renderPractice(){
     ${refHTML(p.r)}</article>`).join("") : `<p class="lede">এই খোঁজে কিছু পাওয়া যায়নি। অন্য শব্দ লিখুন বা ফিল্টার বদলান।</p>`;
 }
 
-let sitSel = 0;
-R.guide = () => {
-  const s = SITUATIONS[sitSel];
-  return `<section class="view">
-    ${head("এই মুহূর্তে","পরিস্থিতি অনুযায়ী সুন্নাহ গাইড","আপনি এখন কোন অবস্থায় আছেন? বেছে নিন, নবীজি ﷺ এমন সময়ে কী করতেন বা করতে বলেছেন তা দেখুন।")}
-    <div class="sit-chips" role="group" aria-label="পরিস্থিতি">${SITUATIONS.map((x,i)=>`<button class="chip" data-sit="${i}" aria-pressed="${i===sitSel}">${x.k}</button>`).join("")}</div>
-    <div class="sit-out">
-      <div><h2 style="margin-bottom:8px">${s.k}</h2><ol class="steps">${s.steps.map(st=>`<li><div><p>${esc(st[0])}</p>${refHTML(st[1])}</div></li>`).join("")}</ol></div>
-      <div>${s.dua ? duaHTML(s.dua,"এই সময়ের দোয়া") : `<div class="today"><b>মনে রাখুন</b><p>“আল্লাহর কাছে সবচেয়ে প্রিয় আমল সেটি, যা নিয়মিত করা হয়, যদিও তা অল্প হয়।”</p>${refHTML("বুখারী 6464")}</div>`}</div>
-    </div>
-  </section>`;
-};
-
-const todayKey = (d=new Date()) => "sunnah-"+d.toISOString().slice(0,10);
 R.tracker = () => `<section class="view">
-  ${head("প্রতিদিন","আমার সুন্নাহ ট্র্যাকার","আজ কোন কোন সুন্নাত পালন করলেন, টিক দিন। সব একদিনে নয়; প্রতি সপ্তাহে একটা নতুন অভ্যাস যোগ করুন। তথ্য শুধু আপনার এই ব্রাউজারে থাকে।")}
-  <div class="trk">
-    <div class="ring-box">
-      <div class="ring"><svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="72" fill="none" stroke="var(--sunk)" stroke-width="14"/><circle id="ringArc" cx="85" cy="85" r="72" fill="none" stroke="var(--accent)" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset .4s"/></svg><div class="v"><span id="ringV">০/০<small>আজকের আমল</small></span></div></div>
-      <div style="display:grid;gap:6px;justify-items:center"><span class="ref" style="font-size:.85rem">গত ৭ দিন</span><div class="week" id="week"></div></div>
-      <button class="reset" id="resetDay">আজকের টিক মুছুন</button>
-    </div>
-    <div style="display:grid;gap:8px;min-width:0">
-      ${TRACK.map(g=>`<div class="tgroup"><h3>${g[0]}</h3>${g[1].map(([id,l,r])=>`<label class="titem" for="${id}"><input type="checkbox" id="${id}" data-t="${id}"><span><span class="lbl">${esc(bn(l))}</span>${refHTML(r)}</span></label>`).join("")}</div>`).join("")}
-    </div>
+  <div class="card ring-card">
+    <div class="ring"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--sunk)" stroke-width="11"/><circle id="ringArc" cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="11" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" style="transition:stroke-dashoffset .4s"/></svg><div class="v"><span id="ringV">০/০</span></div></div>
+    <div style="display:grid;gap:6px;min-width:0"><span class="muted" style="font-size:.82rem">গত ৭ দিন</span><div class="week" id="week"></div></div>
   </div>
+  <p class="muted" style="font-size:.88rem">সব একদিনে নয়; প্রতি সপ্তাহে একটা নতুন অভ্যাস যোগ করুন। টিকগুলো শুধু এই ফোনে সংরক্ষিত থাকে।</p>
+  ${TRACK.map(g=>`<div class="tgroup"><h3>${g[0]}</h3>${g[1].map(([id,l,r])=>`<label class="titem" for="${id}"><input type="checkbox" id="${id}" data-t="${id}"><span><span class="lbl">${esc(bn(l))}</span>${refHTML(r)}</span></label>`).join("")}</div>`).join("")}
+  <button class="btn ghost" id="resetDay">আজকের টিক মুছুন</button>
 </section>`;
 function syncTracker(){
-  const st = store.get(todayKey(), {});
-  let n=0; TRACK_ALL.forEach(([id])=>{ const el=document.getElementById(id); if(!el) return; el.checked=!!st[id]; el.closest(".titem").classList.toggle("done",!!st[id]); if(st[id]) n++; });
-  const tot = TRACK_ALL.length;
-  $("#ringArc").style.strokeDashoffset = 452.4*(1-n/tot);
-  $("#ringV").innerHTML = `${bn(n)}/${bn(tot)}<small>আজকের আমল</small>`;
-  const days=["রবি","সোম","মঙ্গল","বুধ","বৃহ","শুক্র","শনি"];
-  let html="";
-  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const s=store.get(todayKey(d),{}); const c=TRACK_ALL.filter(([id])=>s[id]).length; html+=`<div><span style="height:${Math.max(3,c/tot*48)}px" title="${bn(c)}টি"></span>${days[d.getDay()]}</div>` }
-  $("#week").innerHTML = html;
+  const st=store.get(todayKey(),{}); let n=0;
+  TRACK_ALL.forEach(([id])=>{ const el=document.getElementById(id); if(!el) return; el.checked=!!st[id]; el.closest(".titem").classList.toggle("done",!!st[id]); if(st[id]) n++ });
+  const tot=TRACK_ALL.length;
+  $("#ringArc").style.strokeDashoffset=314.16*(1-n/tot);
+  $("#ringV").innerHTML=`${bn(n)}/${bn(tot)}<small>আজকের আমল</small>`;
+  const days=["রবি","সোম","মঙ্গল","বুধ","বৃহ","শুক্র","শনি"]; let html="";
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const c=trackCount(d); html+=`<div><span style="height:${Math.max(3,c/tot*46)}px"></span>${days[d.getDay()]}</div>` }
+  $("#week").innerHTML=html;
 }
 
 function drawStars(){
-  const c = $("#stars"); if(!c) return;
-  const r = c.getBoundingClientRect(); c.width=r.width; c.height=r.height;
-  const x = c.getContext("2d"); let seed=7; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
-  for(let i=0;i<60;i++){ x.fillStyle=`rgba(255,255,255,${.3+rnd()*.6})`; x.beginPath(); x.arc(rnd()*c.width,rnd()*c.height,rnd()*1.3+.2,0,7); x.fill() }
+  const c=$("#stars"); if(!c) return;
+  const r=c.getBoundingClientRect(); c.width=r.width; c.height=r.height;
+  const x=c.getContext("2d"); let seed=11; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  for(let i=0;i<50;i++){ x.fillStyle=`rgba(255,255,255,${.25+rnd()*.6})`; x.beginPath(); x.arc(rnd()*c.width,rnd()*c.height,rnd()*1.2+.2,0,7); x.fill() }
 }
 
 /* ---------------- ROUTER ---------------- */
-const app = $("#app");
-function render(){
-  let v = location.hash.slice(1); if(!R[v]) v="home";
-  $("#nav").innerHTML = VIEWS.map(([id,n])=>`<li><a href="#${id}"${id===v?' aria-current="page"':""}>${n}</a></li>`).join("");
-  app.innerHTML = R[v]().replace(/ﷺ/g,'<span class="saw">ﷺ</span>');
+const app=$("#app");
+const currentView = () => { const v=location.hash.slice(1); return R[v]?v:"today" };
+function render(keepScroll){
+  computeTimes();
+  const v=currentView(), isSub=!!SUB[v], tab=isSub?"learn":v;
+  $("#tabs").innerHTML=TABS.map(([id,n])=>`<li><a href="#${id}"${id===tab?' aria-current="page"':""}><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]}</svg></span>${n}</a></li>`).join("");
+  $("#barTitle").textContent = isSub ? SUB[v] : v==="today" ? "সুন্নাহর পথে" : TABS.find(t=>t[0]===v)[1]==="রুটিন" ? "নবীজি ﷺ-এর দৈনিক রুটিন" : v==="guide" ? "পরিস্থিতি অনুযায়ী গাইড" : v==="learn" ? "শিখুন" : "আমার সুন্নাহ ট্র্যাকার";
+  $("#backBtn").hidden=!isSub; $("#logo").style.display=isSub?"none":"";
+  app.innerHTML=R[v]().replace(/ﷺ/g,'<span class="saw">ﷺ</span>');
+  $("#barTitle").innerHTML=$("#barTitle").textContent.replace(/ﷺ/g,'<span class="saw">ﷺ</span>');
   if(v==="practice") renderPractice();
   if(v==="tracker") syncTracker();
-  if(v==="home") drawStars();
-  const cur = $("#nav a[aria-current]"); cur && cur.scrollIntoView({inline:"center",block:"nearest"});
+  if(v==="today") drawStars();
+  if(v==="routine" && !keepScroll){ const el=$("#blk-"+(openBlock||blockAt(hourNow()).id)); if(el) setTimeout(()=>el.scrollIntoView({block:"start",behavior:"instant"}),0); openBlock=null }
 }
-window.addEventListener("hashchange", ()=>{ render(); window.scrollTo(0,0) });
+window.addEventListener("hashchange",()=>{ window.scrollTo(0,0); render() });
+$("#backBtn").addEventListener("click",()=>{ location.hash="learn" });
 
 app.addEventListener("click", e=>{
-  const t = e.target.closest("[data-block],[data-era],[data-adv],[data-pcat],[data-parea],[data-sit],[data-copy],#resetDay");
+  const t=e.target.closest("[data-open],[data-era],[data-adv],[data-pcat],[data-parea],[data-sit],[data-copy],#resetDay,#installBtn");
   if(!t) return;
-  if(t.dataset.block){ routineSel=t.dataset.block; if(location.hash!=="#routine"){ return } e.preventDefault(); render(); return }
-  if(t.dataset.era){ seerahEra=t.dataset.era; render(); return }
-  if(t.dataset.adv){ advTheme=t.dataset.adv; render(); return }
+  if(t.dataset.open){ openBlock=t.dataset.open; return }
+  if(t.dataset.sit){ sitSel=+t.dataset.sit; if(currentView()==="guide"){ e.preventDefault(); render(true); $("#sitOut").scrollIntoView({block:"nearest"}) } return }
+  if(t.dataset.era){ seerahEra=t.dataset.era; render(true); return }
+  if(t.dataset.adv){ advTheme=t.dataset.adv; render(true); return }
   if(t.dataset.pcat){ pCat=t.dataset.pcat; document.querySelectorAll("[data-pcat]").forEach(b=>b.setAttribute("aria-pressed",b===t)); renderPractice(); return }
   if(t.dataset.parea){ pArea=t.dataset.parea; document.querySelectorAll("[data-parea]").forEach(b=>b.setAttribute("aria-pressed",b===t)); renderPractice(); return }
-  if(t.dataset.sit){ sitSel=+t.dataset.sit; render(); return }
   if(t.dataset.copy){ const txt=t.dataset.copy; const ok=()=>{t.textContent="কপি হয়েছে"; setTimeout(()=>t.textContent="কপি",1500)};
     try{ navigator.clipboard.writeText(txt).then(ok).catch(()=>selectText(t)) }catch(err){ selectText(t) } return }
-  if(t.id==="resetDay"){ store.set(todayKey(),{}); syncTracker() }
+  if(t.id==="resetDay"){ store.set(todayKey(),{}); syncTracker(); return }
+  if(t.id==="installBtn" && deferredInstall){ deferredInstall.prompt(); deferredInstall.userChoice.finally(()=>{ deferredInstall=null; render(true) }) }
 });
 function selectText(btn){ const p=btn.closest("article").querySelector(".txt"); const r=document.createRange(); r.selectNodeContents(p); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent="নির্বাচিত, কপি করুন" }
 app.addEventListener("input", e=>{ if(e.target.id==="pq"){ pQ=e.target.value; renderPractice() } });
-app.addEventListener("change", e=>{ const id=e.target.dataset.t; if(!id) return; const st=store.get(todayKey(),{}); st[id]=e.target.checked; store.set(todayKey(),st); syncTracker() });
-
-$("#themeBtn").addEventListener("click", ()=>{
-  const root=document.documentElement;
-  const dark = root.dataset.theme ? root.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  root.dataset.theme = dark ? "light" : "dark";
-  store.set("theme", root.dataset.theme);
+app.addEventListener("change", e=>{
+  const t=e.target;
+  if(t.dataset.t){ const st=store.get(todayKey(),{}); st[t.dataset.t]=t.checked; store.set(todayKey(),st); syncTracker(); return }
+  if(t.id==="asrSel"){ store.set("asr",+t.value); render(true); return }
+  if(t.id==="citySel"){
+    if(t.value==="__gps"){
+      const msg=$("#locMsg"); msg.textContent="অবস্থান খোঁজা হচ্ছে…";
+      const fail=()=>{ msg.textContent="অবস্থান পাওয়া যায়নি। অনুমতি দিন অথবা তালিকা থেকে এলাকা বাছুন।"; t.value=getLoc().id };
+      try{ navigator.geolocation.getCurrentPosition(p=>{ store.set("loc",{id:"gps",name:"আমার অবস্থান",lat:p.coords.latitude,lng:p.coords.longitude,tz:-new Date().getTimezoneOffset()/60}); render(true) }, fail, {timeout:15000,maximumAge:864e5}) }catch(err){ fail() }
+      return;
+    }
+    const c=CITIES.find(c=>c[0]===t.value); store.set("loc",{id:c[0],name:c[1],lat:c[2],lng:c[3],tz:6}); render(true);
+  }
 });
-const savedTheme = store.get("theme", null); if(savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+$("#themeBtn").addEventListener("click",()=>{
+  const root=document.documentElement;
+  const dark=root.dataset.theme ? root.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme=dark?"light":"dark"; store.set("theme",root.dataset.theme);
+});
+const savedTheme=store.get("theme",null); if(savedTheme) document.documentElement.dataset.theme=savedTheme;
+setInterval(()=>{ if(currentView()==="today" && !document.hidden && !document.activeElement.matches("select")) render(true) }, 60000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && currentView()==="today") render(true) });
 render();
 </script>
