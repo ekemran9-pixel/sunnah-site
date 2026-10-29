@@ -568,24 +568,76 @@ const TRACK = [
 const TRACK_ALL = TRACK.flatMap(g=>g[1]);
 
 /* ---------------- PRAYER TIMES (offline calculation) ---------------- */
-const CITIES = [
-  ["dhaka","ঢাকা",23.8103,90.4125],["ctg","চট্টগ্রাম",22.3569,91.7832],["sylhet","সিলেট",24.8949,91.8687],
-  ["rajshahi","রাজশাহী",24.3745,88.6042],["khulna","খুলনা",22.8456,89.5403],["barishal","বরিশাল",22.7010,90.3535],
-  ["rangpur","রংপুর",25.7439,89.2752],["mymensingh","ময়মনসিংহ",24.7471,90.4203]
+// হিসাব পদ্ধতি: f = ফজরের কোণ, i = ইশার কোণ, iMin = মাগরিবের পর নির্দিষ্ট মিনিট
+const METHODS = {
+  karachi:{n:"ইসলামিক ফাউন্ডেশন / করাচি (১৮°, ১৮°)", f:18, i:18, dh:2, mg:3},
+  makkah:{n:"উম্মুল কুরা, সৌদি আরব", f:18.5, iMin:90, iMinRamadan:120, dh:1, mg:1},
+  gulf:{n:"উপসাগরীয় অঞ্চল (১৯.৫°, ৯০ মিনিট)", f:19.5, iMin:90, dh:1, mg:1},
+  dubai:{n:"আমিরাত (১৮.২°, ১৮.২°)", f:18.2, i:18.2, dh:1, mg:1},
+  qatar:{n:"কাতার (১৮°, ৯০ মিনিট)", f:18, iMin:90, dh:1, mg:1},
+  kuwait:{n:"কুয়েত (১৮°, ১৭.৫°)", f:18, i:17.5, dh:1, mg:1},
+  jakim:{n:"মালয়েশিয়া/সিঙ্গাপুর (২০°, ১৮°)", f:20, i:18, dh:1, mg:1},
+  mwl:{n:"মুসলিম ওয়ার্ল্ড লীগ (১৮°, ১৭°)", f:18, i:17, dh:1, mg:1},
+  isna:{n:"উত্তর আমেরিকা ISNA (১৫°, ১৫°)", f:15, i:15, dh:1, mg:1},
+  egypt:{n:"মিসর (১৯.৫°, ১৭.৫°)", f:19.5, i:17.5, dh:1, mg:1}
+};
+// [id, নাম, অক্ষাংশ, দ্রাঘিমা, সময় অঞ্চল, পদ্ধতি, আসর(২=হানাফি,১=অন্যান্য)]
+const CITY_GROUPS = [
+  ["বাংলাদেশ",[["dhaka","ঢাকা",23.8103,90.4125],["ctg","চট্টগ্রাম",22.3569,91.7832],["sylhet","সিলেট",24.8949,91.8687],
+    ["rajshahi","রাজশাহী",24.3745,88.6042],["khulna","খুলনা",22.8456,89.5403],["barishal","বরিশাল",22.7010,90.3535],
+    ["rangpur","রংপুর",25.7439,89.2752],["mymensingh","ময়মনসিংহ",24.7471,90.4203]].map(c=>[...c,"Asia/Dhaka","karachi",2])],
+  ["সৌদি আরব",[["makkah","মক্কা",21.4225,39.8262],["madinah","মদিনা",24.4686,39.6142],["riyadh","রিয়াদ",24.7136,46.6753],
+    ["jeddah","জেদ্দা",21.5433,39.1728],["dammam","দাম্মাম",26.4207,50.0888]].map(c=>[...c,"Asia/Riyadh","makkah",1])],
+  ["উপসাগরীয় দেশ",[["dubai","দুবাই",25.2048,55.2708,"Asia/Dubai","dubai",1],["abudhabi","আবুধাবি",24.4539,54.3773,"Asia/Dubai","dubai",1],
+    ["doha","দোহা (কাতার)",25.2854,51.5310,"Asia/Qatar","qatar",1],["kuwait","কুয়েত সিটি",29.3759,47.9774,"Asia/Kuwait","kuwait",1],
+    ["muscat","মাস্কাট (ওমান)",23.5880,58.3829,"Asia/Muscat","gulf",1],["manama","মানামা (বাহরাইন)",26.2285,50.5860,"Asia/Bahrain","gulf",1]]],
+  ["এশিয়া",[["kl","কুয়ালালামপুর",3.1390,101.6869,"Asia/Kuala_Lumpur","jakim",1],["singapore","সিঙ্গাপুর",1.3521,103.8198,"Asia/Singapore","jakim",1],
+    ["kolkata","কলকাতা",22.5726,88.3639,"Asia/Kolkata","karachi",2],["karachi","করাচি",24.8607,67.0011,"Asia/Karachi","karachi",2],
+    ["male","মালে (মালদ্বীপ)",4.1755,73.5093,"Indian/Maldives","mwl",1]]],
+  ["ইউরোপ ও আমেরিকা",[["london","লন্ডন",51.5074,-0.1278,"Europe/London","mwl",2],["rome","রোম",41.9028,12.4964,"Europe/Rome","mwl",1],
+    ["newyork","নিউইয়র্ক",40.7128,-74.0060,"America/New_York","isna",1]]]
 ];
-function getLoc(){
-  const l = store.get("loc", null);
-  if(l && typeof l.lat==="number") return l;
-  const c = CITIES[0]; return {id:c[0], name:c[1], lat:c[2], lng:c[3], tz:6};
-}
-const getAsr = () => store.get("asr", 2); // 2 = হানাফি, 1 = অন্যান্য মাযহাব
+const CITIES = CITY_GROUPS.flatMap(g=>g[1]);
+const deviceTZ = () => { try{ return Intl.DateTimeFormat().resolvedOptions().timeZone || "" }catch(e){ return "" } };
+const cityLoc = c => ({id:c[0], name:c[1], lat:c[2], lng:c[3], tz:c[4], method:c[5], asr:c[6]});
 
-function prayerTimes(date, lat, lng, tz, asrF){
+function getLoc(){
+  let l = store.get("loc", null);
+  if(l && typeof l.lat==="number"){
+    if(typeof l.tz==="string" && l.method) return l;
+    // পুরনো সংস্করণের সংরক্ষিত অবস্থান হালনাগাদ
+    const c = CITIES.find(c=>c[0]===l.id);
+    l = c ? cityLoc(c) : {...l, tz:deviceTZ()||"Asia/Dhaka", method:"mwl", asr:1};
+    const a = store.get("asr", null); if(a) l.asr = a;
+    store.set("loc", l); return l;
+  }
+  // প্রথমবার: ফোনের সময় অঞ্চল দেখে কাছের শহর বাছাই
+  const c = CITIES.find(c=>c[4]===deviceTZ()) || CITIES[0];
+  return cityLoc(c);
+}
+const getAsr = () => getLoc().asr || 2;
+
+// কোনো সময় অঞ্চলের এই মুহূর্তের স্থানীয় তারিখ, ঘণ্টা ও UTC অফসেট (ফোনের সময় অঞ্চলের ডেটা থেকে, অফলাইনে)
+function zoned(tz, date){
+  try{
+    const f = new Intl.DateTimeFormat("en-US",{timeZone:tz,hourCycle:"h23",year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",second:"numeric"});
+    const p = {}; f.formatToParts(date).forEach(x=>p[x.type]=x.value);
+    const asUTC = Date.UTC(+p.year,+p.month-1,+p.day,(+p.hour)%24,+p.minute,+p.second);
+    return {y:+p.year, m:+p.month, d:+p.day, h:(+p.hour%24)+(+p.minute)/60+(+p.second)/3600, off:Math.round((asUTC-date.getTime())/9e5)/4};
+  }catch(e){
+    return {y:date.getFullYear(), m:date.getMonth()+1, d:date.getDate(), h:date.getHours()+date.getMinutes()/60+date.getSeconds()/3600, off:-date.getTimezoneOffset()/60};
+  }
+}
+function isRamadan(date, tz){
+  try{ const p=new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{timeZone:tz,month:"numeric"}).formatToParts(date); return +(p.find(x=>x.type==="month")||{}).value===9 }catch(e){ return false }
+}
+
+function prayerTimes(ymd, lat, lng, tz, asrF, M, ramadan){
   const d2r=Math.PI/180, r2d=180/Math.PI;
   const sin=x=>Math.sin(x*d2r), cos=x=>Math.cos(x*d2r), tan=x=>Math.tan(x*d2r);
   const asin=x=>Math.asin(x)*r2d, acos=x=>Math.acos(Math.max(-1,Math.min(1,x)))*r2d, atan2=(y,x)=>Math.atan2(y,x)*r2d;
   const fix=(a,b)=>{a=a-b*Math.floor(a/b);return a<0?a+b:a};
-  let y=date.getFullYear(), m=date.getMonth()+1; const dd=date.getDate();
+  let {y,m,d:dd}=ymd;
   if(m<=2){y--;m+=12}
   const A=Math.floor(y/100), B=2-A+Math.floor(A/4);
   const jd=Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+dd+B-1524.5-lng/(15*24);
@@ -598,30 +650,33 @@ function prayerTimes(date, lat, lng, tz, asrF){
   let T={fajr:5,sunrise:6,dhuhr:12,asr:13,maghrib:18,isha:18};
   for(let i=0;i<2;i++){
     const p={}; for(const k in T) p[k]=T[k]/24;
-    T={fajr:ang(18,p.fajr,1), sunrise:ang(0.833,p.sunrise,1), dhuhr:mid(p.dhuhr), asr:asr(asrF,p.asr), maghrib:ang(0.833,p.maghrib), isha:ang(18,p.isha)};
+    T={fajr:ang(M.f,p.fajr,1), sunrise:ang(0.833,p.sunrise,1), dhuhr:mid(p.dhuhr), asr:asr(asrF,p.asr), maghrib:ang(0.833,p.maghrib), isha:M.i?ang(M.i,p.isha):0};
   }
+  // উচ্চ অক্ষাংশ (যেমন গ্রীষ্মে লন্ডন): ফজর/ইশা রাতের নির্দিষ্ট অংশের মধ্যে সীমিত (angle-based rule)
+  const night=24-(T.maghrib-T.sunrise);
+  const fajrMax=night*M.f/60; if(!(T.sunrise-T.fajr<=fajrMax)) T.fajr=T.sunrise-fajrMax;
+  if(M.i){ const ishaMax=night*M.i/60; if(!(T.isha-T.maghrib<=ishaMax)) T.isha=T.maghrib+ishaMax }
   const adj=tz-lng/15;
   for(const k in T) T[k]+=adj;
-  T.dhuhr+=2/60; T.maghrib+=3/60; // সতর্কতামূলক কয়েক মিনিট
+  T.dhuhr+=M.dh/60; T.maghrib+=M.mg/60; // সতর্কতামূলক কয়েক মিনিট
+  if(!M.i) T.isha=T.maghrib+((ramadan&&M.iMinRamadan)||M.iMin)/60;
   return T;
 }
 let PT = null, PT_TOMORROW = null;
 function computeTimes(){
-  const l=getLoc(), now=new Date(), tm=new Date(now); tm.setDate(tm.getDate()+1);
-  PT = prayerTimes(now,l.lat,l.lng,l.tz,getAsr());
-  PT_TOMORROW = prayerTimes(tm,l.lat,l.lng,l.tz,getAsr());
+  const l=getLoc(), now=new Date(), z=zoned(l.tz,now), M=METHODS[l.method]||METHODS.mwl, ram=isRamadan(now,l.tz);
+  const day=k=>{ const t=new Date(Date.UTC(z.y,z.m-1,z.d+k)); return {y:t.getUTCFullYear(),m:t.getUTCMonth()+1,d:t.getUTCDate()} };
+  PT = prayerTimes(day(0),l.lat,l.lng,z.off,getAsr(),M,ram);
+  PT_TOMORROW = prayerTimes(day(1),l.lat,l.lng,z.off,getAsr(),M,ram);
 }
-function hourNow(){
-  const l=getLoc(), d=new Date();
-  const utc=d.getUTCHours()+d.getUTCMinutes()/60+d.getUTCSeconds()/3600;
-  return ((utc+l.tz)%24+24)%24;
-}
+// নির্বাচিত শহরের স্থানীয় এই মুহূর্তের সময় (ঘণ্টায়) — ফোনের ঘড়ি থেকে, ইন্টারনেট ছাড়াই
+function hourNow(){ return zoned(getLoc().tz, new Date()).h }
 function fmt(h){
   h=((h%24)+24)%24; let H=Math.floor(h), M=Math.round((h-H)*60); if(M===60){H=(H+1)%24;M=0}
   const H12=H%12===0?12:H%12; return bn(`${H12}:${String(M).padStart(2,"0")}`);
 }
 function dayPart(h){ return h<4?"রাত":h<6?"ভোর":h<12?"সকাল":h<15?"দুপুর":h<17.5?"বিকেল":h<19?"সন্ধ্যা":"রাত" }
-function dur(h){ const m=Math.round(h*60), H=Math.floor(m/60), M=m%60; return (H?bn(H)+" ঘণ্টা ":"")+bn(M)+" মিনিট" }
+function dur(h){ const m=Math.max(1,Math.ceil(h*60-1e-9)), H=Math.floor(m/60), M=m%60; return (H?bn(H)+" ঘণ্টা ":"")+bn(M)+" মিনিট" }
 
 const BLOCK_COLOR = {tahajjud:"var(--night)",fajr:"var(--dawn)",ishraq:"var(--dawn)",duha:"var(--day)",dhuhr:"var(--day)",asr:"var(--dusk)",maghrib:"var(--dusk)",isha:"var(--night)",sleep:"var(--night)"};
 function blockTimes(){
@@ -674,18 +729,28 @@ function trackCount(d){ const s=store.get(todayKey(d),{}); return TRACK_ALL.filt
 function locControls(){
   const l=getLoc();
   return `<div class="loc">
-    <select class="sel" id="citySel" aria-label="এলাকা বাছুন">
-      ${CITIES.map(c=>`<option value="${c[0]}"${l.id===c[0]?" selected":""}>${c[1]}</option>`).join("")}
+    <select class="sel" id="citySel" aria-label="শহর বাছুন">
       ${l.id==="gps"?`<option value="gps" selected>আমার অবস্থান</option>`:""}
-      <option value="__gps">আমার অবস্থান (GPS) ব্যবহার করুন</option>
+      ${CITY_GROUPS.map(g=>`<optgroup label="${g[0]}">${g[1].map(c=>`<option value="${c[0]}"${l.id===c[0]?" selected":""}>${c[1]}</option>`).join("")}</optgroup>`).join("")}
+      <option value="__gps">📍 আমার অবস্থান (GPS) ব্যবহার করুন</option>
     </select>
     <select class="sel" id="asrSel" aria-label="আসরের হিসাব">
       <option value="2"${getAsr()===2?" selected":""}>আসর: হানাফি</option>
       <option value="1"${getAsr()===1?" selected":""}>আসর: শাফেয়ি/অন্যান্য</option>
     </select>
-  </div><p class="muted" id="locMsg" style="font-size:.8rem">সময় এই ফোনেই হিসাব করা হয়, ইন্টারনেট লাগে না। স্থানীয় মসজিদের সময়ের সাথে মিলিয়ে নিন।</p>`;
+    <select class="sel" id="methodSel" aria-label="হিসাব পদ্ধতি">
+      ${Object.entries(METHODS).map(([k,m])=>`<option value="${k}"${l.method===k?" selected":""}>${m.n}</option>`).join("")}
+    </select>
+  </div>
+  <p class="muted" id="locMsg" style="font-size:.8rem">সময় ফোনের ঘড়ি ও সূর্যের অবস্থান থেকে এই ফোনেই হিসাব হয়, ইন্টারনেট লাগে না। স্থানীয় মসজিদের সময়ের সাথে মিলিয়ে নিন।</p>`;
 }
 
+function tzWarning(){
+  const l=getLoc(), dtz=deviceTZ();
+  if(l.id==="gps" || !dtz || dtz===l.tz || zoned(dtz,new Date()).off===zoned(l.tz,new Date()).off) return "";
+  const hint=CITIES.find(c=>c[4]===dtz);
+  return `<div class="note" style="display:grid;gap:8px"><span>আপনার ফোনের সময় <b>${esc(l.name)}</b>-এর সময়ের সাথে মিলছে না। আপনি অন্য দেশে থাকলে শহর বদলে নিন, নইলে নামাজের সময় ও কাউন্টডাউন ভুল হবে।</span>${hint?`<button class="btn" data-city="${hint[0]}">${esc(hint[1])} বাছুন</button>`:`<button class="btn" data-city="__gps">আমার অবস্থান ব্যবহার করুন</button>`}</div>`;
+}
 function dateLine(){
   const d=new Date();
   let g="", h="";
@@ -714,14 +779,15 @@ R.today = () => {
         : `<p class="muted" style="font-size:.9rem">Android: Chrome-এর উপরের ⋮ মেনু → “Add to Home screen” বা “Install app” চাপুন।</p>`}
     </div>`;
   return `<section class="view">
+    ${tzWarning()}
     <div class="hero ${sky}">
       <canvas id="stars"></canvas>
       <span class="k">${esc(dateLine())}</span>
-      <span class="k">এখন ${dayPart(h)} ${fmt(h)} — এই সময়ে নবীজি ﷺ</span>
+      <span class="k">এখন ${dayPart(h)} <span id="nowT">${fmt(h)}</span> (${esc(getLoc().name)}) — এই সময়ে নবীজি ﷺ</span>
       <h2>${esc(b.title)}</h2>
       <p>${esc(b.steps[0][0])}</p>
       <a class="go" href="#routine" data-open="${b.id}">এই সময়ের পুরো রুটিন ${arrow}</a>
-      <div class="next"><span>পরবর্তী: ${np.n} ${fmt(np.t)}</span><b>${dur(np.left)} বাকি</b></div>
+      <div class="next"><span>পরবর্তী: ${np.n} ${fmt(np.t)}</span><b id="cd">${dur(np.left)} বাকি</b></div>
     </div>
     <div class="sec">
       <div class="sec-h"><h2>আজকের নামাজের সময়</h2><span class="muted" style="font-size:.85rem">${esc(getLoc().name)}</span></div>
@@ -957,17 +1023,23 @@ app.addEventListener("input", e=>{ if(e.target.id==="pq"){ pQ=e.target.value; re
 app.addEventListener("change", e=>{
   const t=e.target;
   if(t.dataset.t){ const st=store.get(todayKey(),{}); st[t.dataset.t]=t.checked; store.set(todayKey(),st); syncTracker(); return }
-  if(t.id==="asrSel"){ store.set("asr",+t.value); render(true); return }
-  if(t.id==="citySel"){
-    if(t.value==="__gps"){
-      const msg=$("#locMsg"); msg.textContent="অবস্থান খোঁজা হচ্ছে…";
-      const fail=()=>{ msg.textContent="অবস্থান পাওয়া যায়নি। অনুমতি দিন অথবা তালিকা থেকে এলাকা বাছুন।"; t.value=getLoc().id };
-      try{ navigator.geolocation.getCurrentPosition(p=>{ store.set("loc",{id:"gps",name:"আমার অবস্থান",lat:p.coords.latitude,lng:p.coords.longitude,tz:-new Date().getTimezoneOffset()/60}); render(true) }, fail, {timeout:15000,maximumAge:864e5}) }catch(err){ fail() }
-      return;
-    }
-    const c=CITIES.find(c=>c[0]===t.value); store.set("loc",{id:c[0],name:c[1],lat:c[2],lng:c[3],tz:6}); render(true);
-  }
+  if(t.id==="asrSel"){ store.set("loc",{...getLoc(),asr:+t.value}); render(true); return }
+  if(t.id==="methodSel"){ store.set("loc",{...getLoc(),method:t.value}); render(true); return }
+  if(t.id==="citySel") chooseCity(t.value);
 });
+function chooseCity(id){
+  if(id==="__gps"){
+    const msg=$("#locMsg"); if(msg) msg.textContent="অবস্থান খোঁজা হচ্ছে…";
+    const fail=()=>{ if(msg) msg.textContent="অবস্থান পাওয়া যায়নি। অনুমতি দিন অথবা তালিকা থেকে শহর বাছুন।"; const s=$("#citySel"); if(s) s.value=getLoc().id };
+    try{ navigator.geolocation.getCurrentPosition(p=>{
+      const tz=deviceTZ()||"UTC", like=CITIES.find(c=>c[4]===tz);
+      store.set("loc",{id:"gps",name:"আমার অবস্থান",lat:p.coords.latitude,lng:p.coords.longitude,tz,method:like?like[5]:"mwl",asr:like?like[6]:1}); render(true)
+    }, fail, {timeout:15000,maximumAge:864e5}) }catch(err){ fail() }
+    return;
+  }
+  const c=CITIES.find(c=>c[0]===id); if(c){ store.set("loc",cityLoc(c)); render(true) }
+}
+app.addEventListener("click", e=>{ const b=e.target.closest("[data-city]"); if(b) chooseCity(b.dataset.city) });
 
 $("#themeBtn").addEventListener("click",()=>{
   const root=document.documentElement;
@@ -975,8 +1047,23 @@ $("#themeBtn").addEventListener("click",()=>{
   root.dataset.theme=dark?"light":"dark"; store.set("theme",root.dataset.theme);
 });
 const savedTheme=store.get("theme",null); if(savedTheme) document.documentElement.dataset.theme=savedTheme;
-setInterval(()=>{ if(currentView()==="today" && !document.hidden && !document.activeElement.matches("select")) render(true) }, 60000);
-document.addEventListener("visibilitychange",()=>{ if(!document.hidden && currentView()==="today") render(true) });
+// কাউন্টডাউন প্রতি ১০ সেকেন্ডে হালনাগাদ; ওয়াক্ত বা রুটিনের অংশ বদলালে পুরো পাতা নতুন করে আঁকা হয়
+let lastKey="";
+function tick(){
+  if(document.hidden) return;
+  const v=currentView(); if(v!=="today" && v!=="routine") return;
+  computeTimes();
+  const h=hourNow(), np=nextPrayer(h), key=np.k+"|"+blockAt(h).id+"|"+currentPrayer(h);
+  if(key!==lastKey && lastKey && !(document.activeElement && document.activeElement.matches("select"))){ lastKey=key; render(true); return }
+  lastKey=key;
+  const cd=$("#cd"), nt=$("#nowT"), nl=$(".nowline");
+  if(cd) cd.textContent=dur(np.left)+" বাকি";
+  if(nt) nt.textContent=fmt(h);
+  if(nl) nl.style.left=(h/24*100)+"%";
+}
+setInterval(tick, 10000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ lastKey=""; render(true) } });
+window.addEventListener("pageshow",()=>{ lastKey=""; render(true) });
 render();
 </script>
 
