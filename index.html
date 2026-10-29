@@ -1,0 +1,822 @@
+<title>সুন্নাহর পথে</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap">
+<style>
+/* Layout: sticky header + hash-routed sections; a 24-hour "sky band" anchors the routine; cards only where an item is a distinct object */
+:root{
+  --bg:#f3f5f1; --surface:#ffffff; --sunk:#e7ece6; --fg:#16231f; --muted:#56655f; --line:#d3dbd4;
+  --accent:#0f5c4d; --accent-soft:#d9ebe5; --gold:#9a6a14; --gold-soft:#f4e8cf;
+  --lapis:#2a4f8a; --lapis-soft:#dfe7f4;
+  --avoid:#a3322a; --avoid-soft:#f6dfdc; --improve:#9a6a14; --improve-soft:#f4e8cf; --good:#1d6b45; --good-soft:#dcefe3;
+  --night:#14233d; --dawn:#5d6f9a; --day:#e8c873; --dusk:#c9805a;
+  --display:"Tiro Bangla","Noto Serif Bengali",serif;
+  --body:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  --arabic:"Amiri","Noto Naskh Arabic","Traditional Arabic",serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1513; --surface:#15201d; --sunk:#1b2925; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
+  --accent:#5fc2a8; --accent-soft:#16352e; --gold:#ddb45f; --gold-soft:#3a2e14;
+  --lapis:#8fb0ea; --lapis-soft:#1c2a44;
+  --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
+  --night:#0a1428; --dawn:#3c4c78; --day:#b8994a; --dusk:#9a5e40; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1513; --surface:#15201d; --sunk:#1b2925; --fg:#e4ebe6; --muted:#9fb0a8; --line:#2b3b36;
+  --accent:#5fc2a8; --accent-soft:#16352e; --gold:#ddb45f; --gold-soft:#3a2e14;
+  --lapis:#8fb0ea; --lapis-soft:#1c2a44;
+  --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
+  --night:#0a1428; --dawn:#3c4c78; --day:#b8994a; --dusk:#9a5e40; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.75;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.35;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,5vw,3.2rem)}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem)}
+h3{font-size:1.25rem}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+.saw{font-family:var(--arabic);font-weight:400}
+.ar{font-family:var(--arabic);direction:rtl;font-size:1.55rem;line-height:2;color:var(--fg)}
+.ref{font-size:.82rem;color:var(--muted);letter-spacing:.01em}
+.ref::before{content:"সূত্র: "}
+.eyebrow{font-size:.85rem;font-weight:600;letter-spacing:.06em;color:var(--gold)}
+.lede{color:var(--muted);max-width:65ch;font-size:1.05rem}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+.hbar{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brand{font-family:var(--display);font-size:1.3rem;text-decoration:none;color:var(--fg);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.brand svg{flex:none}
+nav{overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+nav::-webkit-scrollbar{display:none}
+nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);white-space:nowrap;font-size:.95rem}
+nav a:hover{color:var(--fg);background:var(--sunk)}
+nav a[aria-current="page"]{background:var(--accent);color:var(--surface)}
+.theme-btn{border:1px solid var(--line);background:transparent;border-radius:999px;width:36px;height:36px;cursor:pointer;flex:none;display:grid;place-items:center}
+
+main{padding-block:32px 64px}
+section.view{display:grid;gap:36px}
+.head{display:grid;gap:10px}
+
+/* home */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;padding-block:12px}
+.hero .ar{font-size:2rem;color:var(--accent)}
+.hero-copy{display:grid;gap:14px;min-width:0}
+.now{background:var(--night);color:#eef1f7;border-radius:16px;padding:22px;display:grid;gap:10px;position:relative;overflow:hidden}
+.now .k{font-size:.85rem;letter-spacing:.06em;color:#c6cde0}
+.now h3{color:#fff;font-size:1.45rem}
+.now p{color:#d9deea}
+.now a{color:#f1d58e}
+.now .stars{position:absolute;inset:0;pointer-events:none;opacity:.5}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.g2{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.tile{display:grid;gap:6px;padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--fg);transition:border-color .2s,transform .2s}
+.tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tile .n{font-family:var(--display);font-size:1.2rem}
+.tile p{color:var(--muted);font-size:.95rem}
+.notice{border-left:3px solid var(--gold);background:var(--gold-soft);padding:14px 16px;border-radius:0 var(--r) var(--r) 0;font-size:.95rem}
+
+/* islam */
+.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.pillar{padding:18px;border-right:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.pillar:last-child{border-right:0}
+.pillar .num{font-family:var(--display);font-size:2rem;color:var(--gold);line-height:1}
+.pillar p{font-size:.93rem;color:var(--muted)}
+.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.triad > div{padding:18px;background:var(--accent-soft);border-radius:var(--r);display:grid;gap:6px;align-content:start}
+.quotes{display:grid;gap:14px}
+.quote{display:grid;gap:6px;padding:16px 0;border-bottom:1px solid var(--line)}
+
+/* seerah */
+.era-switch{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);padding:6px 14px;border-radius:999px;cursor:pointer;font-size:.95rem}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.timeline{position:relative;display:grid;gap:0;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.ev{position:relative;display:grid;grid-template-columns:120px 1fr;gap:18px;padding-block:14px}
+.ev::before{content:"";position:absolute;left:-25px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.ev.madinah::before{border-color:var(--lapis)}
+.ev.key::before{background:var(--gold);border-color:var(--gold)}
+.ev .yr{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.92rem;line-height:1.5;padding-top:4px}
+.ev .yr b{display:block;color:var(--fg);font-size:1.05rem}
+.ev .body{display:grid;gap:4px;min-width:0}
+.lesson{font-size:.93rem;color:var(--accent)}
+.lesson::before{content:"শিক্ষা: ";font-weight:600}
+
+/* routine */
+.sky{display:grid;gap:8px}
+.band{position:relative;height:74px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,var(--night) 0%,var(--night) 14%,var(--dawn) 20%,var(--day) 32%,var(--day) 62%,var(--dusk) 73%,var(--night) 80%,var(--night) 100%)}
+.seg{position:absolute;top:0;bottom:0;border:0;border-right:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,0);cursor:pointer;padding:0;color:#fff;font-size:.78rem;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;text-shadow:0 1px 3px rgba(0,0,0,.6);overflow:hidden;white-space:nowrap}
+.seg:hover{background:rgba(255,255,255,.14)}
+.seg[aria-pressed="true"]{background:rgba(255,255,255,.26);box-shadow:inset 0 -4px 0 #fff}
+.nowline{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
+.nowline::after{content:"এখন";position:absolute;top:4px;left:4px;font-size:.7rem;color:#fff;background:rgba(0,0,0,.45);padding:0 5px;border-radius:4px}
+.ticks{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.rgrid{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
+.rlist{display:grid;gap:2px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+.rlist button{display:grid;grid-template-columns:96px 1fr;gap:10px;text-align:left;padding:10px 12px;border:0;background:transparent;border-radius:8px;cursor:pointer}
+.rlist button:hover{background:var(--sunk)}
+.rlist button[aria-pressed="true"]{background:var(--accent-soft)}
+.rlist .t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem;padding-top:2px}
+.rdetail{display:grid;gap:20px;min-width:0}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding-block:12px;border-bottom:1px solid var(--line);counter-increment:s}
+.steps li::before{content:counter(s,bengali);font-family:var(--display);width:30px;height:30px;border-radius:50%;background:var(--sunk);display:grid;place-items:center;font-size:.95rem}
+.steps li > div{display:grid;gap:2px;min-width:0}
+.dua{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:8px}
+.dua .tr{font-style:italic;color:var(--muted)}
+.dua .lbl{font-size:.82rem;font-weight:600;letter-spacing:.05em;color:var(--gold)}
+.today{background:var(--accent-soft);border-radius:var(--r);padding:16px 18px;display:grid;gap:6px}
+.today b{color:var(--accent)}
+.weekly{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.weekly > div{border-top:2px solid var(--lapis);padding-top:10px;display:grid;gap:4px}
+
+/* do/dont */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 240px;min-width:0;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);font:inherit}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.legend > div{padding:14px;border-radius:var(--r);display:grid;gap:2px}
+.lg-avoid{background:var(--avoid-soft)} .lg-improve{background:var(--improve-soft)} .lg-good{background:var(--good-soft)}
+.legend b{font-size:1.05rem}
+.lg-avoid b{color:var(--avoid)} .lg-improve b{color:var(--improve)} .lg-good b{color:var(--good)}
+.pcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.pc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:10px;align-content:start;border-top:4px solid var(--c)}
+.pc.avoid{--c:var(--avoid)} .pc.improve{--c:var(--improve)} .pc.good{--c:var(--good)}
+.pc .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--sunk);color:var(--muted)}
+.pill.c{background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.pc dl{margin:0;display:grid;gap:8px}
+.pc dt{font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.pc dd{margin:0;font-size:.96rem}
+.count{color:var(--muted);font-size:.9rem}
+
+/* situations */
+.sit-chips{display:flex;flex-wrap:wrap;gap:8px}
+.sit-out{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.sit-out > div{min-width:0}
+
+/* family / problems / war */
+.fam{display:grid;gap:28px}
+.fam-row{display:grid;grid-template-columns:220px 1fr;gap:24px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.fam-row h3{color:var(--accent)}
+.fam-row ul{margin:0;padding-left:1.1em;display:grid;gap:10px}
+.case{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.case > div{padding:16px;display:grid;gap:6px;align-content:start;border-right:1px solid var(--line)}
+.case > div:last-child{border-right:0;background:var(--accent-soft)}
+.case .k{font-size:.8rem;font-weight:600;letter-spacing:.05em;color:var(--gold)}
+.cases{display:grid;gap:22px}
+.cases h3{margin-bottom:8px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.95rem}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:.85rem;color:var(--muted);background:var(--sunk)}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;list-style:none;padding:0;margin:0}
+.rules li{padding:14px 16px;border-left:3px solid var(--lapis);background:var(--lapis-soft);border-radius:0 var(--r) var(--r) 0;display:grid;gap:4px}
+
+/* advice */
+.adv{columns:3 300px;column-gap:16px}
+.adv article{break-inside:avoid;margin-bottom:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:8px}
+.adv .txt{font-family:var(--display);font-size:1.12rem;line-height:1.7}
+.adv .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.copy{border:1px solid var(--line);background:transparent;border-radius:999px;padding:2px 12px;font-size:.82rem;cursor:pointer;color:var(--muted)}
+
+/* tracker */
+.trk{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
+.ring-box{display:grid;gap:16px;justify-items:center;padding:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+.ring{position:relative;width:170px;height:170px}
+.ring svg{transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:2.1rem;line-height:1.1}
+.ring .v small{display:block;font-family:var(--body);font-size:.8rem;color:var(--muted)}
+.week{display:flex;gap:6px;align-items:flex-end;height:70px}
+.week div{width:24px;display:grid;gap:4px;justify-items:center;font-size:.7rem;color:var(--muted)}
+.week span{display:block;width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:3px}
+.tgroup{display:grid;gap:4px}
+.tgroup h3{font-size:1.05rem;color:var(--muted);margin-top:8px}
+.titem{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;align-items:start}
+.titem:hover{background:var(--sunk)}
+.titem input{width:20px;height:20px;margin-top:4px;accent-color:var(--accent)}
+.titem.done .lbl{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
+.titem .ref{display:block}
+.reset{border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 14px;cursor:pointer;font-size:.88rem;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .hero,.rgrid,.trk,.sit-out{grid-template-columns:1fr}
+  .rlist,.ring-box{position:static}
+  .rlist{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .pillars{grid-template-columns:1fr 1fr}
+  .pillar{border-bottom:1px solid var(--line)}
+  .triad,.legend,.case{grid-template-columns:1fr}
+  .case > div{border-right:0;border-bottom:1px solid var(--line)}
+  .fam-row{grid-template-columns:1fr;gap:10px}
+  .ev{grid-template-columns:1fr;gap:2px}
+  .seg{font-size:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header>
+  <div class="wrap hbar">
+    <a class="brand" href="#home" aria-label="সুন্নাহর পথে — প্রথম পাতা">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M17 3a10 10 0 1 0 6 17A8 8 0 1 1 17 3z" fill="var(--accent)"/><path d="M20 6l.9 2.1 2.1.9-2.1.9L20 12l-.9-2.1-2.1-.9 2.1-.9z" fill="var(--gold)"/></svg>
+      সুন্নাহর পথে
+    </a>
+    <nav aria-label="প্রধান মেনু"><ul id="nav"></ul></nav>
+    <button class="theme-btn" id="themeBtn" aria-label="আলো/অন্ধকার থিম বদলান">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="wrap" style="display:grid;gap:6px">
+    <p>এই সাইটের তথ্য কুরআন, সহীহ বুখারী, সহীহ মুসলিম, সুনান গ্রন্থসমূহ এবং সীরাত ইবনে হিশাম থেকে সংকলিত। হাদিস নম্বর প্রচলিত আন্তর্জাতিক নম্বরায়ন (sunnah.com) অনুযায়ী দেওয়া।</p>
+    <p>ফিকহি বা ব্যক্তিগত মাসআলায় একজন যোগ্য আলেমের পরামর্শ নিন।</p>
+  </div>
+</footer>
+
+<script>
+const bnD = "০১২৩৪৫৬৭৮৯";
+const bn = s => String(s).replace(/\d/g, d => bnD[d]);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $ = (s, el=document) => el.querySelector(s);
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d }catch(e){ return d } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)) }catch(e){} }
+};
+
+/* ---------------- DATA ---------------- */
+const VIEWS = [
+  ["home","প্রথম পাতা"],["islam","ইসলাম পরিচিতি"],["seerah","জীবনী"],["routine","দৈনিক রুটিন"],
+  ["family","পরিবার ও আত্মীয়"],["problems","সমস্যা সমাধান"],["war","যুদ্ধনীতি"],["advice","উপদেশ"],
+  ["practice","করণীয় ও বর্জনীয়"],["guide","পরিস্থিতি গাইড"],["tracker","আমার সুন্নাহ ট্র্যাকার"]
+];
+const DESC = {
+  islam:"ঈমান, ইসলামের পাঁচ স্তম্ভ ও ইহসান — এক নজরে।",
+  seerah:"জন্ম থেকে বিদায় পর্যন্ত ৬৩ বছরের সময়রেখা ও শিক্ষা।",
+  routine:"তাহাজ্জুদ থেকে ঘুম পর্যন্ত নবীজি ﷺ কখন কী করতেন, কী দোয়া পড়তেন।",
+  family:"স্ত্রী, সন্তান, বাবা-মা, আত্মীয়, প্রতিবেশী ও কর্মচারীর সাথে আচরণ।",
+  problems:"বিবাদ, চুক্তি, ভুল ও শত্রুতা — কীভাবে মীমাংসা করতেন।",
+  war:"যুদ্ধের নিয়ম, পরামর্শ, বন্দীর প্রতি আচরণ ও প্রধান অভিযানসমূহ।",
+  advice:"বিষয়ভিত্তিক সহীহ হাদিসের উপদেশমালা।",
+  practice:"আমাদের বর্তমান অভ্যাস: কোনটা বর্জনীয়, কোনটা সংশোধন দরকার, কোনটা উত্তম।",
+  guide:"রাগ, দুশ্চিন্তা, সিদ্ধান্ত, ঝগড়া — পরিস্থিতি বাছুন, সুন্নাহর নির্দেশনা দেখুন।",
+  tracker:"প্রতিদিনের সুন্নাহগুলো টিক দিন, নিজের অগ্রগতি দেখুন।"
+};
+
+const ROUTINE = [
+  {id:"tahajjud", s:3.5, e:4.75, short:"তাহাজ্জুদ", title:"শেষ রাত: জাগরণ ও তাহাজ্জুদ", time:"রাতের শেষ তৃতীয়াংশ",
+   intro:"নবীজি ﷺ রাতের প্রথম ভাগে ঘুমাতেন এবং শেষ ভাগে উঠে নামাজে দাঁড়াতেন। দীর্ঘ সময় দাঁড়িয়ে থাকায় তাঁর পা ফুলে যেত। কেউ জিজ্ঞেস করলে বলতেন, “আমি কি কৃতজ্ঞ বান্দা হব না?”",
+   introRef:"বুখারী 4837, মুসলিম 2820",
+   steps:[
+     ["ঘুম থেকে উঠে হাত দিয়ে মুখমণ্ডল মুছতেন এবং জাগরণের দোয়া পড়তেন।","বুখারী 6312, 183"],
+     ["আসমানের দিকে তাকিয়ে সূরা আলে ইমরানের শেষ দশ আয়াত (১৯০–২০০) তিলাওয়াত করতেন।","বুখারী 183"],
+     ["মিসওয়াক দিয়ে দাঁত পরিষ্কার করতেন।","বুখারী 245, মুসলিম 255"],
+     ["উত্তমরূপে অজু করতেন।","বুখারী 183"],
+     ["সাধারণত বিতরসহ ১১ রাকাত নামাজ পড়তেন, দীর্ঘ কিরাআত ও সিজদাসহ।","বুখারী 1147"],
+     ["আয়েশা (রা.)-কে বিতরের জন্য জাগিয়ে দিতেন।","বুখারী 512, মুসলিম 744"],
+     ["সাহরির সময় ইস্তিগফার করতেন; এটি দোয়া কবুলের সময়, আল্লাহ বলেন: “কে আমাকে ডাকবে, আমি সাড়া দেব?”","বুখারী 1145"]
+   ],
+   dua:{ar:"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", tr:"আলহামদু লিল্লাহিল্লাযী আহইয়ানা বা‘দা মা আমাতানা ওয়া ইলাইহিন নুশূর", mean:"সমস্ত প্রশংসা আল্লাহর, যিনি আমাদের মৃত্যুর (ঘুমের) পর জীবিত করলেন, আর তাঁর কাছেই প্রত্যাবর্তন।", ref:"বুখারী 6312", lbl:"ঘুম থেকে উঠার দোয়া"},
+   today:"ফজরের ২০ মিনিট আগে অ্যালার্ম দিন। শুরুতে মাত্র ২ রাকাত নামাজ, তারপর কিছুক্ষণ দোয়া। অল্প হলেও নিয়মিত হোক।"},
+  {id:"fajr", s:4.75, e:5.5, short:"ফজর", title:"ফজর: সুন্নাত ও জামাআত", time:"সুবহে সাদিক থেকে",
+   intro:"ফজরের আগের দুই রাকাত সুন্নাতকে তিনি দুনিয়া ও তার সবকিছুর চেয়ে উত্তম বলেছেন এবং কখনো ছাড়তেন না।",
+   introRef:"মুসলিম 725, বুখারী 1169",
+   steps:[
+     ["ঘরে ফজরের দুই রাকাত সুন্নাত সংক্ষেপে পড়তেন।","বুখারী 1171"],
+     ["সুন্নাতের পর কিছুক্ষণ ডান কাতে শুয়ে বিশ্রাম নিতেন, তারপর মসজিদে যেতেন।","বুখারী 1160"],
+     ["মসজিদে প্রবেশের দোয়া পড়ে ডান পা দিয়ে প্রবেশ করতেন।","মুসলিম 713"],
+     ["জামাআতে ফজরের ইমামতি করতেন; ফজরে কিরাআত দীর্ঘ করতেন।","মুসলিম 458"]
+   ],
+   dua:{ar:"اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", tr:"আল্লাহুম্মাফ তাহ লী আবওয়াবা রাহমাতিক", mean:"হে আল্লাহ, আমার জন্য আপনার রহমতের দরজাগুলো খুলে দিন।", ref:"মুসলিম 713", lbl:"মসজিদে প্রবেশের দোয়া"},
+   today:"ফজরের সুন্নাত দুই রাকাত কখনো বাদ দেবেন না। পুরুষরা জামাআতে, নারীরা ঘরে প্রথম ওয়াক্তে পড়ার চেষ্টা করুন।"},
+  {id:"ishraq", s:5.5, e:6.5, short:"জিকির", title:"সূর্যোদয় পর্যন্ত: জিকির ও সাহাবীদের সাথে বসা", time:"ফজরের পর থেকে সূর্য ভালোভাবে উঠা পর্যন্ত",
+   intro:"ফজরের পর তিনি নিজের জায়গায় বসে থাকতেন যতক্ষণ না সূর্য ভালোভাবে উঠত। সাহাবীরা জাহেলী যুগের কথা বলে হাসতেন, আর তিনি মুচকি হাসতেন।",
+   introRef:"মুসলিম 670",
+   steps:[
+     ["সকালের জিকির ও দোয়া পড়তেন।","মুসলিম 2723, আবু দাউদ 5068"],
+     ["সাহাবীদের দিকে মুখ করে বসতেন, কেউ স্বপ্ন দেখলে জিজ্ঞেস করতেন।","বুখারী 1386"],
+     ["দিনে সত্তর বারের বেশি ইস্তিগফার ও তওবা করতেন।","বুখারী 6307"],
+     ["উম্মতের জন্য সকালে বরকতের দোয়া করেছেন: “হে আল্লাহ, আমার উম্মতের সকালে বরকত দিন।”","আবু দাউদ 2606, তিরমিযী 1212"]
+   ],
+   dua:{ar:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", tr:"আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ, লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ", mean:"আমরা সকালে উপনীত হলাম এবং রাজত্বও আল্লাহর জন্য সকালে উপনীত হলো। সব প্রশংসা আল্লাহর। আল্লাহ ছাড়া কোনো ইলাহ নেই, তিনি এক, তাঁর কোনো শরীক নেই।", ref:"মুসলিম 2723", lbl:"সকালের জিকির"},
+   today:"ফজরের পর ফোন হাতে নেওয়ার আগে ১০ মিনিট সকালের জিকির ও কুরআন তিলাওয়াত করুন। সকালের এই সময়ে কঠিন কাজগুলো শুরু করুন, এতে বরকত আছে।"},
+  {id:"duha", s:6.5, e:11.75, short:"দুহা ও কাজ", title:"সকাল: দুহার নামাজ ও কর্মব্যস্ততা", time:"সূর্য উপরে উঠার পর থেকে দুপুরের আগ পর্যন্ত",
+   intro:"দিনের এই অংশে তিনি মানুষের সাথে দেখা করতেন, শিক্ষা দিতেন, বিচার করতেন, প্রতিনিধিদল গ্রহণ করতেন, অসুস্থদের দেখতে যেতেন এবং ঘরের কাজে সাহায্য করতেন।",
+   introRef:"বুখারী 676",
+   steps:[
+     ["দুহার নামাজ পড়তেন; কখনো চার রাকাত, কখনো বেশি। দেহের প্রতিটি জোড়ার সদকা আদায়ে দুহার দুই রাকাতই যথেষ্ট।","মুসলিম 719, 720"],
+     ["মসজিদে সাহাবীদের শিক্ষা দিতেন, প্রশ্নের উত্তর দিতেন।","বুখারী 59"],
+     ["অসুস্থদের দেখতে যেতেন, জানাযায় শরীক হতেন।","বুখারী 1240, মুসলিম 2162"],
+     ["বাজারে যেতেন এবং ব্যবসায়ীদের সততা তদারকি করতেন; শস্যের নিচে ভেজা অংশ লুকানো দেখে বললেন, “যে প্রতারণা করে সে আমার দলভুক্ত নয়।”","মুসলিম 102"],
+     ["ঘরে থাকলে পরিবারের কাজে সাহায্য করতেন: কাপড় সেলাই, জুতা মেরামত, ছাগলের দুধ দোহন।","বুখারী 676, আহমাদ 24903"],
+     ["ঘর থেকে বের হওয়ার দোয়া পড়তেন।","আবু দাউদ 5095"]
+   ],
+   dua:{ar:"بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", tr:"বিসমিল্লাহি তাওয়াক্কালতু ‘আলাল্লাহ, ওয়া লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ", mean:"আল্লাহর নামে (বের হলাম), আল্লাহর উপর ভরসা করলাম। আল্লাহ ছাড়া কোনো শক্তি ও সামর্থ্য নেই।", ref:"আবু দাউদ 5095, তিরমিযী 3426", lbl:"ঘর থেকে বের হওয়ার দোয়া"},
+   today:"অফিস বা কাজে যাওয়ার আগে ২ রাকাত দুহা পড়ুন। কাজে সততা রাখুন, মাপে কম দেবেন না। সপ্তাহে অন্তত একজন অসুস্থ বা একাকী মানুষের খোঁজ নিন।"},
+  {id:"dhuhr", s:11.75, e:15.5, short:"যোহর", title:"দুপুর: খাবার, কায়লুলা ও যোহর", time:"মধ্যাহ্ন থেকে আসরের আগ পর্যন্ত",
+   intro:"দুপুরে সামান্য বিশ্রাম (কায়লুলা) সুন্নাত। জুমার দিন সাহাবীরা জুমার নামাজের পরে দুপুরের খাবার ও বিশ্রাম নিতেন।",
+   introRef:"বুখারী 939",
+   steps:[
+     ["সাদামাটা খাবার খেতেন; কখনো খাবারের দোষ ধরতেন না। পছন্দ হলে খেতেন, না হলে রেখে দিতেন।","বুখারী 5409"],
+     ["“বিসমিল্লাহ” বলে ডান হাতে নিজের সামনে থেকে খেতেন।","বুখারী 5376"],
+     ["পেটের এক-তৃতীয়াংশ খাবার, এক-তৃতীয়াংশ পানি, এক-তৃতীয়াংশ খালি রাখতে বলেছেন।","তিরমিযী 2380"],
+     ["দুপুরে অল্প সময় বিশ্রাম নিতেন (কায়লুলা)।","বুখারী 939, 6281"],
+     ["যোহরের আগে চার রাকাত ও পরে দুই রাকাত সুন্নাত নিয়মিত পড়তেন।","বুখারী 1182, মুসলিম 730"]
+   ],
+   dua:{ar:"الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَٰذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", tr:"আলহামদু লিল্লাহিল্লাযী আত‘আমানী হাযা ওয়া রাযাকানীহি মিন গাইরি হাওলিম মিন্নী ওয়া লা কুওয়াহ", mean:"সমস্ত প্রশংসা আল্লাহর, যিনি আমার কোনো শক্তি ও সামর্থ্য ছাড়াই আমাকে এটি খাওয়ালেন ও রিজিক দিলেন।", ref:"আবু দাউদ 4023, তিরমিযী 3458", lbl:"খাওয়ার পরের দোয়া"},
+   today:"খাওয়ার শুরুতে বিসমিল্লাহ, শেষে আলহামদুলিল্লাহ। ভুলে গেলে বলুন “বিসমিল্লাহি আওয়ালাহু ওয়া আখিরাহু” (আবু দাউদ ৩৭৬৭)। সম্ভব হলে দুপুরে ১৫–২০ মিনিট বিশ্রাম নিন।"},
+  {id:"asr", s:15.5, e:17.5, short:"আসর", title:"বিকেল: আসর ও পরিবারের সাথে সময়", time:"আসর থেকে মাগরিবের আগ পর্যন্ত",
+   intro:"আসরের নামাজ শেষে তিনি স্ত্রীদের প্রত্যেকের ঘরে যেতেন, খোঁজখবর নিতেন ও কাছে বসতেন।",
+   introRef:"বুখারী 5216",
+   steps:[
+     ["আসরের নামাজ গুরুত্বের সাথে আদায় করতেন; আসর ছুটে যাওয়াকে পরিবার-সম্পদ হারানোর মতো ক্ষতি বলেছেন।","বুখারী 552"],
+     ["আসরের পর একে একে প্রত্যেক স্ত্রীর ঘরে গিয়ে খোঁজ নিতেন।","বুখারী 5216"],
+     ["শিশুদের সাথে খেলতেন, সালাম দিতেন, স্নেহ করতেন।","বুখারী 6247, 5997"],
+     ["সন্ধ্যার জিকির পড়তেন।","মুসলিম 2723"]
+   ],
+   dua:{ar:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ", tr:"আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ", mean:"আমরা সন্ধ্যায় উপনীত হলাম এবং রাজত্বও আল্লাহর জন্য সন্ধ্যায় উপনীত হলো। সব প্রশংসা আল্লাহর।", ref:"মুসলিম 2723", lbl:"সন্ধ্যার জিকির"},
+   today:"কাজ থেকে ফিরে ফোন সরিয়ে পরিবারের প্রত্যেকের সাথে কয়েক মিনিট আলাদা করে কথা বলুন। বাচ্চাদের সাথে খেলুন।"},
+  {id:"maghrib", s:17.5, e:19, short:"মাগরিব", title:"সন্ধ্যা: মাগরিব ও রাতের খাবার", time:"সূর্যাস্তের পরপরই",
+   intro:"মাগরিবের নামাজ তিনি সূর্য ডোবার পর দেরি না করে আদায় করতেন। সন্ধ্যায় শিশুদের ঘরে রাখতে বলেছেন।",
+   introRef:"বুখারী 561, 3280",
+   steps:[
+     ["সূর্যাস্তের পরপরই মাগরিব আদায় করতেন।","বুখারী 561"],
+     ["মাগরিবের পর দুই রাকাত সুন্নাত ঘরে পড়তেন।","বুখারী 1180"],
+     ["সন্ধ্যা নামলে শিশুদের বাইরে না রাখতে, দরজা বন্ধ করার সময় বিসমিল্লাহ বলতে বলেছেন।","বুখারী 3280"],
+     ["পরিবারের সাথে একসাথে খাবার খেতেন; একসাথে খেলে বরকত হয়।","আবু দাউদ 3764"]
+   ],
+   dua:null,
+   today:"মাগরিবের পর টিভি বা ফোনের আগে পরিবার নিয়ে ১০ মিনিট কুরআন বা হাদিস পড়ুন। রাতের খাবার একসাথে খান।"},
+  {id:"isha", s:19, e:21.5, short:"ইশা", title:"রাত: ইশা ও পরিবারের সাথে গল্প", time:"ইশার ওয়াক্ত",
+   intro:"ইশার আগে ঘুমানো এবং ইশার পর অনর্থক গল্প করা তিনি অপছন্দ করতেন। তবে পরিবারের সাথে কথা বলা ও উপকারী আলোচনা করতেন।",
+   introRef:"বুখারী 568",
+   steps:[
+     ["ইশার নামাজ জামাআতে পড়তেন, কখনো একটু দেরিতে।","বুখারী 571"],
+     ["ইশার পর দুই রাকাত সুন্নাত ও বিতর পড়তেন (রাতে না উঠার আশঙ্কা থাকলে ঘুমের আগেই বিতর)।","মুসলিম 755"],
+     ["ঘরে আয়েশা (রা.)-এর এগারোজন নারীর দীর্ঘ গল্প (উম্মে যারআর হাদিস) মনোযোগ দিয়ে শুনেছিলেন, তারপর বলেছেন, “আমি তোমার কাছে আবু যারআর মতো।”","বুখারী 5189"],
+     ["একবার আয়েশা (রা.)-এর সাথে দৌড় প্রতিযোগিতা করেছেন।","আবু দাউদ 2578"],
+     ["আয়েশা (রা.) যে জায়গায় মুখ রেখে পান করতেন, তিনিও পাত্রের সেই জায়গায় মুখ রেখে পান করতেন।","মুসলিম 300"]
+   ],
+   dua:null,
+   today:"স্ত্রী/স্বামীর কথা মনোযোগ দিয়ে শুনুন, বাধা না দিয়ে। ইশার পর অপ্রয়োজনীয় স্ক্রলিং বন্ধ করে তাড়াতাড়ি ঘুমান, যাতে ফজরে উঠা সহজ হয়।"},
+  {id:"sleep", s:21.5, e:27.5, short:"ঘুম", title:"ঘুমানোর আগে: সুন্নাত আমল", time:"ইশার পর থেকে শেষ রাত পর্যন্ত",
+   intro:"নবীজি ﷺ প্রতিরাতে ঘুমানোর আগে কিছু আমল কখনো ছাড়তেন না। তাঁর বিছানা ছিল চামড়ার, ভেতরে খেজুরের আঁশ।",
+   introRef:"বুখারী 6456",
+   steps:[
+     ["ঘুমের আগে অজু করতেন এবং অজু করে ঘুমাতে বলেছেন।","বুখারী 247"],
+     ["বিছানা কাপড়ের প্রান্ত দিয়ে তিনবার ঝেড়ে নিতেন।","বুখারী 6320"],
+     ["দুই হাত একত্র করে সূরা ইখলাস, ফালাক ও নাস পড়ে ফুঁ দিয়ে সারা শরীরে তিনবার মাসেহ করতেন।","বুখারী 5017"],
+     ["আয়াতুল কুরসি পড়ার কথা বলেছেন: সকাল পর্যন্ত আল্লাহর পক্ষ থেকে রক্ষক থাকে।","বুখারী 2311"],
+     ["সূরা আস-সাজদা ও সূরা মুলক না পড়ে ঘুমাতেন না।","তিরমিযী 2892"],
+     ["ফাতিমা ও আলী (রা.)-কে শিখিয়েছেন: সুবহানাল্লাহ ৩৩, আলহামদুলিল্লাহ ৩৩, আল্লাহু আকবার ৩৪ বার।","বুখারী 3705"],
+     ["ডান কাতে শুয়ে ডান হাত গালের নিচে রাখতেন এবং ঘুমের দোয়া পড়তেন।","বুখারী 6314, 6324"]
+   ],
+   dua:{ar:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", tr:"বিসমিকা আল্লাহুম্মা আমূতু ওয়া আহইয়া", mean:"হে আল্লাহ, আপনার নামেই আমি মৃত্যুবরণ করি (ঘুমাই) এবং জীবিত হই (জাগি)।", ref:"বুখারী 6324", lbl:"ঘুমানোর দোয়া"},
+   today:"রাতের এই ৫ মিনিটের রুটিন নিয়মিত করুন: অজু → তিন কুল পড়ে ফুঁ → আয়াতুল কুরসি → তাসবিহ → ডান কাতে শুয়ে দোয়া।"}
+];
+const WEEKLY = [
+  ["সোমবার ও বৃহস্পতিবার রোজা","এই দুই দিন আমল আল্লাহর কাছে পেশ করা হয়, তাই রোজা রাখতেন। সোমবার তাঁর জন্মদিন।","তিরমিযী 747, মুসলিম 1162"],
+  ["আইয়ামে বীজ","প্রতি চান্দ্রমাসের ১৩, ১৪, ১৫ তারিখ রোজা রাখতে উৎসাহ দিয়েছেন।","নাসাঈ 2420, তিরমিযী 761"],
+  ["জুমার দিন","গোসল, পরিষ্কার পোশাক, সুগন্ধি, আগে আগে মসজিদে যাওয়া, সূরা কাহফ ও বেশি বেশি দরুদ।","বুখারী 883, আবু দাউদ 1047"],
+  ["মাসে অন্তত একবার কুরআন খতম","আবদুল্লাহ ইবনে আমর (রা.)-কে মাসে এক খতম করতে বলেছিলেন।","বুখারী 5054"]
+];
+
+const SEERAH = [
+  {era:"makkah", y:"৫৭০ খ্রি.", a:"জন্ম", key:1, t:"হাতির বছরে মক্কায় জন্ম", d:"রবিউল আউয়াল মাসে, সোমবার। জন্মের আগেই পিতা আবদুল্লাহ ইন্তেকাল করেন। দুধমাতা হালিমা সাদিয়ার কাছে বনু সা‘দে শৈশব কাটে।", l:"অভাব ও এতিমত্ব মানুষকে ছোট করে না; আল্লাহ যাকে চান তাকে বড় করেন।", r:"মুসলিম 1162, সূরা আদ-দুহা ৬"},
+  {era:"makkah", y:"৫৭৬ খ্রি.", a:"৬ বছর", t:"মা আমিনার ইন্তেকাল", d:"মদিনা থেকে ফেরার পথে আবওয়া নামক স্থানে মা মারা যান। দাদা আবদুল মুত্তালিব দায়িত্ব নেন, দুই বছর পর তিনিও মারা গেলে চাচা আবু তালিব লালনপালন করেন।", l:"এতিমের প্রতি দয়া। তিনি বলেছেন, এতিমের অভিভাবক জান্নাতে আমার এত কাছে থাকবে (দুই আঙুলের মতো)।", r:"বুখারী 5304, সীরাত ইবনে হিশাম"},
+  {era:"makkah", y:"প্রায় ৫৯০ খ্রি.", a:"প্রায় ২০ বছর", t:"হিলফুল ফুযুল", d:"মজলুমের অধিকার আদায়ে মক্কার নেতাদের সাথে অঙ্গীকারে অংশ নেন। নবুয়তের পরেও বলেছেন, এমন চুক্তিতে ডাকলে আজও সাড়া দেব।", l:"ন্যায়ের পক্ষে জোট বাঁধা ধর্মের অংশ, জাতি-ধর্ম নির্বিশেষে।", r:"সীরাত ইবনে হিশাম, বায়হাকী"},
+  {era:"makkah", y:"৫৯৫ খ্রি.", a:"২৫ বছর", key:1, t:"খাদিজা (রা.)-র সাথে বিবাহ", d:"খাদিজার ব্যবসা নিয়ে সিরিয়া যান; তাঁর সততায় মুগ্ধ হয়ে খাদিজা বিয়ের প্রস্তাব দেন। ‘আল-আমিন’ (বিশ্বস্ত) নামে পরিচিত ছিলেন।", l:"সততা ও আমানতদারিই সবচেয়ে বড় পুঁজি।", r:"সীরাত ইবনে হিশাম"},
+  {era:"makkah", y:"৬০৫ খ্রি.", a:"৩৫ বছর", t:"হাজরে আসওয়াদ স্থাপন বিরোধ মীমাংসা", d:"কাবা পুনর্নির্মাণের সময় গোত্রগুলো যুদ্ধের দ্বারপ্রান্তে। তিনি চাদর বিছিয়ে পাথর রাখলেন, প্রতি গোত্রের নেতাকে চাদর ধরতে দিলেন, তারপর নিজ হাতে স্থাপন করলেন।", l:"সবাইকে মর্যাদা দিয়ে সমাধান করা যায়; কাউকে বাদ দিয়ে নয়।", r:"সীরাত ইবনে হিশাম, আহমাদ 15504"},
+  {era:"makkah", y:"৬১০ খ্রি.", a:"৪০ বছর", key:1, t:"হেরা গুহায় প্রথম ওহি", d:"জিবরাঈল (আ.) এসে বললেন, “ইকরা” (পড়ুন)। ভীত অবস্থায় ঘরে ফিরলে খাদিজা (রা.) সান্ত্বনা দিলেন: “আল্লাহ আপনাকে কখনো লাঞ্ছিত করবেন না; আপনি আত্মীয়তা রক্ষা করেন, দুর্বলের বোঝা বহন করেন, অতিথির সেবা করেন।”", l:"ইসলামের প্রথম শব্দ ‘পড়ো’। আর ভালো চরিত্রই নবুয়তের আগে তাঁর পরিচয় ছিল।", r:"বুখারী 3, সূরা আলাক ১–৫"},
+  {era:"makkah", y:"৬১৩ খ্রি.", a:"৪৩ বছর", t:"প্রকাশ্য দাওয়াত", d:"সাফা পাহাড়ে উঠে কুরাইশদের ডাকলেন। আত্মীয়-স্বজন থেকে শুরু করলেন। তারপর শুরু হয় তীব্র বিরোধিতা ও নির্যাতন; বিলাল, সুমাইয়া, আম্মার (রা.) প্রমুখের উপর অত্যাচার চলে।", l:"সত্য বলার শুরু নিকটজনদের কাছ থেকে, প্রজ্ঞা ও উত্তম ভাষায়।", r:"বুখারী 4770, সূরা শুআরা ২১৪"},
+  {era:"makkah", y:"৬১৫ খ্রি.", a:"৪৫ বছর", t:"আবিসিনিয়ায় হিজরত", d:"নির্যাতিত মুসলিমদের ন্যায়পরায়ণ খ্রিস্টান রাজা নাজ্জাশীর দেশে পাঠালেন। জাফর (রা.)-এর বক্তব্য শুনে নাজ্জাশী তাঁদের আশ্রয় দেন।", l:"নিপীড়ন থেকে বাঁচতে নিরাপদ স্থানে যাওয়া এবং ন্যায়পরায়ণ অমুসলিমের সহযোগিতা নেওয়া বৈধ।", r:"আহমাদ 1740"},
+  {era:"makkah", y:"৬১৬–৬১৯ খ্রি.", a:"", t:"শি‘বে আবু তালিবে বয়কট", d:"কুরাইশরা বনু হাশিমকে তিন বছর সামাজিক ও অর্থনৈতিকভাবে অবরুদ্ধ করে। ক্ষুধায় গাছের পাতা খেয়ে দিন কাটাতে হয়।", l:"ধৈর্য ও পারিবারিক ঐক্য দিয়ে কঠিন সময় পার করা যায়।", r:"সীরাত ইবনে হিশাম"},
+  {era:"makkah", y:"৬১৯ খ্রি.", a:"৪৯ বছর", key:1, t:"শোকের বছর ও তায়েফ সফর", d:"অল্প ব্যবধানে খাদিজা (রা.) ও চাচা আবু তালিব ইন্তেকাল করেন। তায়েফে দাওয়াত দিতে গেলে তাঁকে পাথর মেরে রক্তাক্ত করা হয়। পাহাড়ের ফেরেশতা শাস্তি দিতে চাইলে তিনি বললেন, “না, আশা করি তাদের বংশধরদের মধ্যে আল্লাহর ইবাদতকারী জন্মাবে।”", l:"প্রতিশোধ নয়, ক্ষমা ও ভবিষ্যতের আশা।", r:"বুখারী 3231"},
+  {era:"makkah", y:"প্রায় ৬২০–৬২১ খ্রি.", a:"", t:"ইসরা ও মিরাজ", d:"এক রাতে মসজিদুল হারাম থেকে মসজিদুল আকসা, সেখান থেকে ঊর্ধ্বাকাশে গমন। পাঁচ ওয়াক্ত নামাজ ফরজ হয়।", l:"নামাজ আল্লাহর পক্ষ থেকে সরাসরি উপহার; কঠিন সময়ের পরই আসে সম্মান।", r:"বুখারী 349, সূরা ইসরা ১"},
+  {era:"makkah", y:"৬২১–৬২২ খ্রি.", a:"", t:"আকাবার শপথ", d:"মদিনার আওস ও খাযরাজ গোত্রের লোকেরা ইসলাম গ্রহণ করে তাঁকে আশ্রয় ও সহযোগিতার অঙ্গীকার করে।", l:"পরিবর্তনের জন্য প্রস্তুত মানুষ খোঁজা ও তাঁদের সাথে স্পষ্ট চুক্তি করা।", r:"বুখারী 3892"},
+  {era:"madinah", y:"৬২২ খ্রি.", a:"১ হিজরি", key:1, t:"মদিনায় হিজরত", d:"আবু বকর (রা.)-কে সাথে নিয়ে গোপনে মক্কা ত্যাগ, তিন দিন সাওর গুহায় অবস্থান। মদিনায় পৌঁছে মসজিদে নববী নির্মাণ, মুহাজির ও আনসারদের মধ্যে ভ্রাতৃত্ব (মুআখাত) এবং মদিনা সনদ প্রণয়ন।", l:"তাওয়াক্কুল মানে পরিকল্পনা ছেড়ে দেওয়া নয়; পূর্ণ প্রস্তুতি নিয়ে আল্লাহর উপর ভরসা।", r:"বুখারী 3905, সূরা তাওবা ৪০"},
+  {era:"madinah", y:"৬২৪ খ্রি.", a:"২ হিজরি", key:1, t:"বদর যুদ্ধ", d:"প্রায় ৩১৩ জন মুসলিম প্রায় ১০০০ জনের কুরাইশ বাহিনীর বিপক্ষে বিজয়ী হন। এ বছর রমজানের রোজা ফরজ হয় এবং কিবলা কাবার দিকে পরিবর্তিত হয়।", l:"সংখ্যা নয়, ঈমান, ঐক্য ও আল্লাহর সাহায্যই আসল শক্তি।", r:"সূরা আনফাল ৯–১২, মুসলিম 1763"},
+  {era:"madinah", y:"৬২৫ খ্রি.", a:"৩ হিজরি", t:"উহুদ যুদ্ধ", d:"পরামর্শসভায় অধিকাংশের মত মেনে শহরের বাইরে যুদ্ধ করেন। তীরন্দাজরা নির্দেশ অমান্য করে পাহাড় ছাড়ায় বিপর্যয় ঘটে; নবীজি ﷺ নিজেও আহত হন।", l:"আনুগত্য ও শৃঙ্খলা ভাঙলে বিজয়ও পরাজয়ে পরিণত হয়। পরাজয়ের পরও পরামর্শ ছাড়েননি।", r:"বুখারী 3039, সূরা আলে ইমরান ১৫২–১৫৯"},
+  {era:"madinah", y:"৬২৭ খ্রি.", a:"৫ হিজরি", t:"খন্দক (আহযাব) যুদ্ধ", d:"প্রায় ১০,০০০ সৈন্যের সম্মিলিত বাহিনীর বিপক্ষে সালমান ফারসী (রা.)-র পরামর্শে পরিখা খনন। নবীজি ﷺ নিজে মাটি বহন করেছেন, ক্ষুধায় পেটে পাথর বেঁধেছেন।", l:"নেতা কর্মীদের সাথে কাজ করেন; ভালো পরামর্শ যে কারো কাছ থেকে নেওয়া যায়।", r:"বুখারী 4101, 4106"},
+  {era:"madinah", y:"৬২৮ খ্রি.", a:"৬ হিজরি", key:1, t:"হুদায়বিয়ার সন্ধি", d:"উমরার জন্য গেলে বাধা পেয়ে আপাতদৃষ্টিতে অসম শর্তে দশ বছরের শান্তিচুক্তি করেন। কুরআন একে ‘স্পষ্ট বিজয়’ বলেছে। শান্তির সময়ে ইসলাম দ্রুত ছড়িয়ে পড়ে।", l:"দীর্ঘমেয়াদি লক্ষ্যের জন্য তাৎক্ষণিক ছাড় দেওয়া প্রজ্ঞা।", r:"বুখারী 2731, সূরা ফাতহ ১"},
+  {era:"madinah", y:"৬২৮–৬২৯ খ্রি.", a:"৭ হিজরি", t:"খায়বার ও রাজাদের কাছে চিঠি", d:"রোম সম্রাট হিরাক্লিয়াস, পারস্যের কিসরা, মিসরের মুকাওকিসসহ বিভিন্ন শাসকের কাছে দাওয়াতি চিঠি পাঠান।", l:"দাওয়াত সম্মানজনক ভাষায় ও প্রজ্ঞার সাথে।", r:"বুখারী 7, মুসলিম 1774"},
+  {era:"madinah", y:"৬৩০ খ্রি.", a:"৮ হিজরি", key:1, t:"মক্কা বিজয়", d:"প্রায় ১০,০০০ সাহাবী নিয়ে প্রায় রক্তপাতহীনভাবে মক্কায় প্রবেশ। যারা বছরের পর বছর নির্যাতন করেছিল, তাদের সাধারণ ক্ষমা ঘোষণা করেন। কাবা থেকে মূর্তি অপসারণ করেন।", l:"শক্তি হাতে পেয়েও ক্ষমা করাই নবীর চরিত্র।", r:"বুখারী 4287, সীরাত ইবনে হিশাম"},
+  {era:"madinah", y:"৬৩০ খ্রি.", a:"৯ হিজরি", t:"তাবুক অভিযান", d:"প্রচণ্ড গরম ও অভাবের মধ্যে প্রায় ৩০,০০০ সৈন্য নিয়ে রোমান সীমান্তে যাত্রা। উসমান (রা.) বিপুল দান করেন। এই বছরকে ‘প্রতিনিধিদলের বছর’ বলা হয়।", l:"কঠিন সময়ে ত্যাগই ঈমানের পরীক্ষা।", r:"বুখারী 4418, সূরা তাওবা"},
+  {era:"madinah", y:"৬৩২ খ্রি.", a:"১০ হিজরি", key:1, t:"বিদায় হজ ও ভাষণ", d:"আরাফার ভাষণে ঘোষণা: মানুষের জান, মাল ও সম্মান পবিত্র; সুদ বাতিল; নারীদের ব্যাপারে আল্লাহকে ভয় করো; অনারবের উপর আরবের, সাদার উপর কালোর কোনো শ্রেষ্ঠত্ব নেই, তাকওয়া ছাড়া।", l:"মানবাধিকার ও সমতার চিরন্তন ঘোষণা।", r:"মুসলিম 1218, আহমাদ 23489"},
+  {era:"madinah", y:"৬৩২ খ্রি.", a:"১১ হিজরি, ৬৩ বছর", key:1, t:"ইন্তেকাল", d:"আয়েশা (রা.)-র ঘরে, তাঁর কোলে মাথা রেখে ইন্তেকাল করেন। শেষ উপদেশ ছিল: “নামাজ, নামাজ, আর তোমাদের অধীনস্থদের ব্যাপারে (আল্লাহকে ভয় করো)।” রেখে যাননি কোনো দিনার-দিরহাম।", l:"জীবনের শেষ কথাও ছিল নামাজ ও দুর্বলের অধিকার।", r:"বুখারী 4449, আবু দাউদ 5156, বুখারী 2739"}
+];
+
+const FAMILY = [
+  {who:"স্ত্রীদের সাথে", pts:[
+    ["“তোমাদের মধ্যে সর্বোত্তম সে, যে তার পরিবারের কাছে উত্তম; আর আমি আমার পরিবারের কাছে তোমাদের মধ্যে সর্বোত্তম।”","তিরমিযী 3895"],
+    ["ঘরে পরিবারের কাজে সহযোগিতা করতেন; নামাজের সময় হলে নামাজে যেতেন।","বুখারী 676"],
+    ["স্ত্রীর মুখে খাবার তুলে দেওয়াও সদকা হিসেবে গণ্য বলেছেন।","বুখারী 56"],
+    ["আয়েশা (রা.) কখন রাগ করে আছেন আর কখন খুশি, তা তিনি তাঁর কথার ধরন থেকে বুঝতেন এবং সস্নেহে বলতেন।","বুখারী 5228"],
+    ["নারীদের প্রতি সদাচরণের উপদেশ দিয়েছেন: “নারীদের সাথে উত্তম আচরণ করো।”","বুখারী 5186, মুসলিম 1468"],
+    ["কোনো মুমিন পুরুষ যেন মুমিন নারীকে ঘৃণা না করে; তার একটি অভ্যাস অপছন্দ হলে অন্যটি পছন্দ হবে।","মুসলিম 1469"],
+    ["তিনি কখনো কোনো স্ত্রী বা খাদেমকে হাত দিয়ে আঘাত করেননি।","মুসলিম 2328"],
+    ["খাদিজা (রা.)-র মৃত্যুর পরও তাঁর বান্ধবীদের কাছে উপহার পাঠাতেন।","বুখারী 3818"]]},
+  {who:"সন্তান ও শিশুদের সাথে", pts:[
+    ["হাসানকে চুমু খেতে দেখে আকরা ইবনে হাবিস বললেন, আমার দশ সন্তান, কাউকে চুমু দিইনি। তিনি বললেন, “যে দয়া করে না, তাকে দয়া করা হয় না।”","বুখারী 5997"],
+    ["ফাতিমা (রা.) এলে দাঁড়িয়ে স্বাগত জানাতেন, চুমু দিতেন, নিজের জায়গায় বসাতেন।","আবু দাউদ 5217"],
+    ["সিজদায় থাকা অবস্থায় নাতি পিঠে উঠলে সিজদা দীর্ঘ করেছেন, যাতে সে নিজে নেমে যায়।","নাসাঈ 1141"],
+    ["শিশুদের পাশ দিয়ে গেলে সালাম দিতেন।","বুখারী 6247"],
+    ["ছোট্ট আবু উমাইরের পাখি মারা গেলে তাকে সান্ত্বনা দিতে কৌতুক করে কথা বলতেন।","বুখারী 6129"]]},
+  {who:"বাবা-মায়ের ব্যাপারে",pts:[
+    ["সবচেয়ে উত্তম আচরণের হকদার কে? তিনবার বললেন, “তোমার মা”, তারপর “তোমার বাবা”।","বুখারী 5971, মুসলিম 2548"],
+    ["জিহাদে যেতে চাওয়া এক যুবককে ফিরিয়ে দিয়ে বললেন, “তোমার বাবা-মা জীবিত? তাঁদের সেবাতেই তোমার জিহাদ।”","বুখারী 3004"],
+    ["অমুসলিম মায়ের সাথেও সম্পর্ক রাখতে আসমা (রা.)-কে অনুমতি দিয়েছেন।","বুখারী 2620"],
+    ["দুধমা হালিমার আগমনে নিজের চাদর বিছিয়ে দিয়েছেন।","আবু দাউদ 5144"]]},
+  {who:"আত্মীয়স্বজনের সাথে",pts:[
+    ["“যে চায় তার রিজিক বাড়ুক ও আয়ু দীর্ঘ হোক, সে যেন আত্মীয়তার সম্পর্ক রক্ষা করে।”","বুখারী 5986, মুসলিম 2557"],
+    ["“প্রতিদান দেওয়া ব্যক্তি সম্পর্ক রক্ষাকারী নয়; বরং সে-ই রক্ষাকারী, যার সাথে সম্পর্ক ছিন্ন করা হলে সে তা জোড়া লাগায়।”","বুখারী 5991"],
+    ["“আত্মীয়তার সম্পর্ক ছিন্নকারী জান্নাতে প্রবেশ করবে না।”","বুখারী 5984, মুসলিম 2556"],
+    ["চাচা আবু তালিব আজীবন ইসলাম গ্রহণ না করলেও তাঁর প্রতি কৃতজ্ঞ ছিলেন, শেষ মুহূর্ত পর্যন্ত দাওয়াত দিয়েছেন।","বুখারী 3884"],
+    ["আত্মীয়কে দান করলে দ্বিগুণ সওয়াব: দান ও আত্মীয়তা রক্ষা।","তিরমিযী 658, নাসাঈ 2582"]]},
+  {who:"প্রতিবেশী, কর্মচারী ও সাধারণ মানুষ",pts:[
+    ["জিবরাঈল প্রতিবেশীর ব্যাপারে এত বেশি উপদেশ দিতেন যে মনে হলো প্রতিবেশীকে উত্তরাধিকারী বানানো হবে।","বুখারী 6014"],
+    ["আনাস (রা.) দশ বছর খেদমত করেছেন; কখনো বলেননি “উফ”, বা “কেন এটা করলে?”","বুখারী 6038"],
+    ["অধীনস্থরা তোমাদের ভাই; নিজে যা খাও তাদের তা খাওয়াও, যা পরো তা পরাও, সাধ্যের বাইরে কাজ চাপিও না।","বুখারী 30"],
+    ["শ্রমিকের ঘাম শুকানোর আগে তার মজুরি দিয়ে দাও।","ইবনে মাজাহ 2443"],
+    ["ইহুদি কিশোর খাদেম অসুস্থ হলে তাকে দেখতে গিয়েছেন।","বুখারী 1356"]]}
+];
+
+const CASES = [
+  {t:"কাবায় হাজরে আসওয়াদ স্থাপন", s:"চার-পাঁচটি গোত্র পাথর স্থাপনের সম্মান নিয়ে রক্তপাতের শপথ নিচ্ছিল।", a:"একটি চাদরে পাথর রেখে প্রতিটি গোত্রের প্রতিনিধিকে চাদরের প্রান্ত ধরতে দিলেন। সবাই মিলে তুললেন, তিনি নিজ হাতে বসালেন।", p:"সমাধান এমনভাবে খুঁজুন যাতে প্রত্যেক পক্ষ সম্মানিত বোধ করে।", r:"সীরাত ইবনে হিশাম, আহমাদ 15504"},
+  {t:"মসজিদে বেদুইনের প্রস্রাব", s:"এক বেদুইন মসজিদে প্রস্রাব করতে শুরু করলে সাহাবীরা তেড়ে গেলেন।", a:"বললেন, তাকে থামিয়ো না, শেষ করতে দাও। পরে এক বালতি পানি ঢেলে দিতে বললেন এবং লোকটিকে নরমভাবে মসজিদের আদব বুঝিয়ে দিলেন।", p:"“তোমাদের পাঠানো হয়েছে সহজ করার জন্য, কঠিন করার জন্য নয়।” অজ্ঞ মানুষের ভুলের জবাব কোমলতা দিয়ে।", r:"বুখারী 220, মুসলিম 285"},
+  {t:"এক যুবক ব্যভিচারের অনুমতি চাইল", s:"এক যুবক এসে সরাসরি জিনার অনুমতি চাইল। লোকেরা তাকে ধমকাতে লাগল।", a:"তাকে কাছে ডেকে জিজ্ঞেস করলেন: তুমি কি তোমার মা, বোন, মেয়ের জন্য এটা পছন্দ করবে? সে বলল, না। তিনি বললেন, মানুষও পছন্দ করে না। তারপর বুকে হাত রেখে তার জন্য দোয়া করলেন।", p:"প্রশ্ন করে, যুক্তি দিয়ে ও দোয়া দিয়ে মানুষের মন পরিবর্তন। লজ্জা দেওয়া নয়।", r:"আহমাদ 22211"},
+  {t:"হুদায়বিয়ার অসম চুক্তি", s:"শর্তগুলো আপাতদৃষ্টিতে মুসলিমদের জন্য অপমানজনক মনে হচ্ছিল; উমর (রা.)সহ অনেকে মনঃক্ষুণ্ন।", a:"চুক্তিতে ‘রাসূলুল্লাহ’ শব্দ মুছে দিতেও রাজি হলেন। সাহাবীরা কুরবানি করতে দ্বিধা করলে উম্মে সালামা (রা.)-র পরামর্শে নিজে আগে কুরবানি করলেন; সবাই অনুসরণ করল।", p:"শান্তির জন্য ছাড় দেওয়া; স্ত্রীর পরামর্শ গ্রহণ; কথা নয়, নিজে করে দেখানো।", r:"বুখারী 2731, 2732"},
+  {t:"মদিনায় বহুধর্মীয় সমাজ", s:"আওস-খাযরাজের পুরনো শত্রুতা, মুহাজিরদের নিঃস্ব অবস্থা, ইহুদি গোত্রদের সাথে সহাবস্থান।", a:"মুহাজির ও আনসারদের মধ্যে ভ্রাতৃত্ব স্থাপন করলেন। লিখিত সনদে সব গোত্রের অধিকার, নিরাপত্তা ও দায়িত্ব নির্ধারণ করলেন।", p:"লিখিত, স্পষ্ট নিয়ম এবং পারস্পরিক দায়িত্ব সমাজে শান্তি আনে।", r:"বুখারী 3780, সীরাত ইবনে হিশাম"},
+  {t:"মক্কা বিজয়ের দিন পুরনো শত্রুরা", s:"যারা ২১ বছর ধরে নির্যাতন, হত্যা ও বহিষ্কার করেছে, তারা এখন তাঁর হাতের মুঠোয়।", a:"সাধারণ ক্ষমা ঘোষণা করলেন। আবু সুফিয়ানের ঘরে আশ্রয় নেওয়াকেও নিরাপদ ঘোষণা করে শত্রুপক্ষের নেতাকে সম্মান দিলেন।", p:"শক্তির শিখরে ক্ষমা করা; শত্রুকে বন্ধুতে পরিণত করা।", r:"মুসলিম 1780"},
+  {t:"রাগী বেদুইনের চাদর টান", s:"এক বেদুইন এত জোরে চাদর টানল যে তাঁর গলায় দাগ পড়ে গেল, আর রূঢ়ভাবে সম্পদ চাইল।", a:"তিনি তার দিকে তাকিয়ে হাসলেন, তারপর তাকে কিছু দিতে নির্দেশ দিলেন।", p:"ব্যক্তিগত অপমানের প্রতিশোধ নিতেন না; সহনশীলতা দিয়ে উত্তর দিতেন।", r:"বুখারী 3149, মুসলিম 1057"}
+];
+
+const BATTLES = [
+  ["বদর","২ হি. / ৬২৪","প্রায় ৩১৩","প্রায় ১০০০","বিজয়","বন্দীদের সাথে সদাচরণ; শিক্ষিত বন্দীর মুক্তিপণ ছিল মদিনার ১০ শিশুকে লেখাপড়া শেখানো।"],
+  ["উহুদ","৩ হি. / ৬২৫","প্রায় ৭০০","প্রায় ৩০০০","ক্ষতিগ্রস্ত","নির্দেশ অমান্যের পরিণতি; পরামর্শের গুরুত্ব।"],
+  ["খন্দক","৫ হি. / ৬২৭","প্রায় ৩০০০","প্রায় ১০,০০০","শত্রু পিছু হটে","নতুন কৌশল গ্রহণ; নেতার নিজ হাতে শ্রম।"],
+  ["খায়বার","৭ হি. / ৬২৮","প্রায় ১৬০০","দুর্গবাসী","বিজয়","চুক্তি করে চাষাবাদ বাসিন্দাদের হাতেই রাখা হয়।"],
+  ["মক্কা বিজয়","৮ হি. / ৬৩০","প্রায় ১০,০০০","প্রায় প্রতিরোধহীন","বিজয়","সাধারণ ক্ষমা; প্রায় রক্তপাতহীন।"],
+  ["হুনাইন","৮ হি. / ৬৩০","প্রায় ১২,০০০","হাওয়াযিন ও সাকিফ","বিজয়","সংখ্যার অহংকারে প্রথমে বিপর্যয় (সূরা তাওবা ২৫)।"],
+  ["তাবুক","৯ হি. / ৬৩০","প্রায় ৩০,০০০","যুদ্ধ হয়নি","শক্তি প্রদর্শন","কষ্টের সময়ে ত্যাগ; সীমান্তে শান্তিচুক্তি।"]
+];
+const WAR_RULES = [
+  ["নারী ও শিশু হত্যা নিষিদ্ধ","এক যুদ্ধে এক নারীকে নিহত দেখে তিনি নারী ও শিশু হত্যা নিষেধ করলেন।","বুখারী 3015, মুসলিম 1744"],
+  ["বিশ্বাসঘাতকতা ও লাশ বিকৃতি নিষিদ্ধ","“গনিমতের মাল আত্মসাৎ করো না, বিশ্বাসঘাতকতা করো না, লাশ বিকৃত করো না, শিশু হত্যা করো না।”","মুসলিম 1731"],
+  ["আগে শান্তির আহ্বান","সেনাপতিকে নির্দেশ: আগে ইসলাম, না হলে চুক্তি; যুদ্ধ শেষ পথ।","মুসলিম 1731"],
+  ["শত্রুর মুখোমুখি হওয়ার কামনা নয়","“শত্রুর সাথে সাক্ষাৎ কামনা করো না, আল্লাহর কাছে নিরাপত্তা চাও।”","বুখারী 2966"],
+  ["চুক্তি রক্ষা","হুদায়বিয়ার পর আবু জান্দাল (রা.)-কে চুক্তির কারণে ফিরিয়ে দিতে হয়েছিল; প্রতিশ্রুতি ভাঙেননি।","বুখারী 2731"],
+  ["বন্দীর প্রতি সদাচরণ","কুরআন বন্দীকে খাবার খাওয়ানোকে নেককারদের গুণ বলেছে।","সূরা ইনসান ৮"],
+  ["সীমালঙ্ঘন নিষেধ","“যারা তোমাদের সাথে লড়ে, আল্লাহর পথে তাদের সাথে লড়ো, কিন্তু সীমালঙ্ঘন করো না।”","সূরা বাকারা ১৯০"],
+  ["পরামর্শভিত্তিক সিদ্ধান্ত","বদরে অবস্থান বদলেছেন হুবাবের পরামর্শে, উহুদে অধিকাংশের মতে, খন্দকে সালমানের পরামর্শে।","সূরা আলে ইমরান ১৫৯, সীরাত ইবনে হিশাম"]
+];
+
+const ADVICE = [
+  ["নিয়ত","সমস্ত কাজ নিয়তের উপর নির্ভরশীল, আর প্রত্যেকে তা-ই পাবে যা সে নিয়ত করেছে।","বুখারী 1"],
+  ["চরিত্র","আমি প্রেরিত হয়েছি উত্তম চরিত্রের পূর্ণতা দানের জন্য।","আহমাদ 8952, আদাবুল মুফরাদ 273"],
+  ["চরিত্র","কিয়ামতের দিন মুমিনের পাল্লায় উত্তম চরিত্রের চেয়ে ভারী কিছু হবে না।","তিরমিযী 2002"],
+  ["রাগ","প্রকৃত শক্তিশালী সে নয় যে কুস্তিতে হারায়; বরং সে, যে রাগের সময় নিজেকে নিয়ন্ত্রণ করে।","বুখারী 6114, মুসলিম 2609"],
+  ["রাগ","এক ব্যক্তি উপদেশ চাইলে তিনি বারবার বললেন: “রাগ করো না।”","বুখারী 6116"],
+  ["জবান","যে আল্লাহ ও আখিরাতে বিশ্বাস রাখে, সে যেন ভালো কথা বলে অথবা চুপ থাকে।","বুখারী 6018, মুসলিম 47"],
+  ["জবান","গীবত হলো তোমার ভাইয়ের এমন কথা বলা যা সে অপছন্দ করে; যদি তা সত্যও হয়।","মুসলিম 2589"],
+  ["জবান","ধ্বংস তার জন্য, যে মানুষকে হাসানোর জন্য মিথ্যা বলে।","আবু দাউদ 4990, তিরমিযী 2315"],
+  ["ভ্রাতৃত্ব","তোমাদের কেউ ততক্ষণ মুমিন হবে না, যতক্ষণ না সে নিজের জন্য যা পছন্দ করে ভাইয়ের জন্যও তা পছন্দ করে।","বুখারী 13, মুসলিম 45"],
+  ["ভ্রাতৃত্ব","তোমার ভাইয়ের দিকে হাসিমুখে তাকানোও সদকা।","তিরমিযী 1956"],
+  ["ভ্রাতৃত্ব","দ্বীন হলো কল্যাণকামনা (নসিহত)।","মুসলিম 55"],
+  ["আমল","আল্লাহর কাছে সবচেয়ে প্রিয় আমল সেটি, যা নিয়মিত করা হয়, যদিও তা অল্প হয়।","বুখারী 6464, মুসলিম 783"],
+  ["আমল","সহজ করো, কঠিন করো না; সুসংবাদ দাও, বিতৃষ্ণা সৃষ্টি করো না।","বুখারী 69"],
+  ["অন্তর","আল্লাহ তোমাদের চেহারা ও সম্পদের দিকে তাকান না; বরং তোমাদের অন্তর ও আমলের দিকে তাকান।","মুসলিম 2564"],
+  ["অন্তর","যা তোমাকে সন্দেহে ফেলে তা ছেড়ে দাও, যা সন্দেহে ফেলে না তা গ্রহণ করো।","তিরমিযী 2518, নাসাঈ 5711"],
+  ["অন্তর","অনর্থক বিষয় ছেড়ে দেওয়া মানুষের ইসলামের সৌন্দর্যের অংশ।","তিরমিযী 2317"],
+  ["উপার্জন","নিজ হাতে উপার্জিত খাবারের চেয়ে উত্তম খাবার কেউ কখনো খায়নি।","বুখারী 2072"],
+  ["উপার্জন","যে প্রতারণা করে সে আমার দলভুক্ত নয়।","মুসলিম 102"],
+  ["শক্তি","শক্তিশালী মুমিন দুর্বল মুমিনের চেয়ে উত্তম ও আল্লাহর কাছে প্রিয়; যা উপকারী তার জন্য চেষ্টা করো, আল্লাহর সাহায্য চাও, অক্ষম হয়ো না।","মুসলিম 2664"],
+  ["সময়","পাঁচটি অবস্থার আগে পাঁচটিকে গনিমত মনে করো: বার্ধক্যের আগে যৌবন, অসুস্থতার আগে সুস্থতা, দারিদ্র্যের আগে সচ্ছলতা, ব্যস্ততার আগে অবসর, মৃত্যুর আগে জীবন।","হাকিম 7846"],
+  ["সময়","দুটি নিয়ামতের ব্যাপারে অধিকাংশ মানুষ প্রতারিত: সুস্থতা ও অবসর।","বুখারী 6412"],
+  ["দয়া","দয়াশীলদের উপর পরম দয়ালু আল্লাহ দয়া করেন; পৃথিবীবাসীর উপর দয়া করো, আসমানের অধিপতি তোমাদের উপর দয়া করবেন।","তিরমিযী 1924, আবু দাউদ 4941"],
+  ["দয়া","কোনো মুসলিম গাছ লাগালে বা ফসল বুনলে তা থেকে পাখি, মানুষ বা পশু যা খায়, তা তার জন্য সদকা।","বুখারী 2320"],
+  ["দোয়া","তাঁর সবচেয়ে বেশি পড়া দোয়া: “রাব্বানা আতিনা ফিদ্দুনইয়া হাসানাহ, ওয়া ফিল আখিরাতি হাসানাহ, ওয়া কিনা আযাবান নার।”","বুখারী 6389"]
+];
+
+const PRACTICE = [
+  {c:"avoid",a:"বিশ্বাস",t:"কবর/মাজারে গিয়ে মৃত ব্যক্তির কাছে সন্তান, রোগমুক্তি বা রিজিক চাওয়া",now:"অনেকে মাজারে মানত করেন, সিজদা করেন বা মৃত পীরের কাছে সাহায্য চান।",sun:"চাওয়া একমাত্র আল্লাহর কাছে। কবর জিয়ারত সুন্নাত, তবে উদ্দেশ্য মৃতের জন্য দোয়া ও আখিরাত স্মরণ। “যখন চাইবে, আল্লাহর কাছে চাইবে।”",r:"তিরমিযী 2516, সূরা জিন ১৮, মুসলিম 976"},
+  {c:"avoid",a:"বিশ্বাস",t:"গণক, জ্যোতিষী, রাশিফল ও হাত দেখায় বিশ্বাস",now:"পত্রিকার রাশিফল পড়া, ভাগ্য জানতে টিয়া পাখি বা জ্যোতিষীর কাছে যাওয়া।",sun:"যে গণকের কাছে গিয়ে কিছু জিজ্ঞেস করে, চল্লিশ রাত তার নামাজ কবুল হয় না। ভবিষ্যৎ শুধু আল্লাহ জানেন।",r:"মুসলিম 2230, সূরা নামল ৬৫"},
+  {c:"avoid",a:"বিশ্বাস",t:"কুসংস্কার: অশুভ লক্ষণ মানা",now:"কাক ডাকলে বিপদ, যাত্রায় হাঁচি দিলে অমঙ্গল, নির্দিষ্ট দিন বা সংখ্যাকে অশুভ ভাবা।",sun:"“অশুভ লক্ষণ বলে কিছু নেই।” তিনি ভালো কথাকে শুভ মনে করতেন। ভরসা আল্লাহর উপর।",r:"বুখারী 5757, 5754"},
+  {c:"avoid",a:"অর্থ",t:"সুদ (রিবা) — লোন, এফডিআর ও কিস্তির সুদ",now:"সুদভিত্তিক ঋণ নেওয়া-দেওয়া, সুদের হিসাব লেখা ও সাক্ষী হওয়াকে স্বাভাবিক ধরা হয়।",sun:"আল্লাহ ব্যবসা হালাল ও সুদ হারাম করেছেন। সুদদাতা, গ্রহীতা, লেখক ও সাক্ষী সবাইকে অভিশাপ দেওয়া হয়েছে। বিকল্প হিসেবে ইসলামী অর্থব্যবস্থা ও করযে হাসানা খুঁজুন।",r:"সূরা বাকারা ২৭৫, মুসলিম 1598"},
+  {c:"avoid",a:"অর্থ",t:"ঘুষ দেওয়া ও নেওয়া",now:"“কাজ দ্রুত করাতে” ঘুষ দেওয়া বা উপহারের নামে ঘুষ নেওয়া।",sun:"ঘুষদাতা ও ঘুষগ্রহীতা উভয়ের উপর আল্লাহর লানত। সরকারি দায়িত্বে পাওয়া উপহারও তিনি ফেরত দিতে বলেছেন।",r:"আবু দাউদ 3580, তিরমিযী 1337, বুখারী 7174"},
+  {c:"avoid",a:"অর্থ",t:"পণ্যে ভেজাল, মাপে কম ও দোষ গোপন",now:"ফরমালিন, ভেজাল মিশানো, ওজনে কম দেওয়া, পুরনো পণ্যকে নতুন বলে বিক্রি।",sun:"“যে প্রতারণা করে সে আমার দলভুক্ত নয়।” মাপে কমকারীদের জন্য ধ্বংস।",r:"মুসলিম 102, সূরা মুতাফফিফীন ১–৩"},
+  {c:"avoid",a:"পরিবার",t:"বোন ও মেয়েদের উত্তরাধিকার থেকে বঞ্চিত করা",now:"“বোনদের ভাগ চাইতে নেই” — এই সামাজিক চাপে নারীরা পৈতৃক সম্পত্তি পান না।",sun:"কুরআন নিজে নারীর অংশ নির্ধারণ করেছে। এটি আল্লাহর সীমা; ভাগ না দেওয়া অন্যের সম্পদ আত্মসাৎ।",r:"সূরা নিসা ৭, ১১–১৪"},
+  {c:"avoid",a:"বিয়ে",t:"যৌতুক দাবি করা",now:"বরপক্ষ নগদ টাকা, ফার্নিচার, মোটরসাইকেল দাবি করে; না দিলে নির্যাতন।",sun:"ইসলামে বর কনেকে মোহর দেয়, কনে বরকে নয়। অন্যায়ভাবে কারো সম্পদ খাওয়া হারাম।",r:"সূরা নিসা ৪, ২৯"},
+  {c:"avoid",a:"পরিবার",t:"বাবা-মায়ের সাথে রূঢ় আচরণ বা বৃদ্ধাশ্রমে ফেলে রাখা",now:"ব্যস্ততার অজুহাতে খোঁজ না নেওয়া, বিরক্তি প্রকাশ, আর্থিক দায়িত্ব এড়ানো।",sun:"তাঁদের “উফ” পর্যন্ত বলো না, ধমক দিও না, সম্মানের সাথে কথা বলো। তাঁদের বার্ধক্য পেয়েও যে জান্নাত অর্জন করতে পারল না, সে লাঞ্ছিত।",r:"সূরা ইসরা ২৩–২৪, মুসলিম 2551"},
+  {c:"avoid",a:"সমাজ",t:"গীবত, চোগলখোরি ও গুজব ছড়ানো",now:"আড্ডায় অনুপস্থিত মানুষের সমালোচনা; যাচাই ছাড়া খবর শেয়ার।",sun:"গীবত মৃত ভাইয়ের গোশত খাওয়ার মতো। যা শোনে তা-ই বলে বেড়ানো মিথ্যাবাদী হওয়ার জন্য যথেষ্ট।",r:"সূরা হুজুরাত ৬, ১২, মুসলিম 5 (মুকাদ্দিমা)"},
+  {c:"avoid",a:"সমাজ",t:"ওয়াদা ভঙ্গ ও সময় না রাখা",now:"“আসছি” বলে ঘণ্টাখানেক দেরি, ধার নিয়ে সময়মতো ফেরত না দেওয়া।",sun:"মুনাফিকের তিন চিহ্ন: কথা বললে মিথ্যা বলে, ওয়াদা করলে ভঙ্গ করে, আমানত রাখলে খেয়ানত করে।",r:"বুখারী 33"},
+  {c:"avoid",a:"বিয়ে",t:"বিয়েতে অপচয় ও লোকদেখানো আয়োজন",now:"ঋণ করে জাঁকজমক, বিশাল খরচের গায়ে হলুদ ও একাধিক অনুষ্ঠান, খাবার নষ্ট।",sun:"অপচয়কারীরা শয়তানের ভাই। সবচেয়ে বরকতময় বিয়ে যার খরচ সবচেয়ে কম। ওয়ালিমা সুন্নাত, সামর্থ্য অনুযায়ী।",r:"সূরা ইসরা ২৭, আহমাদ 24529, বুখারী 5167"},
+  {c:"avoid",a:"ডিজিটাল",t:"অনলাইনে লোকদেখানো ইবাদত ও দান (রিয়া)",now:"দানের ছবি তুলে গ্রহীতার মুখসহ পোস্ট দেওয়া, নামাজ-উমরার সেলফি দিয়ে প্রশংসা খোঁজা।",sun:"রিয়াকে ‘ছোট শিরক’ বলা হয়েছে। যে গোপনে এমনভাবে দান করে যে বাম হাত জানে না ডান হাত কী দিল, সে আরশের ছায়া পাবে।",r:"আহমাদ 23630, বুখারী 1423"},
+  {c:"improve",a:"ইবাদত",t:"তাড়াহুড়ো করে নামাজ পড়া",now:"আমরা নামাজ পড়ি, কিন্তু রুকু-সিজদায় স্থির না হয়ে দ্রুত শেষ করি।",sun:"এক ব্যক্তিকে তিনি তিনবার বললেন, “ফিরে যাও, আবার পড়ো, তুমি নামাজ পড়োনি।” তারপর শেখালেন: প্রতিটি রুকন ধীরে, স্থিরভাবে।",r:"বুখারী 757"},
+  {c:"improve",a:"ইবাদত",t:"অর্থ না বুঝে কুরআন তিলাওয়াত",now:"খতম করি, কিন্তু কী পড়ছি জানি না।",sun:"কুরআন নাজিল হয়েছে চিন্তা-গবেষণার জন্য। তিলাওয়াত চালিয়ে যান, পাশাপাশি প্রতিদিন কয়েকটি আয়াতের অনুবাদ ও তাফসির পড়ুন।",r:"সূরা সোয়াদ ২৯, সূরা মুহাম্মাদ ২৪"},
+  {c:"improve",a:"ইবাদত",t:"অজুতে অতিরিক্ত পানি খরচ",now:"কল ছেড়ে রেখে অজু করা, অনেক পানি নষ্ট।",sun:"নবীজি ﷺ এক মুদ (প্রায় ৬৫০ মি.লি.) পানিতে অজু করতেন। কল প্রয়োজন অনুযায়ী খুলুন।",r:"বুখারী 201, মুসলিম 325"},
+  {c:"improve",a:"সমাজ",t:"সালামের বদলে শুধু “হাই/হ্যালো”",now:"পরিচিতজনকে দেখে সালাম না দিয়ে শুধু হাত নাড়া বা অন্য অভিবাদন।",sun:"সালামের প্রসার ভালোবাসা সৃষ্টি করে। পূর্ণ সালাম দিন: “আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ”।",r:"মুসলিম 54, তিরমিযী 2689"},
+  {c:"improve",a:"অর্থ",t:"দান করি, কিন্তু খোঁটা দিয়ে বা অপমান করে",now:"সাহায্য করে পরে মনে করিয়ে দেওয়া, ভিক্ষুককে ধমক দিয়ে কিছু দেওয়া।",sun:"খোঁটা ও কষ্ট দিয়ে দান নষ্ট করো না। উত্তম কথা ও ক্ষমা এমন দানের চেয়ে ভালো, যার পরে কষ্ট দেওয়া হয়।",r:"সূরা বাকারা ২৬২–২৬৪"},
+  {c:"improve",a:"পরিবার",t:"সন্তানকে শাসন করি, কিন্তু সময় দিই না",now:"শুধু পড়াশোনার চাপ ও বকাঝকা; খেলা, গল্প ও দ্বীন শেখানোর সময় নেই।",sun:"নবীজি ﷺ শিশুদের সাথে খেলতেন, চুমু দিতেন, ভালো কাজ দেখলে প্রশংসা করতেন। ৭ বছরে নামাজের অভ্যাস ভালোবাসা দিয়ে শুরু করতে বলেছেন।",r:"বুখারী 5997, আবু দাউদ 495"},
+  {c:"improve",a:"ডিজিটাল",t:"রাত জেগে মোবাইল, ফজর কাযা",now:"গভীর রাত পর্যন্ত স্ক্রলিং, তারপর ফজর মিস।",sun:"ইশার পর অপ্রয়োজনীয় গল্প অপছন্দ করতেন, তাড়াতাড়ি ঘুমাতেন। ঘুমানোর ১ ঘণ্টা আগে ফোন দূরে রাখুন, সুন্নাতি ঘুমের রুটিন মানুন।",r:"বুখারী 568"},
+  {c:"improve",a:"ডিজিটাল",t:"যাচাই না করে হাদিস/ওয়াজের ক্লিপ শেয়ার",now:"“শেয়ার করলে সওয়াব” লেখা জাল হাদিস ও বানানো কাহিনী ফরোয়ার্ড করা।",sun:"“যে আমার নামে ইচ্ছাকৃত মিথ্যা বলে, সে জাহান্নামে ঠিকানা করে নিক।” শেয়ারের আগে সূত্র দেখুন।",r:"বুখারী 110, মুসলিম 3"},
+  {c:"improve",a:"খাবার",t:"পেট ভরে খাওয়া ও খাবার নষ্ট",now:"দাওয়াতে প্লেট ভর্তি নিয়ে অর্ধেক ফেলে দেওয়া।",sun:"পেটের এক-তৃতীয়াংশ খাবার, এক-তৃতীয়াংশ পানি, এক-তৃতীয়াংশ খালি। প্লেটে কিছু না রাখা ও আঙুল চেটে খাওয়া সুন্নাত, কারণ বরকত কোথায় আছে জানা নেই।",r:"তিরমিযী 2380, মুসলিম 2033"},
+  {c:"improve",a:"পরিবার",t:"আত্মীয়দের খোঁজ নিই শুধু বিপদে বা অনুষ্ঠানে",now:"বছরে একবার ঈদে দেখা, বাকি সময় যোগাযোগ নেই।",sun:"নিয়মিত যোগাযোগ, উপহার ও সাহায্য আত্মীয়তা রক্ষা। একটা ফোনকলও সুন্নাতের অংশ।",r:"বুখারী 5986, আদাবুল মুফরাদ 594"},
+  {c:"good",a:"অর্থ",t:"হালাল উপার্জনে কঠোর পরিশ্রম",now:"ব্যবসা, কৃষি, চাকরি, প্রযুক্তি বা যেকোনো হালাল পেশায় সৎভাবে কাজ।",sun:"নিজ হাতের উপার্জনই সর্বোত্তম খাবার। দাউদ (আ.) নিজ হাতে উপার্জন করে খেতেন।",r:"বুখারী 2072"},
+  {c:"good",a:"সমাজ",t:"জ্ঞানার্জন ও উচ্চশিক্ষা",now:"বিজ্ঞান, চিকিৎসা, প্রকৌশল বা দ্বীনি জ্ঞান অর্জন।",sun:"জ্ঞান অন্বেষণ প্রত্যেক মুসলিমের উপর ফরজ। যে জ্ঞানের পথে চলে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করেন।",r:"ইবনে মাজাহ 224, মুসলিম 2699"},
+  {c:"good",a:"স্বাস্থ্য",t:"ব্যায়াম, খেলাধুলা ও সুস্থ থাকা",now:"হাঁটা, দৌড়, সাঁতার, শরীরচর্চা।",sun:"শক্তিশালী মুমিন আল্লাহর কাছে প্রিয়। নবীজি ﷺ দৌড় প্রতিযোগিতা করেছেন, তীরন্দাজি ও ঘোড়দৌড়ে উৎসাহ দিয়েছেন।",r:"মুসলিম 2664, আবু দাউদ 2578, বুখারী 2899"},
+  {c:"good",a:"সমাজ",t:"স্বেচ্ছাসেবা, রক্তদান ও মানুষের সাহায্য",now:"বন্যা-দুর্যোগে ত্রাণ, রক্তদান, রাস্তা পরিষ্কার।",sun:"যে কোনো মুমিনের দুনিয়ার একটি কষ্ট দূর করে, আল্লাহ কিয়ামতে তার একটি কষ্ট দূর করবেন। রাস্তা থেকে কষ্টদায়ক বস্তু সরানো ঈমানের শাখা।",r:"মুসলিম 2699, মুসলিম 35"},
+  {c:"good",a:"পরিবেশ",t:"গাছ লাগানো ও পরিবেশ রক্ষা",now:"বাড়ির ছাদে বা রাস্তার পাশে গাছ লাগানো।",sun:"কিয়ামত শুরু হতে দেখলেও হাতে চারা থাকলে তা লাগিয়ে দাও। গাছ থেকে যে খায়, তা রোপণকারীর সদকা।",r:"আহমাদ 12902, বুখারী 2320"},
+  {c:"good",a:"পরিবার",t:"ঘরের কাজে স্বামীর অংশগ্রহণ",now:"রান্না, বাচ্চার দেখাশোনা, কাপড় গোছানোয় সাহায্য।",sun:"নবীজি ﷺ ঘরে পরিবারের কাজে ব্যস্ত থাকতেন, নিজের কাপড় সেলাই ও জুতা মেরামত করতেন।",r:"বুখারী 676, আহমাদ 24903"},
+  {c:"good",a:"সমাজ",t:"হাসিমুখে কথা বলা ও কৌতুক (সত্যের সীমায়)",now:"বন্ধুদের সাথে হালকা রসিকতা।",sun:"নবীজি ﷺ রসিকতা করতেন, কিন্তু সত্য ছাড়া বলতেন না। তাঁর হাসি বেশিরভাগ মুচকি হাসি।",r:"তিরমিযী 1990, বুখারী 6092"}
+];
+const AREAS = ["সব", ...new Set(PRACTICE.map(p=>p.a))];
+const CATS = {avoid:"বর্জনীয়", improve:"সংশোধন দরকার", good:"উত্তম / সামঞ্জস্যপূর্ণ"};
+
+const SITUATIONS = [
+  {k:"রাগ লাগছে", steps:[["“আউযু বিল্লাহি মিনাশ শাইতানির রাজীম” পড়ুন।","বুখারী 3282"],["দাঁড়িয়ে থাকলে বসে পড়ুন, তাতেও না কমলে শুয়ে পড়ুন।","আবু দাউদ 4782"],["চুপ থাকুন; রাগের সময় কথা বলবেন না।","আদাবুল মুফরাদ 245"],["অজু করুন; রাগ শয়তানের পক্ষ থেকে, আর আগুন পানি দিয়ে নেভে।","আবু দাউদ 4784"]],
+   dua:{ar:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",tr:"আউযু বিল্লাহি মিনাশ শাইতানির রাজীম",mean:"আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",ref:"বুখারী 3282"}},
+  {k:"দুশ্চিন্তা বা বিপদে আছি", steps:[["নামাজে দাঁড়ান; কোনো বিষয় তাঁকে চিন্তিত করলে তিনি নামাজ পড়তেন।","আবু দাউদ 1319"],["দুশ্চিন্তা থেকে আশ্রয়ের দোয়া পড়ুন।","বুখারী 6369"],["ইস্তিগফার বেশি করুন; আল্লাহ প্রতিটি সংকট থেকে বের হওয়ার পথ করে দেন।","সূরা নূহ ১০–১২"],["বিপদে বলুন: ইন্না লিল্লাহি ওয়া ইন্না ইলাইহি রাজিঊন।","মুসলিম 918"]],
+   dua:{ar:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",tr:"আল্লাহুম্মা ইন্নী আউযু বিকা মিনাল হাম্মি ওয়াল হাযান, ওয়াল আজযি ওয়াল কাসাল, ওয়াল বুখলি ওয়াল জুবন, ওয়া দালাইদ দাইনি ওয়া গালাবাতির রিজাল",mean:"হে আল্লাহ, আমি আপনার কাছে আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কৃপণতা ও কাপুরুষতা থেকে, ঋণের বোঝা ও মানুষের দমন থেকে।",ref:"বুখারী 6369"}},
+  {k:"সিদ্ধান্ত নিতে পারছি না", steps:[["বিশ্বস্ত ও অভিজ্ঞ মানুষের সাথে পরামর্শ করুন।","সূরা আলে ইমরান ১৫৯, সূরা শুরা ৩৮"],["দুই রাকাত নফল নামাজ পড়ে ইস্তিখারার দোয়া করুন।","বুখারী 1162"],["তারপর সিদ্ধান্ত নিয়ে আল্লাহর উপর ভরসা করুন।","সূরা আলে ইমরান ১৫৯"]],dua:null},
+  {k:"স্বামী-স্ত্রীর মধ্যে ঝগড়া", steps:[["রাগের মুহূর্তে আলোচনা বন্ধ রাখুন, শান্ত হলে কথা বলুন।","বুখারী 6116"],["সঙ্গীর ভালো গুণগুলো মনে করুন; একটা অভ্যাস অপছন্দ হলে অন্যটা ভালো লাগবে।","মুসলিম 1469"],["নবীজি ﷺ আয়েশা (রা.)-র অভিমান বুঝতেন এবং কোমলভাবে কথা বলতেন।","বুখারী 5228"],["প্রয়োজনে দুই পরিবার থেকে একজন করে সালিস নিয়োগ করুন।","সূরা নিসা ৩৫"]],dua:null},
+  {k:"আত্মীয় সম্পর্ক ছিন্ন করেছে", steps:[["নিজে আগে যোগাযোগ করুন; যে ছিন্ন করে তার সাথে জোড়া লাগানোই প্রকৃত সম্পর্ক রক্ষা।","বুখারী 5991"],["তিন দিনের বেশি কথা বন্ধ রাখা জায়েজ নয়; যে আগে সালাম দেয় সে উত্তম।","বুখারী 6077"],["উপহার দিন; উপহার ভালোবাসা বাড়ায়।","আদাবুল মুফরাদ 594"]],dua:null},
+  {k:"কেউ অপমান বা সমালোচনা করেছে", steps:[["মন্দকে ভালো দিয়ে প্রতিহত করুন; শত্রুও অন্তরঙ্গ বন্ধু হয়ে যাবে।","সূরা ফুসসিলাত ৩৪"],["নবীজি ﷺ ব্যক্তিগত কারণে কখনো প্রতিশোধ নেননি।","বুখারী 3560"],["সমালোচনায় সত্য থাকলে নিজেকে শুধরে নিন।","মুসলিম 55"]],dua:null},
+  {k:"গুনাহ করে ফেলেছি", steps:[["হতাশ হবেন না; আল্লাহ সমস্ত গুনাহ ক্ষমা করেন।","সূরা যুমার ৫৩"],["অজু করে দুই রাকাত নামাজ পড়ে ক্ষমা চান।","আবু দাউদ 1521, তিরমিযী 406"],["গুনাহের পর একটি নেক কাজ করুন; নেকি গুনাহ মুছে দেয়।","তিরমিযী 1987"],["সাইয়্যেদুল ইস্তিগফার পড়ুন।","বুখারী 6306"]],dua:null},
+  {k:"খেতে বসছি", steps:[["“বিসমিল্লাহ” বলুন; ভুলে গেলে “বিসমিল্লাহি আওয়ালাহু ওয়া আখিরাহু”।","বুখারী 5376, আবু দাউদ 3767"],["ডান হাতে, নিজের সামনে থেকে খান।","বুখারী 5376"],["খাবারের দোষ ধরবেন না।","বুখারী 5409"],["শেষে আলহামদুলিল্লাহ ও খাওয়ার পরের দোয়া।","আবু দাউদ 4023"]],dua:null},
+  {k:"ঘর থেকে বের হচ্ছি", steps:[["বের হওয়ার দোয়া পড়ুন।","আবু দাউদ 5095"],["ঘরে ঢুকে পরিবারকে সালাম দিন।","সূরা নূর ৬১"]],
+   dua:{ar:"بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",tr:"বিসমিল্লাহি তাওয়াক্কালতু ‘আলাল্লাহ, ওয়া লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ",mean:"আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম। আল্লাহ ছাড়া কোনো শক্তি ও সামর্থ্য নেই।",ref:"আবু দাউদ 5095"}},
+  {k:"অসুস্থ মানুষকে দেখতে যাচ্ছি", steps:[["অসুস্থকে দেখতে যাওয়া মুসলিমের হক; সে জান্নাতের বাগানে থাকে যতক্ষণ না ফেরে।","মুসলিম 2568"],["রোগীর জন্য দোয়া করুন: “লা বা’সা তাহূরুন ইনশাআল্লাহ”।","বুখারী 5656"],["অল্প সময় থাকুন, আশার কথা বলুন।","বুখারী 5656"]],dua:null},
+  {k:"ব্যবসা বা লেনদেন করছি", steps:[["সত্য বলুন, পণ্যের দোষ গোপন করবেন না; তাতেই বরকত।","বুখারী 2079"],["ঋণ বা বাকি লেনদেন লিখে রাখুন।","সূরা বাকারা ২৮২"],["ক্রয়-বিক্রয় ও পাওনা আদায়ে নম্র হোন।","বুখারী 2076"]],dua:null},
+  {k:"ঘুমাতে যাচ্ছি", steps:[["অজু করুন।","বুখারী 247"],["তিন কুল পড়ে হাতে ফুঁ দিয়ে শরীরে মাসেহ করুন।","বুখারী 5017"],["আয়াতুল কুরসি ও সূরা মুলক পড়ুন।","বুখারী 2311, তিরমিযী 2892"],["ডান কাতে শুয়ে ঘুমের দোয়া পড়ুন।","বুখারী 6324"]],
+   dua:{ar:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",tr:"বিসমিকা আল্লাহুম্মা আমূতু ওয়া আহইয়া",mean:"হে আল্লাহ, আপনার নামেই আমি মৃত্যুবরণ করি ও জীবিত হই।",ref:"বুখারী 6324"}}
+];
+
+const TRACK = [
+  ["ভোর",[["t1","ঘুম থেকে উঠে দোয়া পড়েছি","বুখারী 6312"],["t2","মিসওয়াক/ব্রাশ করে অজু","বুখারী 245"],["t3","তাহাজ্জুদ (অন্তত ২ রাকাত)","মুসলিম 1163"],["t4","ফজরের ২ রাকাত সুন্নাত","মুসলিম 725"],["t5","ফজর সময়মতো/জামাআতে","মুসলিম 656"]]],
+  ["সকাল",[["t6","সকালের জিকির","মুসলিম 2723"],["t7","কুরআন তিলাওয়াত (অর্থসহ কয়েক আয়াত)","সূরা সোয়াদ ২৯"],["t8","দুহার নামাজ","মুসলিম 720"],["t9","বের হওয়ার দোয়া","আবু দাউদ 5095"]]],
+  ["দিন",[["t10","বিসমিল্লাহ বলে ডান হাতে খেয়েছি","বুখারী 5376"],["t11","যোহর, আসর সময়মতো","বুখারী 527"],["t12","কারো গীবত করিনি","মুসলিম 2589"],["t13","একটা সদকা বা উপকার (হাসিমুখও সদকা)","তিরমিযী 1956"],["t14","বাবা-মা বা একজন আত্মীয়ের খোঁজ নিয়েছি","বুখারী 5986"]]],
+  ["সন্ধ্যা ও রাত",[["t15","সন্ধ্যার জিকির","মুসলিম 2723"],["t16","মাগরিব, ইশা সময়মতো","বুখারী 568"],["t17","পরিবারের সাথে মানসম্পন্ন সময়","তিরমিযী 3895"],["t18","১০০ বার ইস্তিগফার","মুসলিম 2702"]]],
+  ["ঘুমের আগে",[["t19","অজু করে ঘুম","বুখারী 247"],["t20","তিন কুল + আয়াতুল কুরসি","বুখারী 5017, 2311"],["t21","সূরা মুলক","তিরমিযী 2892"],["t22","তাসবিহে ফাতিমি (৩৩-৩৩-৩৪)","বুখারী 3705"],["t23","ডান কাতে শুয়ে ঘুমের দোয়া","বুখারী 6324"]]]
+];
+const TRACK_ALL = TRACK.flatMap(g=>g[1]);
+
+/* ---------------- RENDER ---------------- */
+const refHTML = r => `<span class="ref">${esc(bn(r))}</span>`;
+const duaHTML = (d, lbl) => d ? `<div class="dua">${lbl||d.lbl?`<span class="lbl">${esc(lbl||d.lbl)}</span>`:""}<p class="ar" lang="ar">${d.ar}</p><p class="tr">${esc(d.tr)}</p><p>${esc(d.mean)}</p>${refHTML(d.ref)}</div>` : "";
+const head = (eb, title, lede) => `<div class="head"><span class="eyebrow">${eb}</span><h1>${title}</h1>${lede?`<p class="lede">${lede}</p>`:""}</div>`;
+
+function hourNow(){ const d=new Date(); return d.getHours()+d.getMinutes()/60 }
+function blockAt(h){ const hh = h < 3.5 ? h+24 : h; return ROUTINE.find(b=>hh>=b.s && hh<b.e) || ROUTINE[ROUTINE.length-1] }
+const fmtH = h => { h = h%24; const H=Math.floor(h), M=Math.round((h-H)*60); return bn(`${H}:${String(M).padStart(2,"0")}`) };
+
+const R = {};
+R.home = () => {
+  const b = blockAt(hourNow());
+  return `<section class="view">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">রাসূলুল্লাহ ﷺ-এর জীবন থেকে আমাদের প্রতিদিন</span>
+        <h1>নবীজি ﷺ-এর দিনযাপন, আমার দিনযাপন</h1>
+        <p class="ar" lang="ar">لَقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ</p>
+        <p class="lede">“নিশ্চয়ই তোমাদের জন্য আল্লাহর রাসূলের মধ্যে রয়েছে উত্তম আদর্শ।” (সূরা আহযাব ২১) এখানে তাঁর জীবনী, দৈনিক রুটিন, পারিবারিক আচরণ, সমস্যা সমাধানের পদ্ধতি ও উপদেশ পড়ুন, তারপর নিজের দিনের সাথে মিলিয়ে নিন।</p>
+      </div>
+      <div class="now" aria-live="polite">
+        <canvas class="stars" id="stars"></canvas>
+        <span class="k">এখন ${fmtH(hourNow())} — এই সময়ে নবীজি ﷺ</span>
+        <h3>${esc(b.title)}</h3>
+        <p>${esc(b.steps[0][0])}</p>
+        <a href="#routine" data-block="${b.id}">এই সময়ের পুরো রুটিন দেখুন →</a>
+      </div>
+    </div>
+    <div class="grid g3">
+      ${VIEWS.slice(1).map(([id,n])=>`<a class="tile" href="#${id}"><span class="n">${n}</span><p>${DESC[id]}</p></a>`).join("")}
+    </div>
+    <p class="notice">সময়গুলো নামাজের ওয়াক্তভিত্তিক। ঘড়ির সময় বাংলাদেশের গড় হিসেবে আনুমানিক দেখানো হয়েছে; আপনার এলাকার নামাজের সময়সূচি অনুসরণ করুন।</p>
+  </section>`;
+};
+
+R.islam = () => `<section class="view">
+  ${head("ভিত্তি","ইসলাম কী?","ইসলাম অর্থ আল্লাহর কাছে আত্মসমর্পণ ও শান্তি। জিবরাঈল (আ.) মানুষের রূপে এসে নবীজি ﷺ-কে ইসলাম, ঈমান ও ইহসান সম্পর্কে প্রশ্ন করেছিলেন; সেই উত্তরই দ্বীনের সারসংক্ষেপ। (মুসলিম ৮)")}
+  <div class="triad">
+    <div><h3>ইসলাম</h3><p>বাহ্যিক আমল: পাঁচটি স্তম্ভ মেনে চলা।</p></div>
+    <div><h3>ঈমান</h3><p>অন্তরের বিশ্বাস: আল্লাহ, ফেরেশতা, কিতাব, রাসূল, আখিরাত ও তাকদিরে বিশ্বাস।</p></div>
+    <div><h3>ইহসান</h3><p>এমনভাবে ইবাদত করা যেন তুমি আল্লাহকে দেখছ; যদি না দেখো, তিনি তো তোমাকে দেখছেন।</p></div>
+  </div>
+  <div class="head"><h2>ইসলামের পাঁচ স্তম্ভ</h2>${refHTML("বুখারী 8, মুসলিম 16")}</div>
+  <div class="pillars">
+    ${[["কালিমা","আল্লাহ ছাড়া কোনো ইলাহ নেই এবং মুহাম্মাদ ﷺ আল্লাহর রাসূল, এই সাক্ষ্য দেওয়া।"],["নামাজ","দিনে পাঁচ ওয়াক্ত: ফজর, যোহর, আসর, মাগরিব, ইশা।"],["যাকাত","নিসাব পরিমাণ সম্পদ এক বছর থাকলে ২.৫% গরিবের হক।"],["রোজা","রমজান মাসে সুবহে সাদিক থেকে সূর্যাস্ত পর্যন্ত।"],["হজ","সামর্থ্যবানদের জন্য জীবনে একবার।"]].map((p,i)=>`<div class="pillar"><span class="num">${bn(i+1)}</span><h3>${p[0]}</h3><p>${bn(p[1])}</p></div>`).join("")}
+  </div>
+  <div class="head"><h2>কুরআনে ইসলামের মূল বার্তা</h2></div>
+  <div class="quotes">
+    ${[["وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ","আমি আপনাকে বিশ্বজগতের জন্য রহমত হিসেবেই পাঠিয়েছি।","সূরা আম্বিয়া ১০৭"],
+       ["لَا إِكْرَاهَ فِي الدِّينِ","দ্বীনের ব্যাপারে কোনো জবরদস্তি নেই।","সূরা বাকারা ২৫৬"],
+       ["إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ","তোমাদের মধ্যে আল্লাহর কাছে সবচেয়ে সম্মানিত সে, যে সবচেয়ে বেশি তাকওয়াবান।","সূরা হুজুরাত ১৩"],
+       ["وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ","নিশ্চয়ই আপনি মহান চরিত্রের উপর প্রতিষ্ঠিত।","সূরা কলম ৪"]]
+      .map(q=>`<div class="quote"><p class="ar" lang="ar">${q[0]}</p><p>${q[1]}</p>${refHTML(q[2])}</div>`).join("")}
+  </div>
+  <p class="notice">আয়েশা (রা.)-কে নবীজির চরিত্র সম্পর্কে জিজ্ঞেস করা হলে তিনি বলেছিলেন: “তাঁর চরিত্র ছিল কুরআন।” (মুসলিম ৭৪৬) তাই এই সাইটের বাকি অংশ মূলত কুরআনের জীবন্ত রূপ দেখার চেষ্টা।</p>
+</section>`;
+
+let seerahEra = "all";
+R.seerah = () => `<section class="view">
+  ${head("সীরাত","জীবনী: ৫৭০ থেকে ৬৩২ খ্রিস্টাব্দ","৬৩ বছরের জীবন: ৪০ বছর নবুয়তের আগে, ১৩ বছর মক্কায় দাওয়াত, ১০ বছর মদিনায় রাষ্ট্র ও সমাজ গঠন। সোনালি বিন্দু গুরুত্বপূর্ণ মোড়।")}
+  <div class="era-switch" role="group" aria-label="যুগ বাছুন">
+    ${[["all","সব"],["makkah","মক্কা জীবন"],["madinah","মদিনা জীবন"]].map(([k,n])=>`<button class="chip" data-era="${k}" aria-pressed="${seerahEra===k}">${n}</button>`).join("")}
+  </div>
+  <div class="timeline">
+    ${SEERAH.filter(e=>seerahEra==="all"||e.era===seerahEra).map(e=>`<div class="ev ${e.era}${e.key?" key":""}">
+      <div class="yr"><b>${e.y}</b>${e.a}</div>
+      <div class="body"><h3>${e.t}</h3><p>${e.d}</p><p class="lesson">${e.l}</p>${refHTML(e.r)}</div></div>`).join("")}
+  </div>
+</section>`;
+
+let routineSel = null;
+R.routine = () => {
+  const cur = blockAt(hourNow());
+  const sel = ROUTINE.find(b=>b.id===routineSel) || cur;
+  const segs = ROUTINE.flatMap(b => b.e>24 ? [[b,b.s,24],[b,0,b.e-24]] : [[b,b.s,b.e]]);
+  const nowPct = hourNow()/24*100;
+  return `<section class="view">
+    ${head("২৪ ঘণ্টা","নবীজি ﷺ-এর দৈনিক রুটিন","আকাশের রঙের বারে যেকোনো অংশে চাপুন, অথবা তালিকা থেকে বাছুন। প্রতিটি সময়ে তিনি কী করতেন, কী দোয়া পড়তেন এবং আজ আপনি কীভাবে তা শুরু করতে পারেন।")}
+    <div class="sky">
+      <div class="band" role="group" aria-label="দিনের সময়রেখা">
+        ${segs.map(([b,s,e])=>`<button class="seg" style="left:${s/24*100}%;width:${(e-s)/24*100}%" data-block="${b.id}" aria-pressed="${b.id===sel.id}" title="${esc(b.title)}">${b.short}</button>`).join("")}
+        <div class="nowline" style="left:${nowPct}%"></div>
+      </div>
+      <div class="ticks"><span>রাত ১২</span><span>৩</span><span>ভোর ৬</span><span>৯</span><span>দুপুর ১২</span><span>৩</span><span>সন্ধ্যা ৬</span><span>৯</span><span>রাত ১২</span></div>
+    </div>
+    <div class="rgrid">
+      <div class="rlist" role="group" aria-label="রুটিনের অংশ">
+        ${ROUTINE.map(b=>`<button data-block="${b.id}" aria-pressed="${b.id===sel.id}"><span class="t">${fmtH(b.s)}–${fmtH(b.e)}</span><span>${b.short}${b.id===cur.id?" · এখন":""}</span></button>`).join("")}
+      </div>
+      <div class="rdetail">
+        <div class="head"><span class="eyebrow">${esc(sel.time)} · আনুমানিক ${fmtH(sel.s)}–${fmtH(sel.e)}</span><h2>${esc(sel.title)}</h2><p class="lede">${esc(sel.intro)}</p>${refHTML(sel.introRef)}</div>
+        <ol class="steps">${sel.steps.map(s=>`<li><div><p>${esc(s[0])}</p>${refHTML(s[1])}</div></li>`).join("")}</ol>
+        ${duaHTML(sel.dua)}
+        <div class="today"><b>আজ আমি যা করতে পারি</b><p>${esc(sel.today)}</p></div>
+      </div>
+    </div>
+    <div class="head"><h2>সাপ্তাহিক ও মাসিক অভ্যাস</h2></div>
+    <div class="weekly">${WEEKLY.map(w=>`<div><h3>${w[0]}</h3><p>${bn(w[1])}</p>${refHTML(w[2])}</div>`).join("")}</div>
+  </section>`;
+};
+
+R.family = () => `<section class="view">
+  ${head("আচরণ","পরিবার ও আত্মীয়দের সাথে আচরণ","নবীজি ﷺ ছিলেন রাষ্ট্রনায়ক, সেনাপতি ও বিচারক; তবু ঘরে তিনি ছিলেন কোমল স্বামী, স্নেহশীল বাবা ও নানা, এবং সবচেয়ে বিশ্বস্ত আত্মীয়।")}
+  <div class="fam">${FAMILY.map(f=>`<div class="fam-row"><h3>${f.who}</h3><ul>${f.pts.map(p=>`<li><p>${esc(p[0])}</p>${refHTML(p[1])}</li>`).join("")}</ul></div>`).join("")}</div>
+</section>`;
+
+R.problems = () => `<section class="view">
+  ${head("প্রজ্ঞা","তিনি কীভাবে সমস্যা সমাধান করতেন","প্রতিটি ঘটনা তিন ধাপে: পরিস্থিতি কী ছিল, তিনি কী করলেন, আর আমাদের জন্য নীতি কী।")}
+  <div class="cases">${CASES.map(c=>`<div><h3>${c.t}</h3><div class="case">
+    <div><span class="k">পরিস্থিতি</span><p>${c.s}</p></div>
+    <div><span class="k">তাঁর পদক্ষেপ</span><p>${c.a}</p></div>
+    <div><span class="k">আমাদের নীতি</span><p>${c.p}</p>${refHTML(c.r)}</div></div></div>`).join("")}</div>
+</section>`;
+
+R.war = () => `<section class="view">
+  ${head("নীতি ও ইতিহাস","যুদ্ধকালীন আচরণ ও নীতি","মদিনা জীবনের ১০ বছরে বেশিরভাগ সংঘাত ছিল আত্মরক্ষামূলক। যুদ্ধেও তিনি এমন নিয়ম বেঁধে দিয়েছিলেন, যা নিরীহ মানুষ, চুক্তি ও মানবিক মর্যাদা রক্ষা করে।")}
+  <ul class="rules">${WAR_RULES.map(w=>`<li><h3>${w[0]}</h3><p>${w[1]}</p>${refHTML(w[2])}</li>`).join("")}</ul>
+  <div class="head"><h2>প্রধান অভিযানসমূহ</h2><p class="lede">সংখ্যাগুলো সীরাত গ্রন্থের প্রচলিত আনুমানিক হিসাব।</p></div>
+  <div class="tbl"><table><thead><tr><th>অভিযান</th><th>সময়</th><th>মুসলিম বাহিনী</th><th>প্রতিপক্ষ</th><th>ফলাফল</th><th>শিক্ষা</th></tr></thead>
+  <tbody>${BATTLES.map(b=>`<tr><td><b>${b[0]}</b></td><td class="num">${b[1]}</td><td class="num">${b[2]}</td><td>${b[3]}</td><td>${b[4]}</td><td>${b[5]}</td></tr>`).join("")}</tbody></table></div>
+  <p class="notice">যুদ্ধের এই নীতিগুলো রাষ্ট্রীয় কর্তৃপক্ষের অধীনে প্রযোজ্য। ব্যক্তিগতভাবে বা কোনো গোষ্ঠীর নামে সহিংসতা ইসলাম অনুমোদন করে না। “যে ব্যক্তি চুক্তিবদ্ধ অমুসলিমকে হত্যা করে, সে জান্নাতের ঘ্রাণও পাবে না।” (বুখারী ৩১৬৬)</p>
+</section>`;
+
+let advTheme = "সব";
+R.advice = () => {
+  const themes = ["সব", ...new Set(ADVICE.map(a=>a[0]))];
+  const list = ADVICE.filter(a=>advTheme==="সব"||a[0]===advTheme);
+  return `<section class="view">
+    ${head("হাদিস","নবীজি ﷺ-এর উপদেশমালা","বিষয় বেছে নিন। পছন্দের হাদিস কপি করে পরিবার বা বন্ধুদের পাঠান।")}
+    <div class="filters" role="group" aria-label="বিষয়">${themes.map(t=>`<button class="chip" data-adv="${t}" aria-pressed="${t===advTheme}">${t}</button>`).join("")}</div>
+    <div class="adv">${list.map((a,i)=>`<article><span class="pill">${a[0]}</span><p class="txt">“${esc(a[1])}”</p><div class="row">${refHTML(a[2])}<button class="copy" data-copy="${esc(a[1]+" — "+bn(a[2]))}">কপি</button></div></article>`).join("")}</div>
+  </section>`;
+};
+
+let pCat = "all", pArea = "সব", pQ = "";
+R.practice = () => `<section class="view">
+  ${head("আত্মসমীক্ষা","আমাদের অভ্যাস: কোনটা ঠিক, কোনটা নয়","আজ সমাজে আমরা যা করছি, তার সাথে কুরআন-সুন্নাহর তুলনা। প্রতিটি কার্ডে আছে আমরা কী করি, আর ইসলাম কী বলে।")}
+  <div class="legend">
+    <div class="lg-avoid"><b>বর্জনীয়</b><span>ইসলামের পরিপন্থী; ছেড়ে দিতে হবে।</span></div>
+    <div class="lg-improve"><b>সংশোধন দরকার</b><span>করছি, কিন্তু সুন্নাহ অনুযায়ী পরিবর্তন প্রয়োজন।</span></div>
+    <div class="lg-good"><b>উত্তম</b><span>ইসলামের সাথে সামঞ্জস্যপূর্ণ; চালিয়ে যান।</span></div>
+  </div>
+  <div class="filters">
+    ${[["all","সব"],["avoid","বর্জনীয়"],["improve","সংশোধন"],["good","উত্তম"]].map(([k,n])=>`<button class="chip" data-pcat="${k}" aria-pressed="${pCat===k}">${n}</button>`).join("")}
+    <input class="search" id="pq" type="search" placeholder="খুঁজুন: সুদ, বিয়ে, নামাজ…" value="${esc(pQ)}" aria-label="অভ্যাস খুঁজুন">
+  </div>
+  <div class="filters" role="group" aria-label="ক্ষেত্র">${AREAS.map(a=>`<button class="chip" data-parea="${a}" aria-pressed="${pArea===a}">${a}</button>`).join("")}</div>
+  <p class="count" id="pcount"></p>
+  <div class="pcards" id="pcards"></div>
+</section>`;
+function renderPractice(){
+  const q = pQ.trim();
+  const list = PRACTICE.filter(p=>(pCat==="all"||p.c===pCat)&&(pArea==="সব"||p.a===pArea)&&(!q||(p.t+p.now+p.sun).includes(q)));
+  $("#pcount").textContent = `${bn(list.length)}টি বিষয় দেখানো হচ্ছে`;
+  $("#pcards").innerHTML = list.length ? list.map(p=>`<article class="pc ${p.c}">
+    <div class="top"><span class="pill c">${CATS[p.c]}</span><span class="pill">${p.a}</span></div>
+    <h3>${esc(p.t)}</h3>
+    <dl><div><dt>আমরা যা করি</dt><dd>${esc(p.now)}</dd></div><div><dt>ইসলাম যা বলে</dt><dd>${esc(bn(p.sun))}</dd></div></dl>
+    ${refHTML(p.r)}</article>`).join("") : `<p class="lede">এই খোঁজে কিছু পাওয়া যায়নি। অন্য শব্দ লিখুন বা ফিল্টার বদলান।</p>`;
+}
+
+let sitSel = 0;
+R.guide = () => {
+  const s = SITUATIONS[sitSel];
+  return `<section class="view">
+    ${head("এই মুহূর্তে","পরিস্থিতি অনুযায়ী সুন্নাহ গাইড","আপনি এখন কোন অবস্থায় আছেন? বেছে নিন, নবীজি ﷺ এমন সময়ে কী করতেন বা করতে বলেছেন তা দেখুন।")}
+    <div class="sit-chips" role="group" aria-label="পরিস্থিতি">${SITUATIONS.map((x,i)=>`<button class="chip" data-sit="${i}" aria-pressed="${i===sitSel}">${x.k}</button>`).join("")}</div>
+    <div class="sit-out">
+      <div><h2 style="margin-bottom:8px">${s.k}</h2><ol class="steps">${s.steps.map(st=>`<li><div><p>${esc(st[0])}</p>${refHTML(st[1])}</div></li>`).join("")}</ol></div>
+      <div>${s.dua ? duaHTML(s.dua,"এই সময়ের দোয়া") : `<div class="today"><b>মনে রাখুন</b><p>“আল্লাহর কাছে সবচেয়ে প্রিয় আমল সেটি, যা নিয়মিত করা হয়, যদিও তা অল্প হয়।”</p>${refHTML("বুখারী 6464")}</div>`}</div>
+    </div>
+  </section>`;
+};
+
+const todayKey = (d=new Date()) => "sunnah-"+d.toISOString().slice(0,10);
+R.tracker = () => `<section class="view">
+  ${head("প্রতিদিন","আমার সুন্নাহ ট্র্যাকার","আজ কোন কোন সুন্নাত পালন করলেন, টিক দিন। সব একদিনে নয়; প্রতি সপ্তাহে একটা নতুন অভ্যাস যোগ করুন। তথ্য শুধু আপনার এই ব্রাউজারে থাকে।")}
+  <div class="trk">
+    <div class="ring-box">
+      <div class="ring"><svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="72" fill="none" stroke="var(--sunk)" stroke-width="14"/><circle id="ringArc" cx="85" cy="85" r="72" fill="none" stroke="var(--accent)" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset .4s"/></svg><div class="v"><span id="ringV">০/০<small>আজকের আমল</small></span></div></div>
+      <div style="display:grid;gap:6px;justify-items:center"><span class="ref" style="font-size:.85rem">গত ৭ দিন</span><div class="week" id="week"></div></div>
+      <button class="reset" id="resetDay">আজকের টিক মুছুন</button>
+    </div>
+    <div style="display:grid;gap:8px;min-width:0">
+      ${TRACK.map(g=>`<div class="tgroup"><h3>${g[0]}</h3>${g[1].map(([id,l,r])=>`<label class="titem" for="${id}"><input type="checkbox" id="${id}" data-t="${id}"><span><span class="lbl">${esc(bn(l))}</span>${refHTML(r)}</span></label>`).join("")}</div>`).join("")}
+    </div>
+  </div>
+</section>`;
+function syncTracker(){
+  const st = store.get(todayKey(), {});
+  let n=0; TRACK_ALL.forEach(([id])=>{ const el=document.getElementById(id); if(!el) return; el.checked=!!st[id]; el.closest(".titem").classList.toggle("done",!!st[id]); if(st[id]) n++; });
+  const tot = TRACK_ALL.length;
+  $("#ringArc").style.strokeDashoffset = 452.4*(1-n/tot);
+  $("#ringV").innerHTML = `${bn(n)}/${bn(tot)}<small>আজকের আমল</small>`;
+  const days=["রবি","সোম","মঙ্গল","বুধ","বৃহ","শুক্র","শনি"];
+  let html="";
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const s=store.get(todayKey(d),{}); const c=TRACK_ALL.filter(([id])=>s[id]).length; html+=`<div><span style="height:${Math.max(3,c/tot*48)}px" title="${bn(c)}টি"></span>${days[d.getDay()]}</div>` }
+  $("#week").innerHTML = html;
+}
+
+function drawStars(){
+  const c = $("#stars"); if(!c) return;
+  const r = c.getBoundingClientRect(); c.width=r.width; c.height=r.height;
+  const x = c.getContext("2d"); let seed=7; const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  for(let i=0;i<60;i++){ x.fillStyle=`rgba(255,255,255,${.3+rnd()*.6})`; x.beginPath(); x.arc(rnd()*c.width,rnd()*c.height,rnd()*1.3+.2,0,7); x.fill() }
+}
+
+/* ---------------- ROUTER ---------------- */
+const app = $("#app");
+function render(){
+  let v = location.hash.slice(1); if(!R[v]) v="home";
+  $("#nav").innerHTML = VIEWS.map(([id,n])=>`<li><a href="#${id}"${id===v?' aria-current="page"':""}>${n}</a></li>`).join("");
+  app.innerHTML = R[v]().replace(/ﷺ/g,'<span class="saw">ﷺ</span>');
+  if(v==="practice") renderPractice();
+  if(v==="tracker") syncTracker();
+  if(v==="home") drawStars();
+  const cur = $("#nav a[aria-current]"); cur && cur.scrollIntoView({inline:"center",block:"nearest"});
+}
+window.addEventListener("hashchange", ()=>{ render(); window.scrollTo(0,0) });
+
+app.addEventListener("click", e=>{
+  const t = e.target.closest("[data-block],[data-era],[data-adv],[data-pcat],[data-parea],[data-sit],[data-copy],#resetDay");
+  if(!t) return;
+  if(t.dataset.block){ routineSel=t.dataset.block; if(location.hash!=="#routine"){ return } e.preventDefault(); render(); return }
+  if(t.dataset.era){ seerahEra=t.dataset.era; render(); return }
+  if(t.dataset.adv){ advTheme=t.dataset.adv; render(); return }
+  if(t.dataset.pcat){ pCat=t.dataset.pcat; document.querySelectorAll("[data-pcat]").forEach(b=>b.setAttribute("aria-pressed",b===t)); renderPractice(); return }
+  if(t.dataset.parea){ pArea=t.dataset.parea; document.querySelectorAll("[data-parea]").forEach(b=>b.setAttribute("aria-pressed",b===t)); renderPractice(); return }
+  if(t.dataset.sit){ sitSel=+t.dataset.sit; render(); return }
+  if(t.dataset.copy){ const txt=t.dataset.copy; const ok=()=>{t.textContent="কপি হয়েছে"; setTimeout(()=>t.textContent="কপি",1500)};
+    try{ navigator.clipboard.writeText(txt).then(ok).catch(()=>selectText(t)) }catch(err){ selectText(t) } return }
+  if(t.id==="resetDay"){ store.set(todayKey(),{}); syncTracker() }
+});
+function selectText(btn){ const p=btn.closest("article").querySelector(".txt"); const r=document.createRange(); r.selectNodeContents(p); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent="নির্বাচিত, কপি করুন" }
+app.addEventListener("input", e=>{ if(e.target.id==="pq"){ pQ=e.target.value; renderPractice() } });
+app.addEventListener("change", e=>{ const id=e.target.dataset.t; if(!id) return; const st=store.get(todayKey(),{}); st[id]=e.target.checked; store.set(todayKey(),st); syncTracker() });
+
+$("#themeBtn").addEventListener("click", ()=>{
+  const root=document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  store.set("theme", root.dataset.theme);
+});
+const savedTheme = store.get("theme", null); if(savedTheme) document.documentElement.dataset.theme = savedTheme;
+render();
+</script>
