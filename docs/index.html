@@ -42,6 +42,7 @@
   --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
   --night:#0a1428; --dawn:#3c4c78; --day:#a88a3e; --dusk:#9a5e40; --outer:#080e0c; color-scheme:dark}
 
+[hidden]{display:none!important}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--outer)}
 body{background:var(--outer);color:var(--fg);font-family:var(--body);font-size:16.5px;line-height:1.7;margin:0}
@@ -690,7 +691,7 @@ function dateLine(){
   let g="", h="";
   try{ g=new Intl.DateTimeFormat("bn-BD",{weekday:"long",day:"numeric",month:"long"}).format(d) }catch(e){}
   try{ h=new Intl.DateTimeFormat("bn-BD-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d).replace(/\s*যুগ$/,"") }catch(e){}
-  return [g,h].filter(Boolean).join(" · ");
+  return bn([g,h].filter(Boolean).join(" · "));
 }
 
 let deferredInstall = null;

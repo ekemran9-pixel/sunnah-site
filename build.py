@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Builds docs/ (GitHub Pages) from index.html: full HTML document, local fonts, manifest and offline service worker."""
-import hashlib, os, re
+"""Builds the GitHub Pages site from src/app.html into the repo root and docs/: full HTML document, local fonts, manifest and offline service worker."""
+import hashlib, os, re, shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DOCS = os.path.join(ROOT, "docs")
 
-page = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+page = open(os.path.join(ROOT, "src", "app.html"), encoding="utf-8").read()
 # Google Fonts → self-hosted copies so the app works offline
 page = re.sub(r'<link rel="preconnect"[^>]*>\n', "", page)
 page = re.sub(r'<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>', '<link rel="stylesheet" href="fonts.css">', page)
@@ -71,4 +71,9 @@ self.addEventListener("fetch", e => {{
 }});
 """
 open(os.path.join(DOCS, "sw.js"), "w", encoding="utf-8").write(sw)
+# Same site at the repo root, so Pages works whether it serves "/" or "/docs"
+for f in ["index.html", "sw.js", "fonts.css", "manifest.webmanifest"]:
+    shutil.copy(os.path.join(DOCS, f), os.path.join(ROOT, f))
+for d in ["fonts", "icons"]:
+    shutil.copytree(os.path.join(DOCS, d), os.path.join(ROOT, d), dirs_exist_ok=True)
 print("built", version, len(assets), "assets")

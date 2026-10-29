@@ -6,8 +6,8 @@
 
 লাইভ: https://ekemran9-pixel.github.io/sunnah-site
 
-- `index.html` — মূল সোর্স (পেজ)
-- `build.py` — `docs/` তৈরি করে: পূর্ণ HTML, লোকাল ফন্ট, manifest ও অফলাইন service worker
-- `docs/` — GitHub Pages থেকে পরিবেশিত ফাইল
+- `src/app.html` — মূল সোর্স; এখানেই পরিবর্তন করুন
+- `build.py` — পূর্ণ সাইট তৈরি করে repo-র মূল ফোল্ডারে ও `docs/`-এ: HTML, লোকাল ফন্ট, manifest ও অফলাইন service worker
+- মূল ফোল্ডার ও `docs/` — GitHub Pages থেকে পরিবেশিত ফাইল (হাতে সম্পাদনা করবেন না)
 
 পরিবর্তনের পর `python3 build.py` চালিয়ে commit করুন।

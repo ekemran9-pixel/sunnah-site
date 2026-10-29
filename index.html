@@ -1,8 +1,21 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="নবী মুহাম্মাদ ﷺ-এর দৈনিক রুটিন, জীবনী, উপদেশ, করণীয়-বর্জনীয় ও সুন্নাহ ট্র্যাকার।">
+<meta name="theme-color" content="#0f5c4d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="সুন্নাহর পথে">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
 <title>সুন্নাহর পথে</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400&family=Hind+Siliguri:wght@400;600&family=Tiro+Bangla&display=swap">
+<link rel="stylesheet" href="fonts.css">
 <style>
 /* Layout: phone-first app shell — top app bar, one scrolling screen, fixed bottom tab bar; on wide screens the shell stays a centered phone-width column */
 :root{
@@ -29,6 +42,7 @@
   --avoid:#f08a80; --avoid-soft:#3d1c19; --improve:#ddb45f; --improve-soft:#3a2e14; --good:#6fd39c; --good-soft:#173726;
   --night:#0a1428; --dawn:#3c4c78; --day:#a88a3e; --dusk:#9a5e40; --outer:#080e0c; color-scheme:dark}
 
+[hidden]{display:none!important}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--outer)}
 body{background:var(--outer);color:var(--fg);font-family:var(--body);font-size:16.5px;line-height:1.7;margin:0}
@@ -225,6 +239,9 @@ main{padding-block:16px calc(var(--tabh) + env(safe-area-inset-bottom,0px) + 28p
 @media (min-width:600px){ .shell{box-shadow:0 0 0 1px var(--line)} }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+</head>
+<body>
+
 
 <div class="shell">
   <header class="bar pad">
@@ -674,7 +691,7 @@ function dateLine(){
   let g="", h="";
   try{ g=new Intl.DateTimeFormat("bn-BD",{weekday:"long",day:"numeric",month:"long"}).format(d) }catch(e){}
   try{ h=new Intl.DateTimeFormat("bn-BD-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d).replace(/\s*যুগ$/,"") }catch(e){}
-  return [g,h].filter(Boolean).join(" · ");
+  return bn([g,h].filter(Boolean).join(" · "));
 }
 
 let deferredInstall = null;
@@ -962,3 +979,15 @@ setInterval(()=>{ if(currentView()==="today" && !document.hidden && !document.ac
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden && currentView()==="today") render(true) });
 render();
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(reg => {
+      navigator.serviceWorker.addEventListener("controllerchange", () => { if (location.hash === "" || location.hash === "#today") render(true) });
+    }).catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
